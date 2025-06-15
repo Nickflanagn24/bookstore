@@ -11,7 +11,7 @@
     <meta name="robots" content="{% block robots %}index, follow{% endblock %}">
     
     <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="{% block og_title %}{% block title %}Online Bookstore{% endblock %}{% endblock %}">
+    <meta property="og:title" content="{% block og_title %}Online Bookstore - Your Trusted Book Destination{% endblock %}">
     <meta property="og:description" content="{% block og_description %}Your trusted online bookstore with thousands of books available{% endblock %}">
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ request.build_absolute_uri }}">
@@ -19,7 +19,7 @@
     
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="{% block twitter_title %}{% block title %}Online Bookstore{% endblock %}{% endblock %}">
+    <meta name="twitter:title" content="{% block twitter_title %}Online Bookstore{% endblock %}">
     <meta name="twitter:description" content="{% block twitter_description %}Your trusted online bookstore{% endblock %}">
     
     <title>{% block title %}Online Bookstore - Your Trusted Book Destination{% endblock %}</title>
