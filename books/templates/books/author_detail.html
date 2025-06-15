@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ author.name }} - Tales & Tails{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h1>{{ author.name }}</h1>
+        {% if author.biography %}
+        <p>{{ author.biography }}</p>
+        {% endif %}
+        
+        <h3>Books by {{ author.name }}</h3>
+        <div class="row">
+            {% for book in books %}
+            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                <div class="card">
+                    {% if book.thumbnail %}
+                    <img src="{{ book.thumbnail }}" class="card-img-top" alt="{{ book.title }}" style="height: 200px; object-fit: cover;">
+                    {% endif %}
+                    <div class="card-body">
+                        <h6 class="card-title">{{ book.title|truncatechars:40 }}</h6>
+                        <p class="price">${{ book.price }}</p>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <p>No books by this author yet.</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

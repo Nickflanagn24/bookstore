@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ book.title }} - Tales & Tails{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-4">
+        {% if book.cover_image %}
+        <img src="{{ book.cover_image }}" class="img-fluid" alt="{{ book.title }}">
+        {% endif %}
+    </div>
+    <div class="col-md-8">
+        <h1>{{ book.title }}</h1>
+        <p class="lead">by {{ book.authors_list }}</p>
+        <p class="price h3">${{ book.price }}</p>
+        {% if book.description %}
+        <p>{{ book.description }}</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

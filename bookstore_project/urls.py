@@ -6,27 +6,21 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from django.views.generic import TemplateView
-from django.contrib.sitemaps.views import sitemap
-
-# Import sitemaps when they're created
-# from .sitemaps import BookSitemap, StaticViewSitemap
-
-# sitemaps = {
-#     'books': BookSitemap,
-#     'static': StaticViewSitemap,
-# }
+from books.views import home  # Import the home view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     
-    # Main app URLs (to be added as we develop)
-    # path('', include('books.urls')),
+    # Homepage - Tales & Tails home view
+    path('', home, name='home'),
+    
+    # Books app URLs
+    path('books/', include('books.urls')),
+    
+    # Future app URLs
     # path('accounts/', include('accounts.urls')),
     # path('orders/', include('orders.urls')),
     # path('reviews/', include('reviews.urls')),
-    
-    # Home page
-    path('', TemplateView.as_view(template_name='base.html'), name='home'),
     
     # SEO URLs
     path('robots.txt', TemplateView.as_view(
