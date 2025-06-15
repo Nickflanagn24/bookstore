@@ -1,0 +1,11 @@
+User-agent: *
+{% if DEBUG %}
+Disallow: /
+{% else %}
+Disallow: /admin/
+Disallow: /accounts/
+Disallow: /api/
+Allow: /
+
+Sitemap: {{ request.build_absolute_uri }}/sitemap.xml
+{% endif %}
