@@ -1,7 +1,22 @@
 # bookstore
-# 📚 Online Bookstore - Django E-commerce Platform
+# 📚🐕 Tales & Tails - Where Every Dog Story Begins
 
-A comprehensive e-commerce platform for selling books online, built with Django and integrated with Google Books API for rich product data.
+A specialized e-commerce platform for dog training, care, and breed books, built with Django and integrated with Google Books API for comprehensive canine literature.
+
+## 🎯 Project Overview
+
+**Purpose**: "Tales & Tails" is where every dog story begins with the right book. We specialize in curating the best dog-related literature for owners, trainers, and veterinary professionals.
+
+**Brand Mission**: *"Every great dog story starts with the right book."*
+
+**Target Audience**: 
+- Dog owners seeking training and care guidance
+- Professional dog trainers and behaviorists  
+- Veterinarians and veterinary students
+- Dog breeders and breed enthusiasts
+- Anyone who loves dogs and learning about them
+
+**Business Model**: B2C E-commerce specializing in dog-related books, from puppy training tales to professional veterinary texts.
 
 ## 🎯 Project Overview
 
