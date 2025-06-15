@@ -38,7 +38,7 @@ THIRD_PARTY_APPS = [
 
 LOCAL_APPS = [
     # Add custom apps here as we develop them
-    # 'books',
+     'books',
     # 'accounts', 
     # 'orders',
     # 'reviews',

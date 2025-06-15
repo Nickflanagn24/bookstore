@@ -1,3 +1,126 @@
 from django.db import models
+from django.urls import reverse
+from django.core.validators import MinValueValidator, MaxValueValidator
+import uuid
 
-# Create your models here.
+class Author(models.Model):
+    """Author model for book authors"""
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.CharField(max_length=200)
+    biography = models.TextField(blank=True, null=True)
+    photo = models.URLField(blank=True, null=True, help_text="Author photo URL")
+    google_books_id = models.CharField(max_length=100, blank=True, null=True, unique=True)
+    is_featured = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['name']
+        verbose_name = "Author"
+        verbose_name_plural = "Authors"
+
+    def __str__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse('books:author_detail', kwargs={'pk': self.pk})
+
+
+class Category(models.Model):
+    """Book category model"""
+    name = models.CharField(max_length=100, unique=True)
+    slug = models.SlugField(max_length=100, unique=True)
+    description = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['name']
+        verbose_name_plural = "Categories"
+
+    def __str__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse('books:category_detail', kwargs={'slug': self.slug})
+
+
+class Book(models.Model):
+    """Book model with Google Books API integration"""
+    
+    # Book identifiers
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    google_books_id = models.CharField(max_length=100, unique=True, null=True, blank=True)
+    isbn_10 = models.CharField(max_length=10, blank=True, null=True)
+    isbn_13 = models.CharField(max_length=13, blank=True, null=True)
+    
+    # Basic book information
+    title = models.CharField(max_length=300)
+    subtitle = models.CharField(max_length=300, blank=True, null=True)
+    authors = models.ManyToManyField(Author, related_name='books')
+    publisher = models.CharField(max_length=200, blank=True, null=True)
+    published_date = models.DateField(blank=True, null=True)
+    
+    # Book content
+    description = models.TextField(blank=True, null=True)
+    page_count = models.PositiveIntegerField(blank=True, null=True)
+    language = models.CharField(max_length=10, default='en')
+    
+    # Images and media
+    thumbnail = models.URLField(blank=True, null=True, help_text="Small book cover image URL")
+    cover_image = models.URLField(blank=True, null=True, help_text="Large book cover image URL")
+    
+    # Categories and classification
+    categories = models.ManyToManyField(Category, related_name='books', blank=True)
+    main_category = models.CharField(max_length=200, blank=True, null=True)
+    
+    # E-commerce fields
+    price = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(0)])
+    stock_quantity = models.PositiveIntegerField(default=0)
+    is_available = models.BooleanField(default=True)
+    is_featured = models.BooleanField(default=False)
+    
+    # Ratings and reviews
+    average_rating = models.DecimalField(
+        max_digits=3, 
+        decimal_places=2, 
+        default=0,
+        validators=[MinValueValidator(0), MaxValueValidator(5)]
+    )
+    ratings_count = models.PositiveIntegerField(default=0)
+    
+    # Metadata
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-created_at']
+        verbose_name = "Book"
+        verbose_name_plural = "Books"
+        indexes = [
+            models.Index(fields=['title']),
+            models.Index(fields=['google_books_id']),
+            models.Index(fields=['isbn_13']),
+            models.Index(fields=['is_featured']),
+            models.Index(fields=['is_available']),
+        ]
+
+    def __str__(self):
+        return self.title
+
+    def get_absolute_url(self):
+        return reverse('books:book_detail', kwargs={'pk': self.pk})
+
+    @property
+    def is_in_stock(self):
+        return self.stock_quantity > 0 and self.is_available
+
+    @property
+    def authors_list(self):
+        return ", ".join([author.name for author in self.authors.all()])
+
+    def get_main_author(self):
+        return self.authors.first()
+
+    @property
+    def display_price(self):
+        return f"${self.price:.2f}"
