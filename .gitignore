@@ -1,0 +1,42 @@
+# Django specific
+*.log
+*.pot
+*.pyc
+__pycache__/
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+media/
+
+# Environment variables
+.env
+.venv
+env/
+venv/
+ENV/
+
+# Static files
+/staticfiles/
+/static/
+/collected-static/
+
+# IDE specific files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# macOS
+.DS_Store
+
+# Python
+*.egg-info/
+dist/
+build/
+*.egg
+.coverage
+.pytest_cache/
+
+# Backup files
+*.bak
+*.backup
