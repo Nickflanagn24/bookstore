@@ -48,11 +48,30 @@
                     </li>
                     <!-- More navigation items will be added as we develop -->
                 </ul>
+                
+                <!-- User Authentication Menu -->
                 <ul class="navbar-nav">
-                    <!-- User authentication links will be added -->
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" tabindex="-1">Login</a>
-                    </li>
+                    {% if user.is_authenticated %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                                👤 {{ user.first_name }}
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{% url 'accounts:profile' %}">📋 My Profile</a></li>
+                                <li><a class="dropdown-item" href="#">🛒 My Orders</a></li>
+                                <li><a class="dropdown-item" href="#">⭐ My Reviews</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="{% url 'accounts:logout' %}">🚪 Logout</a></li>
+                            </ul>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'accounts:login' %}">🔑 Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'accounts:register' %}">🐾 Join Pack</a>
+                        </li>
+                    {% endif %}
                 </ul>
             </div>
         </div>
