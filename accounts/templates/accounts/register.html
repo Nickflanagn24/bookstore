@@ -1,0 +1,163 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Join the Pack - Tales & Tails{% endblock %}
+
+{% block meta_description %}Join Tales & Tails community of dog lovers. Create your account to discover personalized book recommendations and connect with fellow dog enthusiasts.{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8 col-md-10">
+        <div class="card shadow-lg border-0">
+            <div class="card-header bg-primary-custom text-white text-center">
+                <h2 class="mb-0">🐕 Join the Tales & Tails Pack!</h2>
+                <p class="mb-0 mt-2">Create your account to get personalized book recommendations</p>
+            </div>
+            <div class="card-body p-5">
+                <form method="post" novalidate>
+                    {% csrf_token %}
+                    
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            {{ form.non_field_errors }}
+                        </div>
+                    {% endif %}
+
+                    <div class="row">
+                        <!-- Personal Information -->
+                        <div class="col-md-6">
+                            <h5 class="text-primary-custom mb-3">👤 Personal Information</h5>
+                            
+                            <div class="mb-3">
+                                <label for="{{ form.first_name.id_for_label }}" class="form-label">First Name *</label>
+                                {{ form.first_name }}
+                                {% if form.first_name.errors %}
+                                    <div class="text-danger small">{{ form.first_name.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="{{ form.last_name.id_for_label }}" class="form-label">Last Name *</label>
+                                {{ form.last_name }}
+                                {% if form.last_name.errors %}
+                                    <div class="text-danger small">{{ form.last_name.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="{{ form.email.id_for_label }}" class="form-label">Email Address *</label>
+                                {{ form.email }}
+                                {% if form.email.errors %}
+                                    <div class="text-danger small">{{ form.email.errors.0 }}</div>
+                                {% endif %}
+                                <div class="form-text">We'll use this to send you book recommendations!</div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="{{ form.username.id_for_label }}" class="form-label">Username *</label>
+                                {{ form.username }}
+                                {% if form.username.errors %}
+                                    <div class="text-danger small">{{ form.username.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!-- Dog Information -->
+                        <div class="col-md-6">
+                            <h5 class="text-secondary-custom mb-3">🐕 Tell Us About Your Dog</h5>
+                            
+                            <div class="mb-3">
+                                <div class="form-check">
+                                    {{ form.dog_owner }}
+                                    <label class="form-check-label" for="{{ form.dog_owner.id_for_label }}">
+                                        I'm a dog owner 🐾
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="mb-3" id="dog-breed-field">
+                                <label for="{{ form.dog_breed.id_for_label }}" class="form-label">Dog Breed (Optional)</label>
+                                {{ form.dog_breed }}
+                                {% if form.dog_breed.errors %}
+                                    <div class="text-danger small">{{ form.dog_breed.errors.0 }}</div>
+                                {% endif %}
+                                <div class="form-text">Help us recommend breed-specific books!</div>
+                            </div>
+
+                            <div class="mb-3">
+                                <div class="form-check">
+                                    {{ form.newsletter_subscription }}
+                                    <label class="form-check-label" for="{{ form.newsletter_subscription.id_for_label }}">
+                                        📧 Send me the Tales & Tails newsletter
+                                    </label>
+                                </div>
+                                <div class="form-text">Get weekly book recommendations and training tips!</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Password Section -->
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <h5 class="text-primary-custom mb-3">🔒 Secure Your Account</h5>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="{{ form.password1.id_for_label }}" class="form-label">Password *</label>
+                                {{ form.password1 }}
+                                {% if form.password1.errors %}
+                                    <div class="text-danger small">{{ form.password1.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="{{ form.password2.id_for_label }}" class="form-label">Confirm Password *</label>
+                                {{ form.password2 }}
+                                {% if form.password2.errors %}
+                                    <div class="text-danger small">{{ form.password2.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="d-grid gap-2 mt-4">
+                        <button class="btn btn-primary btn-lg" type="submit">
+                            🎉 Create My Account
+                        </button>
+                    </div>
+
+                    <!-- Login Link -->
+                    <div class="text-center mt-4">
+                        <p class="mb-0">Already have an account? 
+                            <a href="{% url 'accounts:login' %}" class="text-decoration-none">
+                                Sign in here 🐕
+                            </a>
+                        </p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Show/hide dog breed field based on dog owner checkbox
+document.addEventListener('DOMContentLoaded', function() {
+    const dogOwnerCheckbox = document.getElementById('{{ form.dog_owner.id_for_label }}');
+    const dogBreedField = document.getElementById('dog-breed-field');
+    
+    function toggleDogBreedField() {
+        if (dogOwnerCheckbox.checked) {
+            dogBreedField.style.display = 'block';
+        } else {
+            dogBreedField.style.display = 'none';
+        }
+    }
+    
+    dogOwnerCheckbox.addEventListener('change', toggleDogBreedField);
+    toggleDogBreedField(); // Initial state
+});
+</script>
+{% endblock %}

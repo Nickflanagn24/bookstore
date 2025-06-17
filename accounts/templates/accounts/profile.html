@@ -1,0 +1,154 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ user.full_name }}'s Profile - Tales & Tails{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-4">
+        <!-- Profile Card -->
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary-custom text-white text-center">
+                <h4 class="mb-0">🐕 {{ user.full_name }}</h4>
+                <p class="mb-0 small">{{ user.email }}</p>
+            </div>
+            <div class="card-body">
+                <div class="text-center mb-4">
+                    <div class="rounded-circle bg-light d-inline-flex align-items-center justify-content-center" 
+                         style="width: 80px; height: 80px;">
+                        <span class="h1 text-primary-custom">🐾</span>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <strong>🐕 Dog Info:</strong>
+                    <p class="mb-1">{{ user.dog_info }}</p>
+                </div>
+
+                {% if user.training_level %}
+                <div class="mb-3">
+                    <strong>🎯 Training Level:</strong>
+                    <p class="mb-1">{{ user.get_training_level_display }}</p>
+                </div>
+                {% endif %}
+
+                <div class="mb-3">
+                    <strong>📧 Newsletter:</strong>
+                    <p class="mb-1">
+                        {% if user.newsletter_subscription %}
+                            <span class="text-success">✅ Subscribed</span>
+                        {% else %}
+                            <span class="text-muted">❌ Not subscribed</span>
+                        {% endif %}
+                    </p>
+                </div>
+
+                <div class="mb-3">
+                    <strong>📅 Member Since:</strong>
+                    <p class="mb-1">{{ user.created_at|date:"F Y" }}</p>
+                </div>
+
+                <div class="d-grid gap-2">
+                    <a href="{% url 'accounts:profile_edit' %}" class="btn btn-outline-primary">
+                        ✏️ Edit Profile
+                    </a>
+                    <a href="{% url 'accounts:logout' %}" class="btn btn-outline-secondary">
+                        🚪 Logout
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-8">
+        <!-- Welcome Message -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-body">
+                <h5 class="card-title text-primary-custom">Welcome back, {{ user.first_name }}! 🎉</h5>
+                <p class="card-text">Ready to discover your next great dog book? Here's what we've got for you:</p>
+            </div>
+        </div>
+
+        <!-- Recommended Categories -->
+        {% if recommended_categories %}
+        <div class="card shadow-sm mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">📚 Recommended for You</h5>
+            </div>
+            <div class="card-body">
+                <p class="text-muted">Based on your profile, we think you'd love these categories:</p>
+                <div class="row">
+                    {% for category in recommended_categories %}
+                    <div class="col-md-6 mb-3">
+                        <a href="{% url 'books:category_detail' category.slug %}" class="text-decoration-none">
+                            <div class="card h-100 category-card">
+                                <div class="card-body text-center">
+                                    <h6 class="card-title">{{ category.name }}</h6>
+                                    <p class="card-text small">{{ category.books.count }} books</p>
+                                    <span class="btn btn-sm btn-outline-primary">Browse</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Quick Actions -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">🚀 Quick Actions</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <a href="{% url 'books:book_list' %}" class="btn btn-outline-primary w-100">
+                            📚 Browse All Books
+                        </a>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <a href="{% url 'books:book_list' %}?q=training" class="btn btn-outline-secondary w-100">
+                            🎯 Training Books
+                        </a>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <a href="{% url 'books:book_list' %}?q=puppy" class="btn btn-outline-accent w-100">
+                            🐶 Puppy Books
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Account Stats -->
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="text-primary-custom">0</h5>
+                        <p class="card-text small">Books Purchased</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="text-secondary-custom">0</h5>
+                        <p class="card-text small">Reviews Written</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="text-accent-custom">0</h5>
+                        <p class="card-text small">Wishlist Items</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
