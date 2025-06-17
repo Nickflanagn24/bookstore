@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}Login - Tales & Tails{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-primary text-white text-center">
+                    <h3>🐕 Login to Tales & Tails</h3>
+                </div>
+                <div class="card-body">
+                    {% if error_message %}
+                        <div class="alert alert-danger">
+                            {{ error_message }}
+                        </div>
+                    {% endif %}
+
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Username</label>
+                            <input type="text" name="username" class="form-control" id="username" required 
+                                   placeholder="Enter your username" value="{{ request.POST.username }}">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" name="password" class="form-control" id="password" required
+                                   placeholder="Enter your password">
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">🔑 Sign In</button>
+                        </div>
+
+                        <div class="text-center mt-3">
+                            <p>Don't have an account? <a href="{% url 'accounts:register' %}">Join our pack! 🐾</a></p>
+                        </div>
+                    </form>
+
+                    <!-- Debug Help -->
+                    <div class="mt-4 p-3 bg-light rounded">
+                        <small class="text-muted">
+                            <strong>Test Login:</strong><br>
+                            Username: <code>testuser</code><br>
+                            Password: <code>testpass123</code>
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -2,10 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.urls import reverse
-from django.views.generic import CreateView
-from django.contrib.auth.views import LoginView
-from .forms import CustomUserCreationForm, ProfileUpdateForm, CustomLoginForm
+from .forms import CustomUserCreationForm, ProfileUpdateForm
 from .models import CustomUser
 
 def register_view(request):
@@ -17,7 +14,8 @@ def register_view(request):
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            login(request, user)
+            # Login the user immediately after registration
+            login(request, user, backend='django.contrib.auth.backends.ModelBackend')
             messages.success(
                 request,
                 f"Welcome to Tales & Tails, {user.first_name}! Your account has been created."
@@ -29,32 +27,39 @@ def register_view(request):
     return render(request, 'accounts/register.html', {'form': form})
 
 def login_view(request):
-    """Login view using function-based approach"""
+    """Login view using direct password checking"""
     if request.user.is_authenticated:
         return redirect('home')
         
-    if request.method == 'POST':
-        form = CustomLoginForm(data=request.POST, request=request)
-        if form.is_valid():
-            user = form.get_user()
-            login(request, user)
-            
-            # Handle remember me
-            remember_me = form.cleaned_data.get('remember_me')
-            if not remember_me:
-                request.session.set_expiry(0)
-            else:
-                request.session.set_expiry(1209600)  # 2 weeks
-            
-            messages.success(request, f"Welcome back, {user.first_name}!")
-            
-            # Redirect to next page if specified, otherwise home
-            next_page = request.GET.get('next', 'home')
-            return redirect(next_page)
-    else:
-        form = CustomLoginForm(request=request)
+    error_message = None
     
-    return render(request, 'accounts/login.html', {'form': form})
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        
+        if username and password:
+            try:
+                # Get user by username
+                user = CustomUser.objects.get(username=username)
+                
+                # Check password directly
+                if user.check_password(password):
+                    if user.is_active:
+                        # Login user with explicit backend
+                        login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+                        messages.success(request, f"Welcome back, {user.first_name}!")
+                        next_page = request.GET.get('next', 'home')
+                        return redirect(next_page)
+                    else:
+                        error_message = "This account is inactive."
+                else:
+                    error_message = "Invalid username or password."
+            except CustomUser.DoesNotExist:
+                error_message = "Invalid username or password."
+        else:
+            error_message = "Please enter both username and password."
+    
+    return render(request, 'accounts/login_simple.html', {'error_message': error_message})
 
 def logout_view(request):
     """Logout view"""
@@ -66,14 +71,10 @@ def logout_view(request):
 
 @login_required
 def profile_view(request):
-    """User profile view - simplified"""
-    user = request.user
-    
-    # Safe context - only include what we know exists
+    """User profile view"""
     context = {
-        'user': user,
+        'user': request.user,
     }
-    
     return render(request, 'accounts/profile.html', context)
 
 @login_required
@@ -91,7 +92,7 @@ def profile_edit_view(request):
     return render(request, 'accounts/profile_edit.html', {'form': form})
 
 def dashboard_view(request):
-    """User dashboard view - redirect to appropriate page based on auth status"""
+    """User dashboard view"""
     if request.user.is_authenticated:
         return redirect('accounts:profile')
     else:
