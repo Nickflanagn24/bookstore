@@ -39,7 +39,7 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS = [
     # Add custom apps here as we develop them
      'books',
-    # 'accounts', 
+     'accounts', 
     # 'orders',
     # 'reviews',
 ]
@@ -160,3 +160,11 @@ if not DEBUG:
     SECURE_SSL_REDIRECT = True
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
+
+# Custom User Model
+AUTH_USER_MODEL = 'accounts.CustomUser'
+
+# Login/Logout URLs
+LOGIN_URL = '/accounts/login/'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
