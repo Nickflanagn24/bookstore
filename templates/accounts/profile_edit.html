@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit Profile - Tales & Tails{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <h3>✏️ Edit Your Profile</h3>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-danger">
+                                {{ form.non_field_errors }}
+                            </div>
+                        {% endif %}
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="{{ form.first_name.id_for_label }}" class="form-label">First Name</label>
+                                    {{ form.first_name }}
+                                    {% if form.first_name.errors %}
+                                        <div class="text-danger small">{{ form.first_name.errors.0 }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="{{ form.last_name.id_for_label }}" class="form-label">Last Name</label>
+                                    {{ form.last_name }}
+                                    {% if form.last_name.errors %}
+                                        <div class="text-danger small">{{ form.last_name.errors.0 }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <div class="form-check">
+                                {{ form.dog_owner }}
+                                <label class="form-check-label" for="{{ form.dog_owner.id_for_label }}">
+                                    I'm a dog owner 🐾
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="{{ form.dog_breed.id_for_label }}" class="form-label">Dog Breed</label>
+                            {{ form.dog_breed }}
+                            {% if form.dog_breed.errors %}
+                                <div class="text-danger small">{{ form.dog_breed.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="{{ form.dog_age.id_for_label }}" class="form-label">Dog Age</label>
+                            {{ form.dog_age }}
+                            {% if form.dog_age.errors %}
+                                <div class="text-danger small">{{ form.dog_age.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="{{ form.training_level.id_for_label }}" class="form-label">Training Experience</label>
+                            {{ form.training_level }}
+                            {% if form.training_level.errors %}
+                                <div class="text-danger small">{{ form.training_level.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            <div class="form-check">
+                                {{ form.newsletter_subscription }}
+                                <label class="form-check-label" for="{{ form.newsletter_subscription.id_for_label }}">
+                                    Send me the Tales & Tails newsletter
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <button type="submit" class="btn btn-primary w-100">Save Changes</button>
+                            </div>
+                            <div class="col-md-6">
+                                <a href="{% url 'accounts:profile' %}" class="btn btn-secondary w-100">Cancel</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
