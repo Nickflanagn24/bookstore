@@ -1,21 +1,248 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}{{ book.title }} - Tales & Tails{% endblock %}
 
+{% block meta_description %}{{ book.description|truncatechars:150|default:"Discover this amazing dog book at Tales & Tails" }}{% endblock %}
+
 {% block content %}
-<div class="row">
-    <div class="col-md-4">
-        {% if book.cover_image %}
-        <img src="{{ book.cover_image }}" class="img-fluid" alt="{{ book.title }}">
-        {% endif %}
+<div class="container">
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'books:book_list' %}">Books</a></li>
+            {% if book.categories.first %}
+            <li class="breadcrumb-item"><a href="{% url 'books:category_detail' book.categories.first.slug %}">{{ book.categories.first.name }}</a></li>
+            {% endif %}
+            <li class="breadcrumb-item active">{{ book.title|truncatechars:50 }}</li>
+        </ol>
+    </nav>
+
+    <div class="row">
+        <!-- Book Image -->
+        <div class="col-lg-4 col-md-5 mb-4">
+            <div class="card">
+                <div class="book-cover-container" style="height: 500px;">
+                    {% if book.cover_image %}
+                        <img src="{{ book.cover_image }}" class="book-cover-high-res" alt="{{ book.title }}" style="max-height: 480px;">
+                    {% elif book.thumbnail %}
+                        <img src="{{ book.thumbnail }}" class="book-cover-high-res" alt="{{ book.title }}" style="max-height: 480px;">
+                    {% else %}
+                        <div class="no-image-placeholder" style="font-size: 5rem;">📚</div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Quick Stats Card -->
+            <div class="card mt-3">
+                <div class="card-body">
+                    <h6 class="card-title">📊 Book Stats</h6>
+                    {% if book.page_count %}
+                    <p class="mb-1"><strong>Pages:</strong> {{ book.page_count }}</p>
+                    {% endif %}
+                    {% if book.language %}
+                    <p class="mb-1"><strong>Language:</strong> {{ book.get_language_display|default:book.language|title }}</p>
+                    {% endif %}
+                    {% if book.published_date %}
+                    <p class="mb-1"><strong>Published:</strong> {{ book.published_date|date:"F Y" }}</p>
+                    {% endif %}
+                    {% if book.average_rating > 0 %}
+                    <p class="mb-1">
+                        <strong>Rating:</strong> 
+                        {% for i in "12345" %}
+                            {% if forloop.counter <= book.average_rating %}⭐{% else %}☆{% endif %}
+                        {% endfor %}
+                        ({{ book.ratings_count }} reviews)
+                    </p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Book Information -->
+        <div class="col-lg-8 col-md-7">
+            <!-- Title and Author -->
+            <div class="mb-4">
+                <h1 class="book-title display-5 mb-3">{{ book.title }}</h1>
+                {% if book.subtitle %}
+                <h2 class="h4 text-muted mb-3">{{ book.subtitle }}</h2>
+                {% endif %}
+                
+                <p class="lead mb-3">
+                    by {% for author in book.authors.all %}
+                        <a href="{% url 'books:author_detail' author.pk %}" class="text-decoration-none">
+                            <strong>{{ author.name }}</strong>
+                        </a>{% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                </p>
+
+                {% if book.publisher %}
+                <p class="text-muted">Published by <strong>{{ book.publisher }}</strong></p>
+                {% endif %}
+            </div>
+
+            <!-- Categories -->
+            {% if book.categories.exists %}
+            <div class="mb-4">
+                <h6>📂 Categories:</h6>
+                {% for category in book.categories.all %}
+                    <a href="{% url 'books:category_detail' category.slug %}" class="category-chip text-decoration-none me-2 mb-2">
+                        {{ category.name }}
+                    </a>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <!-- Price and Purchase -->
+            <div class="card border-primary mb-4">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-md-6">
+                            <h3 class="price mb-2">{{ book.display_price }}</h3>
+                            {% if book.is_in_stock %}
+                                <span class="badge stock-badge">✅ In Stock ({{ book.stock_quantity }} available)</span>
+                            {% else %}
+                                <span class="badge out-of-stock">❌ Out of Stock</span>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-6">
+                            {% if book.is_in_stock %}
+                                <div class="d-grid gap-2">
+                                    <button class="btn btn-primary btn-lg" type="button">
+                                        🛒 Add to Cart
+                                    </button>
+                                    <button class="btn btn-outline-secondary" type="button">
+                                        ❤️ Add to Wishlist
+                                    </button>
+                                </div>
+                            {% else %}
+                                <div class="d-grid gap-2">
+                                    <button class="btn btn-secondary" disabled>
+                                        📧 Notify When Available
+                                    </button>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Description -->
+            {% if book.description %}
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">�� About This Book</h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">{{ book.description|linebreaks }}</p>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Book Details -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">📋 Book Details</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            {% if book.isbn_13 %}
+                            <p><strong>ISBN-13:</strong> {{ book.isbn_13 }}</p>
+                            {% endif %}
+                            {% if book.isbn_10 %}
+                            <p><strong>ISBN-10:</strong> {{ book.isbn_10 }}</p>
+                            {% endif %}
+                            {% if book.page_count %}
+                            <p><strong>Pages:</strong> {{ book.page_count }}</p>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-6">
+                            {% if book.language %}
+                            <p><strong>Language:</strong> {{ book.language|upper }}</p>
+                            {% endif %}
+                            {% if book.published_date %}
+                            <p><strong>Publication Date:</strong> {{ book.published_date|date:"F d, Y" }}</p>
+                            {% endif %}
+                            <p><strong>Added to Store:</strong> {{ book.created_at|date:"F d, Y" }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Why Dog Owners Love This Book -->
+            <div class="card mb-4 bg-light">
+                <div class="card-body">
+                    <h6 class="card-title text-primary">🐕 Why Dog Owners Love This Book</h6>
+                    <ul class="list-unstyled mb-0">
+                        {% if "training" in book.title|lower or "training" in book.description|lower %}
+                        <li>✅ Expert training techniques and methods</li>
+                        {% endif %}
+                        {% if "puppy" in book.title|lower or "puppy" in book.description|lower %}
+                        <li>✅ Perfect for new puppy owners</li>
+                        {% endif %}
+                        {% if "behavior" in book.title|lower or "behavior" in book.description|lower %}
+                        <li>✅ Understanding dog behavior and psychology</li>
+                        {% endif %}
+                        <li>✅ Written by recognized dog experts</li>
+                        <li>✅ Practical, actionable advice</li>
+                        <li>✅ Suitable for all experience levels</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="col-md-8">
-        <h1>{{ book.title }}</h1>
-        <p class="lead">by {{ book.authors_list }}</p>
-        <p class="price h3">${{ book.price }}</p>
-        {% if book.description %}
-        <p>{{ book.description }}</p>
-        {% endif %}
+
+    <!-- Reviews Section Placeholder -->
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">⭐ Customer Reviews</h5>
+                </div>
+                <div class="card-body text-center py-5">
+                    <p class="text-muted">Reviews coming soon! Be the first to review this book.</p>
+                    <button class="btn btn-outline-primary" disabled>
+                        ✍️ Write a Review
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
+
+    <!-- Recommendations -->
+    {% if recommendations %}
+    <div class="row mt-5">
+        <div class="col-12">
+            <h3 class="text-primary-custom mb-4">📚 You Might Also Like</h3>
+            <div class="row">
+                {% for rec_book in recommendations %}
+                <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                    <div class="card book-card">
+                        <div class="book-cover-container" style="height: 200px;">
+                            {% if rec_book.cover_image %}
+                                <img src="{{ rec_book.cover_image }}" class="book-cover-high-res" alt="{{ rec_book.title }}" loading="lazy">
+                            {% elif rec_book.thumbnail %}
+                                <img src="{{ rec_book.thumbnail }}" class="book-cover-high-res" alt="{{ rec_book.title }}" loading="lazy">
+                            {% else %}
+                                <div class="no-image-placeholder">📚</div>
+                            {% endif %}
+                        </div>
+                        <div class="card-body">
+                            <h6 class="book-title">{{ rec_book.title|truncatechars:50 }}</h6>
+                            <p class="book-author">{{ rec_book.authors_list|truncatechars:30 }}</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="price">{{ rec_book.display_price }}</span>
+                                <a href="{% url 'books:book_detail' rec_book.pk %}" class="btn btn-sm btn-outline-primary">View</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
 </div>
 {% endblock %}

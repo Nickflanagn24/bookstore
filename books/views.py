@@ -1,9 +1,14 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth import login, logout
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
 from django.http import JsonResponse
 from .models import Book, Author, Category
 from .utils import get_featured_books, get_recent_books
+from accounts.forms import CustomUserCreationForm, ProfileUpdateForm
+from accounts.models import CustomUser
 
 def home(request):
     """Homepage view with featured and recent books"""
@@ -28,11 +33,27 @@ def book_list(request):
     return render(request, 'books/book_list.html', context)
 
 def book_detail(request, pk):
-    """Individual book detail page"""
-    book = get_object_or_404(Book, pk=pk, is_available=True)
+    """Individual book detail page with comprehensive information"""
+    book = get_object_or_404(
+        Book.objects.select_related().prefetch_related('authors', 'categories'),
+        pk=pk,
+        is_available=True
+    )
+    
+    # Get recommendations (books in same categories or by same authors)
+    recommendations = Book.objects.filter(
+        Q(categories__in=book.categories.all()) |
+        Q(authors__in=book.authors.all())
+    ).exclude(
+        id=book.id
+    ).filter(
+        is_available=True
+    ).distinct().select_related().prefetch_related('authors')[:4]
     
     context = {
         'book': book,
+        'recommendations': recommendations,
+        'in_stock': book.is_in_stock,
     }
     
     return render(request, 'books/book_detail.html', context)
