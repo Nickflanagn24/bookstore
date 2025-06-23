@@ -109,9 +109,13 @@
                         <div class="col-md-6">
                             {% if book.is_in_stock %}
                                 <div class="d-grid gap-2">
-                                    <button class="btn btn-primary btn-lg" type="button">
-                                        🛒 Add to Cart
-                                    </button>
+                                <div class="d-grid gap-2">
+                                    <form method="post" action="{% url 'cart:add_to_cart' book.id %}">
+                                        {% csrf_token %}
+                                        <button class="btn btn-primary btn-lg w-100" type="submit">
+                                            🛒 Add to Cart
+                                        </button>
+                                    </form>
                                     <button class="btn btn-outline-secondary" type="button">
                                         ❤️ Add to Wishlist
                                     </button>

@@ -17,6 +17,7 @@ urlpatterns = [
     # App URLs
     path('books/', include('books.urls')),
     path('accounts/', include('accounts.urls')),
+    path('cart/', include('cart.urls')),
     
     # Future app URLs (to be added as we develop)
     # path('orders/', include('orders.urls')),
