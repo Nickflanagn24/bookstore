@@ -49,6 +49,21 @@
                     <!-- More navigation items will be added as we develop -->
                 </ul>
                 
+                <!-- Cart Button -->
+                <ul class="navbar-nav me-3">
+                    {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link position-relative" href="{% url 'cart:cart_detail' %}">
+                                🛒 Cart
+                                {% if cart_count > 0 %}
+                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                        {{ cart_count }}
+                                    </span>
+                                {% endif %}
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
                 <!-- User Authentication Menu -->
                 <ul class="navbar-nav">
                     {% if user.is_authenticated %}

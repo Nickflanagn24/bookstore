@@ -1,0 +1,198 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Your Cart - Tales & Tails{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Cart Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <h1 class="text-primary-custom">🛒 Your Shopping Cart</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                    <li class="breadcrumb-item active">Shopping Cart</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    {% if cart.is_empty %}
+        <!-- Empty Cart -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card text-center py-5">
+                    <div class="card-body">
+                        <div class="mb-4" style="font-size: 4rem;">🐕📚</div>
+                        <h3 class="text-primary-custom">Your cart is empty</h3>
+                        <p class="text-muted mb-4">Start browsing our amazing collection of dog books!</p>
+                        <a href="{% url 'books:book_list' %}" class="btn btn-primary btn-lg">
+                            Browse Books
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <!-- Cart Items -->
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">Cart Items ({{ cart.total_items }} item{{ cart.total_items|pluralize }})</h5>
+                    </div>
+                    <div class="card-body p-0">
+                        {% for item in cart_items %}
+                        <div class="cart-item border-bottom p-3">
+                            <div class="row align-items-center">
+                                <!-- Book Image -->
+                                <div class="col-md-2 col-3">
+                                    <div class="book-cover-container" style="height: 100px;">
+                                        {% if item.book.cover_image %}
+                                            <img src="{{ item.book.cover_image }}" class="book-cover-high-res" alt="{{ item.book.title }}" loading="lazy">
+                                        {% elif item.book.thumbnail %}
+                                            <img src="{{ item.book.thumbnail }}" class="book-cover-high-res" alt="{{ item.book.title }}" loading="lazy">
+                                        {% else %}
+                                            <div class="no-image-placeholder" style="font-size: 2rem;">📚</div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+
+                                <!-- Book Details -->
+                                <div class="col-md-6 col-9">
+                                    <h6 class="book-title mb-1">
+                                        <a href="{% url 'books:book_detail' item.book.pk %}" class="text-decoration-none">
+                                            {{ item.book.title }}
+                                        </a>
+                                    </h6>
+                                    <p class="book-author text-muted mb-1">{{ item.book.authors_list }}</p>
+                                    <p class="text-muted mb-0">{{ item.book.display_price }} each</p>
+                                </div>
+
+                                <!-- Quantity Controls -->
+                                <div class="col-md-2 col-6">
+                                    <form method="post" action="{% url 'cart:update_item' item.id %}" class="d-inline">
+                                        {% csrf_token %}
+                                        <div class="input-group input-group-sm">
+                                            <button class="btn btn-outline-secondary minus-btn" type="button" data-quantity="{{ item.quantity }}">-</button>
+                                            <input type="number" name="quantity" value="{{ item.quantity }}" min="0" max="{{ item.book.stock_quantity }}" class="form-control text-center quantity-input">
+                                            <button class="btn btn-outline-secondary plus-btn" type="button" data-max="{{ item.book.stock_quantity }}">+</button>
+                                        </div>
+                                        <button type="submit" class="btn btn-sm btn-outline-primary mt-2">Update</button>
+                                    </form>
+                                </div>
+
+                                <!-- Item Total & Remove -->
+                                <div class="col-md-2 col-6 text-end">
+                                    <p class="price mb-2">${{ item.total_price }}</p>
+                                    <form method="post" action="{% url 'cart:remove_item' item.id %}" class="d-inline">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-sm btn-outline-danger remove-btn">
+                                            🗑️ Remove
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Continue Shopping -->
+                <div class="mt-3">
+                    <a href="{% url 'books:book_list' %}" class="btn btn-outline-secondary">
+                        ← Continue Shopping
+                    </a>
+                    <form method="post" action="{% url 'cart:clear_cart' %}" class="d-inline ms-2">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-outline-danger" onclick="return confirm('Are you sure you want to clear your cart?')">
+                            🗑️ Clear Cart
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Cart Summary -->
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">Order Summary</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Subtotal ({{ cart.total_items }} item{{ cart.total_items|pluralize }}):</span>
+                            <span class="price">${{ cart.total_price }}</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Shipping:</span>
+                            <span class="text-success">FREE</span>
+                        </div>
+                        <hr>
+                        <div class="d-flex justify-content-between mb-3">
+                            <strong>Total:</strong>
+                            <strong class="price">${{ cart.total_price }}</strong>
+                        </div>
+
+                        <!-- Checkout Button -->
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-primary btn-lg" disabled>
+                                🔐 Proceed to Checkout
+                            </button>
+                            <small class="text-muted text-center">Secure checkout coming soon!</small>
+                        </div>
+
+                        <!-- Trust Indicators -->
+                        <div class="mt-3 text-center">
+                            <small class="text-muted">
+                                🔒 Secure Payment<br>
+                                📦 Free Shipping<br>
+                                ↩️ Easy Returns
+                            </small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Promo Code Card -->
+                <div class="card mt-3">
+                    <div class="card-body">
+                        <h6 class="card-title">🎫 Promo Code</h6>
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Enter code" disabled>
+                            <button class="btn btn-outline-secondary" disabled>Apply</button>
+                        </div>
+                        <small class="text-muted">Coming soon!</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+</div>
+
+<!-- JavaScript for quantity controls -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Plus/minus buttons for quantity
+    document.querySelectorAll('.minus-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const input = this.nextElementSibling;
+            const currentValue = parseInt(input.value);
+            if (currentValue > 1) {
+                input.value = currentValue - 1;
+            }
+        });
+    });
+
+    document.querySelectorAll('.plus-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const input = this.previousElementSibling;
+            const currentValue = parseInt(input.value);
+            const maxValue = parseInt(this.dataset.max);
+            if (currentValue < maxValue) {
+                input.value = currentValue + 1;
+            }
+        });
+    });
+});
+</script>
+{% endblock %}

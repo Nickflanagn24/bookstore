@@ -63,7 +63,7 @@
                         <p class="book-author">{{ book.authors_list|truncatechars:40 }}</p>
                         <div class="d-flex justify-content-between align-items-center">
                             <span class="price">{{ book.display_price }}</span>
-                            <a href="{% url 'books:book_detail' book.pk %}" class="btn btn-primary btn-sm">View</a>
+                            <a href="{% url 'books:book_detail' book.pk %}" class="btn btn btn-primary btn-sm">View Details</a>
                         </div>
                     </div>
                 </div>
