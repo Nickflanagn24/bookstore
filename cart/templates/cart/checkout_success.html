@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Payment Successful - Tales & Tails{% endblock %}
+
+{% block content %}
+<div class="container text-center">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <!-- Success Message -->
+            <div class="card border-success mb-4">
+                <div class="card-body py-5">
+                    <div class="mb-4" style="font-size: 4rem; color: #28a745;">✅</div>
+                    <h1 class="text-success mb-3">Payment Successful!</h1>
+                    <p class="lead">Thank you for your purchase from Tales & Tails!</p>
+                    
+                    <!-- Order Details -->
+                    <div class="bg-light p-4 rounded mb-4">
+                        <h5>Confirmation Details</h5>
+                        <p><strong>Email:</strong> {{ customer_email }}</p>
+                        <p><strong>Amount Paid:</strong> <span class="price">${{ amount_total }}</span></p>
+                        <p><strong>Payment Method:</strong> Credit Card</p>
+                    </div>
+
+                    <!-- Next Steps -->
+                    <div class="mb-4">
+                        <h6>What's Next?</h6>
+                        <p>Your digital receipt has been sent to your email.<br>
+                        Start reading your new dog books and enjoy your tail-wagging adventures!</p>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                        <a href="{% url 'books:book_list' %}" class="btn btn-primary">
+                            📚 Browse More Books
+                        </a>
+                        <a href="{% url 'home' %}" class="btn btn-outline-secondary">
+                            🏠 Back to Home
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

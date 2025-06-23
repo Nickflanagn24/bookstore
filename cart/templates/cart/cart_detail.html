@@ -136,10 +136,10 @@
 
                         <!-- Checkout Button -->
                         <div class="d-grid gap-2">
-                            <button class="btn btn-primary btn-lg" disabled>
+                            <button class="btn btn-primary btn-lg" href="{% url 'cart:checkout' %}">
                                 🔐 Proceed to Checkout
                             </button>
-                            <small class="text-muted text-center">Secure checkout coming soon!</small>
+                            <small class="text-muted text-center">Ready to checkout?</small>
                         </div>
 
                         <!-- Trust Indicators -->
@@ -158,8 +158,8 @@
                     <div class="card-body">
                         <h6 class="card-title">🎫 Promo Code</h6>
                         <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Enter code" disabled>
-                            <button class="btn btn-outline-secondary" disabled>Apply</button>
+                            <input type="text" class="form-control" placeholder="Enter code" href="{% url 'cart:checkout' %}">
+                            <button class="btn btn-outline-secondary" href="{% url 'cart:checkout' %}">Apply</button>
                         </div>
                         <small class="text-muted">Coming soon!</small>
                     </div>
