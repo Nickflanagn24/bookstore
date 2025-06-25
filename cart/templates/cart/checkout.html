@@ -5,64 +5,21 @@
 
 {% block extra_css %}
 <style>
-    /* Custom checkout styling */
-    .checkout-container {
-        max-width: 1200px;
-        margin: 0 auto;
-    }
-    
-    .order-summary {
-        background: #f8f9fa;
-        border-radius: 12px;
-        padding: 1.5rem;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    }
-    
-    .checkout-btn {
-        background: linear-gradient(45deg, #28a745, #20c997);
-        border: none;
-        padding: 15px 30px;
-        font-size: 1.1rem;
-        font-weight: bold;
-        border-radius: 8px;
-        transition: all 0.3s ease;
-    }
-    
-    .checkout-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(40, 167, 69, 0.3);
-    }
-    
-    .checkout-btn:disabled {
-        background: #6c757d;
-        cursor: not-allowed;
-        transform: none;
-    }
-    
-    .security-badges {
-        display: flex;
-        justify-content: center;
-        gap: 15px;
-        margin-top: 1rem;
-    }
-    
-    .security-badge {
-        background: white;
-        padding: 8px 15px;
-        border-radius: 6px;
-        font-size: 0.9rem;
-        color: #28a745;
-        border: 1px solid #e9ecef;
-    }
+    .checkout-container { max-width: 1200px; margin: 0 auto; }
+    .order-summary { background: #f8f9fa; border-radius: 12px; padding: 1.5rem; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+    .checkout-btn { background: linear-gradient(45deg, #28a745, #20c997); border: none; padding: 15px 30px; font-size: 1.1rem; font-weight: bold; border-radius: 8px; transition: all 0.3s ease; }
+    .checkout-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(40, 167, 69, 0.3); }
+    .checkout-btn:disabled { background: #6c757d; cursor: not-allowed; transform: none; }
+    .security-badges { display: flex; justify-content: center; gap: 15px; margin-top: 1rem; }
+    .security-badge { background: white; padding: 8px 15px; border-radius: 6px; font-size: 0.9rem; color: #28a745; border: 1px solid #e9ecef; }
 </style>
 {% endblock %}
 
 {% block content %}
 <div class="checkout-container">
-    <!-- Checkout Header -->
     <div class="row mb-4">
         <div class="col-12">
-            <h1 class="text-primary-custom">🔐 Secure Checkout</h1>
+            <h1 class="text-primary-custom">Secure Checkout</h1>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
@@ -74,16 +31,14 @@
     </div>
 
     <div class="row">
-        <!-- Order Summary -->
         <div class="col-lg-7">
             <div class="card">
                 <div class="card-header">
-                    <h5 class="mb-0">📦 Order Summary</h5>
+                    <h5 class="mb-0">Order Summary</h5>
                 </div>
                 <div class="card-body">
                     {% for item in cart_items %}
                     <div class="row align-items-center border-bottom pb-3 mb-3">
-                        <!-- Book Image -->
                         <div class="col-2">
                             <div class="book-cover-container" style="height: 80px;">
                                 {% if item.book.cover_image %}
@@ -95,15 +50,11 @@
                                 {% endif %}
                             </div>
                         </div>
-                        
-                        <!-- Book Details -->
                         <div class="col-7">
                             <h6 class="mb-1">{{ item.book.title }}</h6>
                             <p class="text-muted mb-1">{{ item.book.authors_list }}</p>
                             <small class="text-muted">Quantity: {{ item.quantity }}</small>
                         </div>
-                        
-                        <!-- Price -->
                         <div class="col-3 text-end">
                             <span class="price">${{ item.total_price }}</span>
                         </div>
@@ -113,12 +64,10 @@
             </div>
         </div>
 
-        <!-- Payment Section -->
         <div class="col-lg-5">
             <div class="order-summary">
-                <h5 class="mb-3">💳 Payment Details</h5>
+                <h5 class="mb-3">Payment Details</h5>
                 
-                <!-- Order Totals -->
                 <div class="d-flex justify-content-between mb-2">
                     <span>Subtotal ({{ cart.total_items }} item{{ cart.total_items|pluralize }}):</span>
                     <span>${{ cart.total_price }}</span>
@@ -137,28 +86,24 @@
                     <strong class="price">${{ cart.total_price }}</strong>
                 </div>
 
-                <!-- Customer Info -->
                 <div class="mb-4">
-                    <h6>👤 Customer Information</h6>
+                    <h6>Customer Information</h6>
                     <p class="mb-1"><strong>Email:</strong> {{ user.email }}</p>
                     <p class="mb-1"><strong>Name:</strong> {{ user.full_name }}</p>
                 </div>
 
-                <!-- Stripe Checkout Button -->
                 <div class="d-grid mb-3">
                     <button id="checkout-button" class="btn btn-success checkout-btn">
-                        �� Pay Securely with Stripe
+                        🔐 Pay Securely with Stripe
                     </button>
                 </div>
 
-                <!-- Security Badges -->
                 <div class="security-badges">
                     <div class="security-badge">🔒 SSL Secure</div>
                     <div class="security-badge">💳 Stripe Protected</div>
                     <div class="security-badge">✅ PCI Compliant</div>
                 </div>
 
-                <!-- Trust Indicators -->
                 <div class="text-center mt-3">
                     <small class="text-muted">
                         Your payment information is processed securely.<br>
@@ -167,7 +112,6 @@
                 </div>
             </div>
 
-            <!-- Back to Cart -->
             <div class="mt-3">
                 <a href="{% url 'cart:cart_detail' %}" class="btn btn-outline-secondary">
                     ← Back to Cart
@@ -177,7 +121,6 @@
     </div>
 </div>
 
-<!-- Loading Overlay -->
 <div id="loading-overlay" class="d-none position-fixed top-0 start-0 w-100 h-100" 
      style="background: rgba(0,0,0,0.5); z-index: 9999;">
     <div class="d-flex justify-content-center align-items-center h-100">
@@ -192,29 +135,43 @@
 
 {% block extra_js %}
 <script>
+// Get CSRF token from cookie
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     const checkoutButton = document.getElementById('checkout-button');
     const loadingOverlay = document.getElementById('loading-overlay');
+    const csrftoken = getCookie('csrftoken');
     
-    // Handle checkout button click
     checkoutButton.addEventListener('click', function() {
-        // Disable button and show loading
         checkoutButton.disabled = true;
         checkoutButton.innerHTML = '⏳ Creating secure session...';
         loadingOverlay.classList.remove('d-none');
         
-        // Create checkout session via AJAX
         fetch('{% url "cart:create_checkout_session" %}', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'X-CSRFToken': '{{ csrf_token }}'
-            }
+                'X-CSRFToken': csrftoken
+            },
+            credentials: 'same-origin'
         })
         .then(response => response.json())
         .then(data => {
             if (data.checkout_url) {
-                // Redirect to Stripe checkout
                 window.location.href = data.checkout_url;
             } else {
                 throw new Error(data.error || 'Unknown error');
@@ -224,7 +181,6 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Error:', error);
             alert('Error creating checkout session: ' + error.message);
             
-            // Re-enable button and hide loading
             checkoutButton.disabled = false;
             checkoutButton.innerHTML = '🔐 Pay Securely with Stripe';
             loadingOverlay.classList.add('d-none');
