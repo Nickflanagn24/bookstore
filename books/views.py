@@ -105,3 +105,11 @@ def search_ajax(request):
         })
     
     return JsonResponse({'results': results})
+
+def about(request):
+    """About Us page"""
+    return render(request, 'pages/about.html')
+
+def contact(request):
+    """Contact Us page"""
+    return render(request, 'pages/contact.html')
