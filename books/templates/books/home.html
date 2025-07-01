@@ -4,51 +4,117 @@
 {% block title %}Tales & Tails - Where Every Dog Story Begins{% endblock %}
 
 {% block content %}
-<!-- Hero Section -->
-<div class="row mb-5">
-    <div class="col-lg-12">
-        <div class="jumbotron bg-light p-5 rounded fade-in">
-            <h1 class="display-4 text-primary-custom">Welcome to Tales & Tails! 📚🐕</h1>
-            <p class="lead text-secondary-custom">Where every dog story begins with the right book.</p>
-            <hr class="my-4">
-            <p>Discover expert guides, heartwarming stories, and essential knowledge for every dog lover.</p>
-            <div class="mt-4">
-                <a class="btn btn-primary btn-lg me-3" href="{% url 'books:book_list' %}" role="button">
-                    🐕 Browse Books
+<!-- Hero Section with Gradient Background -->
+<div class="hero-section text-center mb-5">
+    <div class="row align-items-center">
+        <div class="col-lg-8 mx-auto">
+            <h1 class="display-3 fw-bold mb-4">Welcome to Tales & Tails</h1>
+            <p class="lead fs-4 mb-4">Where every dog story begins with the right book</p>
+            <p class="fs-5 text-muted mb-5">Discover expert guides, heartwarming stories, and essential knowledge for every dog lover, trainer, and veterinary professional.</p>
+            <div class="d-flex gap-3 justify-content-center flex-wrap">
+                <a href="{% url 'books:book_list' %}" class="btn btn-primary btn-lg px-5">
+                    📚 Browse All Books
                 </a>
-                <a class="btn btn-secondary btn-lg" href="{% url 'books:book_list' %}" role="button">
-                    🐶 All Categories
+                <a href="#categories" class="btn btn-outline-primary btn-lg px-5">
+                    🔍 Explore Categories
                 </a>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Stats Section -->
+<!-- Stats Cards -->
 <div class="row mb-5">
-    <div class="col-md-4 text-center">
-        <h3 class="text-accent-custom">{{ total_books }}</h3>
-        <p>Dog Books Available</p>
+    <div class="col-md-4 mb-3">
+        <div class="card text-center border-0 bg-light-custom h-100">
+            <div class="card-body py-4">
+                <div class="display-6 text-primary-custom mb-2">{{ total_books }}</div>
+                <h5 class="card-title">Professional Books</h5>
+                <p class="text-muted">Curated collection of expert guides</p>
+            </div>
+        </div>
     </div>
-    <div class="col-md-4 text-center">
-        <h3 class="text-accent-custom">{{ total_authors }}</h3>
-        <p>Expert Authors</p>
+    <div class="col-md-4 mb-3">
+        <div class="card text-center border-0 bg-light-custom h-100">
+            <div class="card-body py-4">
+                <div class="display-6 text-accent-custom mb-2">{{ total_authors }}</div>
+                <h5 class="card-title">Expert Authors</h5>
+                <p class="text-muted">Veterinarians, trainers & behaviorists</p>
+            </div>
+        </div>
     </div>
-    <div class="col-md-4 text-center">
-        <h3 class="text-accent-custom">{{ categories.count }}</h3>
-        <p>Categories</p>
+    <div class="col-md-4 mb-3">
+        <div class="card text-center border-0 bg-light-custom h-100">
+            <div class="card-body py-4">
+                <div class="display-6 text-secondary-custom mb-2">{{ categories.count }}</div>
+                <h5 class="card-title">Specialized Topics</h5>
+                <p class="text-muted">From puppy care to advanced training</p>
+            </div>
+        </div>
     </div>
 </div>
 
-<!-- Featured Books -->
+<!-- Featured Books Section -->
 {% if featured_books %}
-<div class="row mb-5">
-    <div class="col-12">
-        <h2 class="text-primary-custom mb-4">⭐ Featured Books</h2>
-        <div class="row">
-            {% for book in featured_books %}
-            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-                <div class="card book-card">
+<section class="mb-5">
+    <div class="text-center mb-5">
+        <h2 class="display-5 text-primary-custom mb-3">⭐ Featured Books</h2>
+        <p class="lead text-muted">Hand-picked by our experts for exceptional quality and value</p>
+    </div>
+    
+    <div class="row g-4">
+        {% for book in featured_books %}
+        <div class="col-xl-3 col-lg-4 col-md-6">
+            <div class="card book-card h-100">
+                <div class="book-cover-container">
+                    {% if book.cover_image %}
+                        <img src="{{ book.cover_image }}" class="book-cover-high-res" alt="{{ book.title }}" loading="lazy">
+                    {% elif book.thumbnail %}
+                        <img src="{{ book.thumbnail }}" class="book-cover-high-res" alt="{{ book.title }}" loading="lazy">
+                    {% else %}
+                        <div class="no-image-placeholder">📚</div>
+                    {% endif %}
+                </div>
+                <div class="card-body d-flex flex-column">
+                    <h6 class="book-title">{{ book.title|truncatechars:65 }}</h6>
+                    <p class="book-author text-muted">{{ book.authors_list|truncatechars:45 }}</p>
+                    {% if book.average_rating > 0 %}
+                    <div class="mb-2">
+                        {% for i in "12345" %}
+                            {% if forloop.counter <= book.average_rating %}⭐{% else %}☆{% endif %}
+                        {% endfor %}
+                        <small class="text-muted">({{ book.ratings_count }})</small>
+                    </div>
+                    {% endif %}
+                    <div class="mt-auto d-flex justify-content-between align-items-center">
+                        <span class="price fw-bold">{{ book.display_price }}</span>
+                        <a href="{% url 'books:book_detail' book.pk %}" class="btn btn-primary btn-sm">View Details</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    
+    <div class="text-center mt-4">
+        <a href="{% url 'books:book_list' %}" class="btn btn-outline-primary">View All Books →</a>
+    </div>
+</section>
+{% endif %}
+
+<!-- Recent Books Section -->
+{% if recent_books %}
+<section class="mb-5">
+    <div class="text-center mb-5">
+        <h2 class="display-5 text-primary-custom mb-3">📚 Recently Added</h2>
+        <p class="lead text-muted">Latest additions to our professional collection</p>
+    </div>
+    
+    <div class="row g-4">
+        {% for book in recent_books %}
+        <div class="col-xl-3 col-lg-4 col-md-6">
+            <div class="card book-card h-100">
+                <div class="position-relative">
                     <div class="book-cover-container">
                         {% if book.cover_image %}
                             <img src="{{ book.cover_image }}" class="book-cover-high-res" alt="{{ book.title }}" loading="lazy">
@@ -58,41 +124,69 @@
                             <div class="no-image-placeholder">📚</div>
                         {% endif %}
                     </div>
-                    <div class="card-body">
-                        <h6 class="book-title">{{ book.title|truncatechars:60 }}</h6>
-                        <p class="book-author">{{ book.authors_list|truncatechars:40 }}</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <span class="price">{{ book.display_price }}</span>
-                            <a href="{% url 'books:book_detail' book.pk %}" class="btn btn btn-primary btn-sm">View Details</a>
-                        </div>
+                    <span class="badge bg-success position-absolute top-0 end-0 m-2">New</span>
+                </div>
+                <div class="card-body d-flex flex-column">
+                    <h6 class="book-title">{{ book.title|truncatechars:65 }}</h6>
+                    <p class="book-author text-muted">{{ book.authors_list|truncatechars:45 }}</p>
+                    <div class="mt-auto d-flex justify-content-between align-items-center">
+                        <span class="price fw-bold">{{ book.display_price }}</span>
+                        <a href="{% url 'books:book_detail' book.pk %}" class="btn btn-primary btn-sm">View Details</a>
                     </div>
                 </div>
             </div>
-            {% endfor %}
         </div>
+        {% endfor %}
     </div>
-</div>
+</section>
 {% endif %}
 
-<!-- Categories -->
-<div class="row">
-    <div class="col-12">
-        <h2 class="text-primary-custom mb-4">📂 Browse Categories</h2>
-        <div class="row">
-            {% for category in categories %}
-            <div class="col-lg-4 col-md-6 mb-3">
-                <a href="{% url 'books:category_detail' category.slug %}" class="text-decoration-none">
-                    <div class="card h-100">
-                        <div class="card-body text-center">
-                            <h5 class="card-title">{{ category.name }}</h5>
-                            <p class="card-text">{{ category.books.count }} books</p>
-                            <span class="btn btn-outline-primary">Browse {{ category.name }}</span>
+<!-- Categories Section -->
+<section id="categories" class="mb-5">
+    <div class="text-center mb-5">
+        <h2 class="display-5 text-primary-custom mb-3">🎯 Explore by Category</h2>
+        <p class="lead text-muted">Find exactly what you need for your dog's journey</p>
+    </div>
+    
+    <div class="row g-4">
+        {% for category in categories %}
+        <div class="col-lg-4 col-md-6">
+            <a href="{% url 'books:category_detail' category.slug %}" class="text-decoration-none">
+                <div class="card category-card h-100 border-primary-200">
+                    <div class="card-body text-center p-4">
+                        <div class="category-icon mb-3">
+                            {% if 'Training' in category.name %}🎓
+                            {% elif 'Puppy' in category.name %}🐶
+                            {% elif 'Behavior' in category.name %}🧠
+                            {% elif 'Breed' in category.name %}🐕‍🦺
+                            {% elif 'Health' in category.name %}🏥
+                            {% elif 'Working' in category.name %}👮‍♂️
+                            {% elif 'Stories' in category.name %}📖
+                            {% else %}🐕{% endif %}
+                        </div>
+                        <h5 class="card-title text-primary-custom mb-3">{{ category.name }}</h5>
+                        <p class="card-text text-muted mb-3">{{ category.description|default:"Professional guides and resources"|truncatechars:80 }}</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="badge bg-light text-dark">{{ category.books.count }} books</span>
+                            <span class="btn btn-outline-primary btn-sm">Explore →</span>
                         </div>
                     </div>
-                </a>
-            </div>
-            {% endfor %}
+                </div>
+            </a>
         </div>
+        {% endfor %}
     </div>
-</div>
+</section>
+
+<!-- Call to Action Section -->
+<section class="bg-light-custom rounded-3 p-5 text-center">
+    <h3 class="text-primary-custom mb-3">Ready to Start Your Dog's Story?</h3>
+    <p class="lead text-muted mb-4">Join thousands of dog owners, trainers, and veterinarians who trust Tales & Tails for expert guidance.</p>
+    <div class="d-flex gap-3 justify-content-center flex-wrap">
+        <a href="{% url 'books:book_list' %}" class="btn btn-primary btn-lg">Browse All Books</a>
+        {% if not user.is_authenticated %}
+        <a href="{% url 'accounts:register' %}" class="btn btn-outline-primary btn-lg">Join Our Pack</a>
+        {% endif %}
+    </div>
+</section>
 {% endblock %}

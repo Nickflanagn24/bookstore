@@ -1,38 +1,50 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}All Books - Tales & Tails{% endblock %}
 
 {% block content %}
-<div class="row">
-    <div class="col-12">
-        <h1>All Dog Books</h1>
-        <div class="row">
-            {% for book in books %}
-            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-                <div class="card book-card">
-                    <div class="book-cover-container">
-                        {% if book.cover_image %}
-                            <img src="{{ book.cover_image }}" class="book-cover-high-res" alt="{{ book.title }}" loading="lazy">
-                        {% elif book.thumbnail %}
-                            <img src="{{ book.thumbnail }}" class="book-cover-high-res" alt="{{ book.title }}" loading="lazy">
-                        {% else %}
-                            <div class="no-image-placeholder">📚</div>
-                        {% endif %}
-                    </div>
-                    <div class="card-body">
-                        <h6 class="book-title">{{ book.title|truncatechars:50 }}</h6>
-                        <p class="book-author">{{ book.authors_list|truncatechars:30 }}</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <span class="price">${{ book.price }}</span>
-                            <a href="{% url 'books:book_detail' book.pk %}" class="btn btn-primary btn-sm">View Details</a>
-                        </div>
+<div class="container">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h1 class="text-primary-custom text-center">🐕 All Dog Books</h1>
+            <p class="lead text-center text-muted">Discover our complete collection of professional dog books</p>
+        </div>
+    </div>
+    
+    <div class="row">
+        {% for book in books %}
+        <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+            <div class="card book-card">
+                <div class="book-cover-container">
+                    {% if book.cover_image %}
+                        <img src="{{ book.cover_image }}" class="book-cover-high-res" alt="{{ book.title }}" loading="lazy" onerror="this.src='{% static 'images/no-book-cover.png' %}'">
+                    {% elif book.thumbnail %}
+                        <img src="{{ book.thumbnail }}" class="book-cover-high-res" alt="{{ book.title }}" loading="lazy" onerror="this.src='{% static 'images/no-book-cover.png' %}'">
+                    {% else %}
+                        <div class="no-image-placeholder">📚</div>
+                    {% endif %}
+                </div>
+                <div class="card-body">
+                    <h6 class="book-title">{{ book.title|truncatechars:50 }}</h6>
+                    <p class="book-author">{{ book.authors_list|truncatechars:30 }}</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="price">${{ book.price }}</span>
+                        <a href="{% url 'books:book_detail' book.pk %}" class="btn btn-primary btn-sm">View Details</a>
                     </div>
                 </div>
             </div>
-            {% empty %}
-            <p>No books available yet.</p>
-            {% endfor %}
         </div>
+        {% empty %}
+        <div class="col-12 text-center">
+            <div class="card">
+                <div class="card-body py-5">
+                    <h3>No books available yet</h3>
+                    <p>Please check back soon for our amazing collection!</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
     </div>
 </div>
 {% endblock %}
