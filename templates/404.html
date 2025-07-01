@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Page Not Found - Tales & Tails{% endblock %}
+{% block meta_description %}The page you're looking for doesn't exist. Browse our collection of professional dog books and training guides.{% endblock %}
+
+{% block content %}
+<div class="container text-center">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="py-5">
+                <div class="display-1 text-primary-custom mb-4">404</div>
+                <h1 class="h2 mb-4">Oops! This page has gone to the dog park</h1>
+                <p class="lead text-muted mb-4">The page you're looking for doesn't exist, but don't worry - there are plenty of great books to discover!</p>
+                
+                <div class="d-flex gap-3 justify-content-center flex-wrap mb-5">
+                    <a href="{% url 'home' %}" class="btn btn-primary btn-lg">
+                        🏠 Go Home
+                    </a>
+                    <a href="{% url 'books:book_list' %}" class="btn btn-outline-primary btn-lg">
+                        📚 Browse Books
+                    </a>
+                </div>
+                
+                <div class="bg-light-custom rounded-3 p-4">
+                    <h5 class="text-primary-custom mb-3">Popular Sections</h5>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <a href="{% url 'books:book_list' %}" class="text-decoration-none">
+                                <div class="d-flex align-items-center">
+                                    <span class="me-2">🎓</span>
+                                    <span>Dog Training Guides</span>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-md-6">
+                            <a href="{% url 'books:book_list' %}" class="text-decoration-none">
+                                <div class="d-flex align-items-center">
+                                    <span class="me-2">🐶</span>
+                                    <span>Puppy Care Books</span>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-md-6">
+                            <a href="{% url 'books:book_list' %}" class="text-decoration-none">
+                                <div class="d-flex align-items-center">
+                                    <span class="me-2">🏥</span>
+                                    <span>Veterinary Resources</span>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-md-6">
+                            <a href="{% url 'books:contact' %}" class="text-decoration-none">
+                                <div class="d-flex align-items-center">
+                                    <span class="me-2">💬</span>
+                                    <span>Contact Support</span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

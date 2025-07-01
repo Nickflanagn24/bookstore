@@ -29,7 +29,6 @@ DJANGO_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-    'django.contrib.sitemaps',
 ]
 
 THIRD_PARTY_APPS = [
@@ -45,6 +44,8 @@ LOCAL_APPS = [
     # 'reviews',
 ]
 
+# Sitemap configuration
+DJANGO_APPS += ['django.contrib.sitemaps']
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 MIDDLEWARE = [
@@ -173,3 +174,10 @@ LOGOUT_REDIRECT_URL = '/'
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
 ]
+
+# Sitemap configuration
+SITE_ID = 1
+
+# Add to INSTALLED_APPS if not already there
+if 'django.contrib.sitemaps' not in INSTALLED_APPS:
+    INSTALLED_APPS += ['django.contrib.sitemaps']
