@@ -41,9 +41,9 @@
                     <div class="row align-items-center border-bottom pb-3 mb-3">
                         <div class="col-2">
                             <div class="book-cover-container" style="height: 80px;">
-                                {% if item.book.cover_image %}
+                                {% if item.book.cover_image or item.book.thumbnail %}
                                     <img src="{{ item.book.cover_image }}" class="book-cover-high-res" alt="{{ item.book.title }}">
-                                {% elif item.book.thumbnail %}
+                                {% elif item.book.thumbnail and not item.book.cover_image %}
                                     <img src="{{ item.book.thumbnail }}" class="book-cover-high-res" alt="{{ item.book.title }}">
                                 {% else %}
                                     <div class="no-image-placeholder" style="font-size: 1.5rem;">📚</div>
