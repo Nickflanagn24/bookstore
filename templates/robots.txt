@@ -1,11 +1,13 @@
 User-agent: *
-{% if DEBUG %}
-Disallow: /
-{% else %}
+Allow: /
 Disallow: /admin/
 Disallow: /accounts/
-Disallow: /api/
-Allow: /
+Disallow: /cart/
+Disallow: /static/
+Disallow: /media/
 
-Sitemap: {{ request.build_absolute_uri }}/sitemap.xml
-{% endif %}
+# Sitemap location
+Sitemap: {{ request.scheme }}://{{ request.get_host }}/sitemap.xml
+
+# Crawl delay (be nice to servers)
+Crawl-delay: 1
