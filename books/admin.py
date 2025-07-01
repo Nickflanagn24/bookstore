@@ -1,3 +1,5 @@
+from .models import ContactMessage
+from .models import ContactMessage
 from django.contrib import admin
 from .models import Book, Author, Category
 
@@ -71,3 +73,22 @@ class BookAdmin(admin.ModelAdmin):
     def authors_list(self, obj):
         return obj.authors_list
     authors_list.short_description = 'Authors'
+@admin.register(ContactMessage)
+class ContactMessageAdmin(admin.ModelAdmin):
+    list_display = ['subject', 'email', 'first_name', 'last_name', 'submitted_at', 'is_read']
+    list_filter = ['is_read', 'submitted_at', 'subject']
+    search_fields = ['email', 'subject', 'first_name', 'last_name', 'message']
+    readonly_fields = ['submitted_at']
+    date_hierarchy = 'submitted_at'
+    
+    actions = ['mark_as_read', 'mark_as_unread']
+    
+    def mark_as_read(self, request, queryset):
+        count = queryset.update(is_read=True)
+        self.message_user(request, f'{count} messages marked as read.')
+    mark_as_read.short_description = "Mark selected messages as read"
+    
+    def mark_as_unread(self, request, queryset):
+        count = queryset.update(is_read=False)
+        self.message_user(request, f'{count} messages marked as unread.')
+    mark_as_unread.short_description = "Mark selected messages as unread"
