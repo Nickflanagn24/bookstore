@@ -1,0 +1,157 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Contact Us - Tales & Tails{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Hero Section -->
+    <div class="hero-section text-center mb-5">
+        <h1 class="display-4 text-primary-custom">Contact Us</h1>
+        <p class="lead">We're here to help you find the perfect resources for your dog's journey</p>
+    </div>
+
+    <div class="row">
+        <!-- Contact Form -->
+        <div class="col-lg-8 mb-5">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-5">
+                    <h3 class="text-primary-custom mb-4">Get in Touch</h3>
+                    <form id="contact-form">
+                        {% csrf_token %}
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="first_name" class="form-label">First Name *</label>
+                                <input type="text" class="form-control" id="first_name" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="last_name" class="form-label">Last Name *</label>
+                                <input type="text" class="form-control" id="last_name" required>
+                            </div>
+                            <div class="col-12">
+                                <label for="email" class="form-label">Email Address *</label>
+                                <input type="email" class="form-control" id="email" required>
+                            </div>
+                            <div class="col-12">
+                                <label for="subject" class="form-label">Subject *</label>
+                                <select class="form-control" id="subject" required>
+                                    <option value="">Select a topic...</option>
+                                    <option value="book_recommendation">Book Recommendation</option>
+                                    <option value="order_inquiry">Order Inquiry</option>
+                                    <option value="technical_support">Website Support</option>
+                                    <option value="partnership">Partnership Opportunity</option>
+                                    <option value="feedback">Feedback</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div class="col-12">
+                                <label for="message" class="form-label">Message *</label>
+                                <textarea class="form-control" id="message" rows="6" placeholder="Tell us how we can help you..." required></textarea>
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary btn-lg">Send Message</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Information -->
+        <div class="col-lg-4">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body p-4">
+                    <h5 class="text-primary-custom mb-4">How to Reach Us</h5>
+                    
+                    <div class="mb-4">
+                        <h6>📧 Email Us</h6>
+                        <p class="text-muted">Use the contact form to send us a message.<br>
+                        <small>We'll respond as soon as possible</small></p>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h6>🌐 Online Store</h6>
+                        <p class="text-muted">Browse our complete collection<br>
+                        <small>Available 24/7 for your convenience</small></p>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h6>📱 Social Media</h6>
+                        <p class="text-muted">
+                            Follow us for dog tips and book updates:<br>
+                            <a href="#" class="text-decoration-none">Facebook</a> | 
+                            <a href="#" class="text-decoration-none">Instagram</a> | 
+                            <a href="#" class="text-decoration-none">Twitter</a>
+                        </p>
+                    </div>
+                    
+                    <div class="bg-light-custom rounded-3 p-3">
+                        <h6 class="text-primary-custom">📚 Expert Recommendations</h6>
+                        <p class="small mb-0">Need help choosing the right book? Include details about your dog's breed, age, and training goals in your message.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FAQ Section -->
+    <div class="row mt-5">
+        <div class="col-12">
+            <h3 class="text-center text-primary-custom mb-5">Frequently Asked Questions</h3>
+        </div>
+        <div class="col-md-6 mb-4">
+            <div class="card border-0">
+                <div class="card-body">
+                    <h6 class="text-primary-custom">Do you offer veterinary consultations?</h6>
+                    <p class="text-muted small">We provide educational resources only. For medical advice, please consult your veterinarian.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-4">
+            <div class="card border-0">
+                <div class="card-body">
+                    <h6 class="text-primary-custom">Can you recommend books for my specific breed?</h6>
+                    <p class="text-muted small">Absolutely! Contact us with your dog's breed and needs, and we'll provide personalized recommendations.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-4">
+            <div class="card border-0">
+                <div class="card-body">
+                    <h6 class="text-primary-custom">Do you offer bulk discounts for training facilities?</h6>
+                    <p class="text-muted small">Yes! We offer special pricing for professional trainers, veterinary clinics, and educational institutions.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-4">
+            <div class="card border-0">
+                <div class="card-body">
+                    <h6 class="text-primary-custom">What's your return policy?</h6>
+                    <p class="text-muted small">We offer 30-day returns on all books in original condition. Customer satisfaction is our priority.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById('contact-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    // Simple form submission feedback
+    const submitBtn = this.querySelector('button[type="submit"]');
+    const originalText = submitBtn.textContent;
+    
+    submitBtn.textContent = 'Sending...';
+    submitBtn.disabled = true;
+    
+    // Simulate form submission
+    setTimeout(function() {
+        alert('Thank you for your message! We will get back to you as soon as possible.');
+        document.getElementById('contact-form').reset();
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
+    }, 1500);
+});
+</script>
+{% endblock %}

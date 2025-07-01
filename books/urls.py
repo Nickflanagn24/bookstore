@@ -14,4 +14,8 @@ urlpatterns = [
     
     # AJAX endpoints
     path('search/ajax/', views.search_ajax, name='search_ajax'),
+    
+    # Static pages
+    path('about/', views.about, name='about'),
+    path('contact/', views.contact, name='contact'),
 ]
