@@ -38,9 +38,9 @@ THIRD_PARTY_APPS = [
 
 LOCAL_APPS = [
     # Add custom apps here as we develop them
-     'books',
-     'accounts',
-     'cart', 
+    'books',
+    'accounts',
+    'cart',
     # 'orders',
     # 'reviews',
 ]
@@ -143,7 +143,6 @@ GOOGLE_BOOKS_API_URL = 'https://www.googleapis.com/books/v1/volumes'
 STRIPE_PUBLISHABLE_KEY = config('STRIPE_PUBLISHABLE_KEY', default='')
 STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY', default='')
 
-# Email Configuration (for newsletter)
 EMAIL_BACKEND = config('EMAIL_BACKEND', default='django.core.mail.backends.console.EmailBackend')
 EMAIL_HOST = config('EMAIL_HOST', default='')
 EMAIL_PORT = config('EMAIL_PORT', default=587, cast=int)

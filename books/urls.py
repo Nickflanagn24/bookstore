@@ -18,4 +18,5 @@ urlpatterns = [
     # Static pages
     path('about/', views.about, name='about'),
     path('contact/', views.contact, name='contact'),
+    path('contact/submit/', views.submit_contact_form, name='submit_contact_form'),
 ]
