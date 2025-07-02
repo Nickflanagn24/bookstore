@@ -1,0 +1,334 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}About Us - Tales & Tails{% endblock %}
+
+{% block meta_description %}Learn about Tales & Tails - your trusted dog book specialist. Professional resources for dog owners, trainers, and veterinarians since 2024.{% endblock %}
+
+{% block content %}
+<!-- Premium Hero Section -->
+<section class="premium-hero">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <div class="floating-element premium-loading">
+                    <h1 class="display-3 fw-bold mb-4" style="color: var(--primary-800);">
+                        Tales & Tails
+                        <span class="d-block" style="font-size: 2rem; color: var(--navy-800); font-weight: 600;">Where Every Dog Story Begins</span>
+                    </h1>
+                    <p class="lead mb-4" style="color: var(--navy-800); font-weight: 500;">
+                        We're not just a bookstore – we're your trusted companion in the journey of canine knowledge, 
+                        connecting passionate dog lovers with the wisdom they need to build stronger bonds with their four-legged friends.
+                    </p>
+                    <div class="d-flex gap-3 flex-wrap">
+                        <a href="{% url 'books:book_list' %}" class="btn btn-primary btn-lg">
+                            <i class="fas fa-book-open me-2"></i>Explore Our Collection
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 text-center">
+                <div class="floating-element premium-loading" style="animation-delay: 0.5s;">
+                    <div class="display-1 mb-4">📚🐕</div>
+                    <div class="premium-glass-effect p-5 d-inline-block">
+                        <h3 class="mb-0" style="color: var(--primary-800); font-family: var(--font-display); font-weight: 700;">
+                            "Every great dog story starts with the right book"
+                        </h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Premium Stats Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="premium-stats">
+            <div class="row g-4">
+                <div class="col-md-3">
+                    <div class="card text-center p-4 premium-loading">
+                        <div class="number-counter" data-count="1000">1000+</div>
+                        <h5 class="mb-2" style="color: var(--navy-800); font-family: var(--font-display); font-weight: 600;">Curated Books</h5>
+                        <small style="color: var(--navy-700); font-weight: 500;">Expert-selected resources</small>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-center p-4 premium-loading">
+                        <div class="number-counter" data-count="500">500+</div>
+                        <h5 class="mb-2" style="color: var(--navy-800); font-family: var(--font-display); font-weight: 600;">Happy Customers</h5>
+                        <small style="color: var(--navy-700); font-weight: 500;">Dog lovers served</small>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-center p-4 premium-loading">
+                        <div class="number-counter" data-count="50">50+</div>
+                        <h5 class="mb-2" style="color: var(--navy-800); font-family: var(--font-display); font-weight: 600;">Dog Breeds</h5>
+                        <small style="color: var(--navy-700); font-weight: 500;">Specialized coverage</small>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-center p-4 premium-loading">
+                        <div class="number-counter" data-count="24">24/7</div>
+                        <h5 class="mb-2" style="color: var(--navy-800); font-family: var(--font-display); font-weight: 600;">Support</h5>
+                        <small style="color: var(--navy-700); font-weight: 500;">Always here to help</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Premium Mission Section -->
+<section class="premium-mission-card p-5">
+    <div class="container" style="position: relative; z-index: 2;">
+        <div class="text-center mb-5">
+            <h2 class="display-5 fw-bold mb-4" style="font-family: var(--font-display); color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">Our Mission</h2>
+        </div>
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <h3 class="mb-4" style="font-family: var(--font-display); color: white; font-weight: 600; text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">Empowering Dog Lovers Through Knowledge</h3>
+                <p class="lead mb-4" style="color: rgba(255,255,255,0.95); text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">
+                    We believe that the bond between humans and dogs is strengthened through understanding, 
+                    proper guidance, and continuous learning. Every dog deserves an owner who is equipped 
+                    with the knowledge to provide the best care, training, and love.
+                </p>
+                <p class="mb-0" style="color: rgba(255,255,255,0.9); text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">
+                    Our mission is to democratize access to professional-grade canine education, making 
+                    expert knowledge accessible to everyone from first-time puppy parents to seasoned 
+                    veterinary professionals.
+                </p>
+            </div>
+            <div class="col-md-6 text-center">
+                <div class="display-1 mb-4">🎯</div>
+                <div class="premium-glass-effect p-4">
+                    <h4 class="mb-3" style="font-family: var(--font-display); color: white; font-weight: 600; text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">Building Stronger Bonds</h4>
+                    <p class="mb-0" style="color: rgba(255,255,255,0.9); text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">Through education, understanding, and the right resources</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Premium Services Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-5 fw-bold mb-4" style="color: var(--primary-800); font-family: var(--font-display);">Who We Serve</h2>
+            <p class="lead" style="color: var(--navy-700); font-weight: 500;">Tailored resources for every member of the canine community</p>
+        </div>
+        <div class="row g-4">
+            <div class="col-lg-3 col-md-6">
+                <div class="premium-service-card text-center p-5 premium-loading">
+                    <div class="premium-service-icon">
+                        🐕
+                    </div>
+                    <h4 class="mb-3" style="font-family: var(--font-display); color: var(--navy-800); font-weight: 600;">Dog Owners</h4>
+                    <p class="mb-4" style="color: var(--navy-700); font-weight: 500;">
+                        From puppy basics to advanced training, we provide comprehensive resources for every stage 
+                        of your dog's life journey.
+                    </p>
+                    <div class="d-flex justify-content-center gap-2 flex-wrap">
+                        <span class="premium-badge">Training</span>
+                        <span class="premium-badge">Care</span>
+                        <span class="premium-badge">Health</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="premium-service-card text-center p-5 premium-loading">
+                    <div class="premium-service-icon">
+                        🎯
+                    </div>
+                    <h4 class="mb-3" style="font-family: var(--font-display); color: var(--navy-800); font-weight: 600;">Professional Trainers</h4>
+                    <p class="mb-4" style="color: var(--navy-700); font-weight: 500;">
+                        Advanced methodologies, certification materials, and cutting-edge techniques for 
+                        professional dog trainers and behaviorists.
+                    </p>
+                    <div class="d-flex justify-content-center gap-2 flex-wrap">
+                        <span class="premium-badge">Certification</span>
+                        <span class="premium-badge">Behavior</span>
+                        <span class="premium-badge">Methods</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="premium-service-card text-center p-5 premium-loading">
+                    <div class="premium-service-icon">
+                        🏥
+                    </div>
+                    <h4 class="mb-3" style="font-family: var(--font-display); color: var(--navy-800); font-weight: 600;">Veterinarians</h4>
+                    <p class="mb-4" style="color: var(--navy-700); font-weight: 500;">
+                        Comprehensive medical references, surgical guides, and diagnostic resources for 
+                        veterinary professionals and students.
+                    </p>
+                    <div class="d-flex justify-content-center gap-2 flex-wrap">
+                        <span class="premium-badge">Medical</span>
+                        <span class="premium-badge">Surgery</span>
+                        <span class="premium-badge">Diagnosis</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="premium-service-card text-center p-5 premium-loading">
+                    <div class="premium-service-icon">
+                        🏆
+                    </div>
+                    <h4 class="mb-3" style="font-family: var(--font-display); color: var(--navy-800); font-weight: 600;">Breed Specialists</h4>
+                    <p class="mb-4" style="color: var(--navy-700); font-weight: 500;">
+                        Breed-specific guides, breeding practices, and specialized knowledge for enthusiasts 
+                        and professional breeders.
+                    </p>
+                    <div class="d-flex justify-content-center gap-2 flex-wrap">
+                        <span class="premium-badge">Breeding</span>
+                        <span class="premium-badge">Genetics</span>
+                        <span class="premium-badge">Standards</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Our Story Section -->
+<section class="premium-values-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <h2 class="display-5 fw-bold mb-5 text-center" style="color: var(--primary-800); font-family: var(--font-display);">Our Story</h2>
+                <div class="premium-timeline-item">
+                    <h4 class="mb-3" style="font-family: var(--font-display); color: var(--navy-800); font-weight: 600;">2024 - The Beginning</h4>
+                    <p style="color: var(--navy-700); font-weight: 500; font-size: 1.1rem;">
+                        Founded with a vision to bridge the gap between dog lovers and quality educational resources. 
+                        We recognized that while countless dog books exist, finding the right one for specific needs was challenging.
+                    </p>
+                </div>
+                <div class="premium-timeline-item">
+                    <h4 class="mb-3" style="font-family: var(--font-display); color: var(--navy-800); font-weight: 600;">Innovation Meets Passion</h4>
+                    <p style="color: var(--navy-700); font-weight: 500; font-size: 1.1rem;">
+                        By integrating advanced technology with Google Books API, we created a platform that doesn't just 
+                        sell books – it understands your needs and matches you with the perfect resources.
+                    </p>
+                </div>
+                <div class="premium-timeline-item">
+                    <h4 class="mb-3" style="font-family: var(--font-display); color: var(--navy-800); font-weight: 600;">Community Driven</h4>
+                    <p style="color: var(--navy-700); font-weight: 500; font-size: 1.1rem;">
+                        Today, we serve a growing community of dog enthusiasts, from nervous first-time puppy parents 
+                        to seasoned veterinarians, all united by their love for dogs and commitment to excellence.
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Our Values -->
+        <div class="row mt-5">
+            <div class="col-lg-10 mx-auto">
+                <h2 class="display-5 fw-bold mb-5 text-center" style="color: var(--primary-800); font-family: var(--font-display);">Our Values</h2>
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <div class="text-center">
+                            <div class="premium-service-icon mx-auto mb-4" style="width: 80px; height: 80px; font-size: 2rem;">
+                                📚
+                            </div>
+                            <h5 class="mb-3" style="font-family: var(--font-display); color: var(--navy-800); font-weight: 600;">Quality First</h5>
+                            <p style="color: var(--navy-700); font-weight: 500;">
+                                Every book in our collection is carefully curated by experts. We only recommend 
+                                resources that meet our high standards for accuracy and practical value.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="text-center">
+                            <div class="premium-service-icon mx-auto mb-4" style="width: 80px; height: 80px; font-size: 2rem;">
+                                🤝
+                            </div>
+                            <h5 class="mb-3" style="font-family: var(--font-display); color: var(--navy-800); font-weight: 600;">Community Focused</h5>
+                            <p style="color: var(--navy-700); font-weight: 500;">
+                                We're building more than a bookstore – we're creating a community where dog lovers 
+                                support each other through shared knowledge and experiences.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="text-center">
+                            <div class="premium-service-icon mx-auto mb-4" style="width: 80px; height: 80px; font-size: 2rem;">
+                                🎯
+                            </div>
+                            <h5 class="mb-3" style="font-family: var(--font-display); color: var(--navy-800); font-weight: 600;">Personalized Experience</h5>
+                            <p style="color: var(--navy-700); font-weight: 500;">
+                                Our smart recommendation system considers your dog's breed, age, and your experience 
+                                level to suggest the most relevant resources.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Premium CTA Section -->
+<section class="premium-cta-section p-5">
+    <div class="container text-center" style="position: relative; z-index: 2;">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <div class="premium-glass-effect p-5">
+                    <h2 class="display-4 fw-bold mb-4" style="font-family: var(--font-display); color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">Ready to Begin Your Journey?</h2>
+                    <p class="lead mb-4" style="color: rgba(255,255,255,0.95); text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">
+                        Join thousands of dog lovers who have transformed their relationships with their pets through 
+                        the power of knowledge. Your dog's story starts with the right book.
+                    </p>
+                    <div class="d-flex justify-content-center">
+                        <a href="{% url 'books:book_list' %}" class="btn btn-light btn-lg px-5 py-3">
+                            <i class="fas fa-book-open me-2"></i>Explore Books
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Counter animation
+document.addEventListener('DOMContentLoaded', function() {
+    function animateCounter(element, target) {
+        let current = 0;
+        const increment = target / 50;
+        const timer = setInterval(() => {
+            current += increment;
+            if (current >= target) {
+                element.textContent = target + (element.textContent.includes('+') ? '+' : element.textContent.includes('/') ? '/7' : '');
+                clearInterval(timer);
+            } else {
+                element.textContent = Math.floor(current) + (element.textContent.includes('+') ? '+' : element.textContent.includes('/') ? '/7' : '');
+            }
+        }, 20);
+    }
+
+    // Trigger counter animation when stats section is visible
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const counters = entry.target.querySelectorAll('.number-counter');
+                counters.forEach(counter => {
+                    const targetText = counter.getAttribute('data-count') || counter.textContent;
+                    const target = parseInt(targetText.replace(/[^\d]/g, ''));
+                    if (target) {
+                        animateCounter(counter, target);
+                    }
+                });
+                observer.unobserve(entry.target);
+            }
+        });
+    });
+
+    // Observe stats cards
+    document.querySelectorAll('.premium-stats .card').forEach(card => {
+        observer.observe(card);
+    });
+});
+</script>
+{% endblock %}
