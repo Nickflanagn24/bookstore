@@ -3,56 +3,143 @@
 
 {% block title %}Contact Us - Tales & Tails{% endblock %}
 
+{% block meta_description %}Get in touch with Tales & Tails. Contact us for questions about dog books, training resources, or general inquiries. Expert support available 24/7.{% endblock %}
+
 {% block content %}
-<div class="container my-5">
-    <!-- Header -->
-    <div class="row mb-5">
-        <div class="col-lg-8 mx-auto text-center">
-            <h1 class="display-4 fw-bold text-primary mb-4">📞 Contact Us</h1>
-            <p class="lead text-muted">We'd love to hear from you! Get in touch with any questions about our books or services.</p>
+<!-- Premium Hero Section -->
+<section class="premium-hero">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <div class="floating-element premium-loading">
+                    <h1 class="display-3 fw-bold mb-4" style="color: var(--primary-800);">
+                        Get in Touch
+                        <span class="d-block" style="font-size: 2rem; color: var(--navy-800); font-weight: 500;">We're Here to Help</span>
+                    </h1>
+                    <p class="lead mb-4" style="color: var(--navy-800); font-weight: 500; font-size: 1.3rem;">
+                        Have questions about our books, need training advice, or looking for personalized recommendations? 
+                        Our team of canine experts is ready to assist you on your dog's journey.
+                    </p>
+                    <div class="d-flex gap-3 flex-wrap">
+                        <div class="d-flex align-items-center">
+                            <div class="premium-service-icon me-3" style="width: 50px; height: 50px; font-size: 1.2rem;">
+                                📧
+                            </div>
+                            <div>
+                                <h6 class="mb-0" style="color: var(--navy-800); font-weight: 600;">Email Response</h6>
+                                <small style="color: var(--navy-700); font-weight: 500;">Within 24 hours</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 text-center">
+                <div class="floating-element premium-loading" style="animation-delay: 0.5s;">
+                    <div class="position-relative">
+                        <div class="display-1 mb-4">📞</div>
+                        <div class="premium-glass-effect p-5 d-inline-block">
+                            <h3 class="mb-3" style="color: var(--primary-800); font-family: var(--font-display); font-weight: 700;">
+                                Expert Support
+                            </h3>
+                            <p class="mb-0" style="color: var(--navy-700); font-weight: 500;">
+                                Professional guidance from certified trainers and veterinarians
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+</section>
 
-    <div class="row">
-        <!-- Contact Form -->
-        <div class="col-lg-8">
-            <div class="card shadow-sm border-0">
-                <div class="card-body p-5">
-                    <h3 class="card-title mb-4">Send us a Message</h3>
+<!-- Contact Information Cards - Fixed Alignment -->
+<section class="py-5">
+    <div class="container">
+        <div class="row g-4 mb-5">
+            <div class="col-md-4">
+                <div class="premium-info-card text-center premium-loading h-100 d-flex flex-column">
+                    <div class="premium-service-icon mx-auto mb-4">
+                        📧
+                    </div>
+                    <h4 class="mb-3" style="color: var(--navy-800); font-family: var(--font-display); font-weight: 600;">Email Us</h4>
+                    <p style="color: var(--navy-700); font-weight: 500;">hello@talesandtails.com</p>
+                    <p class="mb-0 mt-auto" style="color: var(--navy-600); font-size: 0.9rem;">We typically respond within 24 hours</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="premium-info-card text-center premium-loading h-100 d-flex flex-column">
+                    <div class="premium-service-icon mx-auto mb-4">
+                        ⏰
+                    </div>
+                    <h4 class="mb-3" style="color: var(--navy-800); font-family: var(--font-display); font-weight: 600;">Response Time</h4>
+                    <p style="color: var(--navy-700); font-weight: 500;">24/7 Support</p>
+                    <p class="mb-0 mt-auto" style="color: var(--navy-600); font-size: 0.9rem;">Expert assistance whenever you need it</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="premium-info-card text-center premium-loading h-100 d-flex flex-column">
+                    <div class="premium-service-icon mx-auto mb-4">
+                        🎓
+                    </div>
+                    <h4 class="mb-3" style="color: var(--navy-800); font-family: var(--font-display); font-weight: 600;">Expertise</h4>
+                    <p style="color: var(--navy-700); font-weight: 500;">All Dog Breeds</p>
+                    <p class="mb-0 mt-auto" style="color: var(--navy-600); font-size: 0.9rem;">Specialized knowledge for every canine companion</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Form Section - Fixed Text Contrast -->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <!-- Contact Form -->
+            <div class="col-lg-8">
+                <div class="premium-contact-form premium-loading">
+                    <h3 class="mb-4" style="color: var(--primary-800); font-family: var(--font-display); font-weight: 600;">Send us a Message</h3>
                     <form id="contactForm" method="post" action="{% url 'books:submit_contact_form' %}">
                         {% csrf_token %}
-                        <div class="row mb-3">
+                        <div class="row g-3 mb-4">
                             <div class="col-md-6">
-                                <label for="first_name" class="form-label">First Name *</label>
-                                <input type="text" class="form-control" id="first_name" name="first_name" required>
+                                <label for="first_name" class="form-label" style="color: var(--navy-800); font-weight: 600; margin-bottom: 0.5rem;">First Name *</label>
+                                <input type="text" class="form-control" id="first_name" name="first_name" required 
+                                       style="border: 2px solid var(--primary-300); border-radius: 0.75rem; padding: 0.75rem 1rem; font-size: 1rem; background: white; color: var(--navy-800) !important;">
                             </div>
                             <div class="col-md-6">
-                                <label for="last_name" class="form-label">Last Name *</label>
-                                <input type="text" class="form-control" id="last_name" name="last_name" required>
+                                <label for="last_name" class="form-label" style="color: var(--navy-800); font-weight: 600; margin-bottom: 0.5rem;">Last Name *</label>
+                                <input type="text" class="form-control" id="last_name" name="last_name" required
+                                       style="border: 2px solid var(--primary-300); border-radius: 0.75rem; padding: 0.75rem 1rem; font-size: 1rem; background: white; color: var(--navy-800) !important;">
                             </div>
                         </div>
                         
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email Address *</label>
-                            <input type="email" class="form-control" id="email" name="email" required>
+                        <div class="mb-4">
+                            <label for="email" class="form-label" style="color: var(--navy-800); font-weight: 600; margin-bottom: 0.5rem;">Email Address *</label>
+                            <input type="email" class="form-control" id="email" name="email" required
+                                   style="border: 2px solid var(--primary-300); border-radius: 0.75rem; padding: 0.75rem 1rem; font-size: 1rem; background: white; color: var(--navy-800) !important;">
                         </div>
                         
-                        <div class="mb-3">
-                            <label for="subject" class="form-label">Subject *</label>
-                            <select class="form-select" id="subject" name="subject" required>
-                                <option value="">Choose a topic...</option>
-                                <option value="General Inquiry">General Inquiry</option>
-                                <option value="Book Recommendation">Book Recommendation Request</option>
-                                <option value="Training Question">Dog Training Question</option>
-                                <option value="Order Support">Order Support</option>
-                                <option value="Other">Other</option>
+                        <div class="mb-4">
+                            <label for="subject" class="form-label" style="color: var(--navy-800); font-weight: 600; margin-bottom: 0.5rem;">Subject *</label>
+                            <select class="form-control" id="subject" name="subject" required
+                                    style="border: 2px solid var(--primary-300); border-radius: 0.75rem; padding: 0.75rem 1rem; font-size: 1rem; background: white; color: var(--navy-800) !important;">
+                                <option value="" style="color: var(--navy-600);">Choose a topic...</option>
+                                <option value="General Inquiry" style="color: var(--navy-800);">General Inquiry</option>
+                                <option value="Book Recommendation" style="color: var(--navy-800);">Book Recommendation Request</option>
+                                <option value="Training Question" style="color: var(--navy-800);">Dog Training Question</option>
+                                <option value="Breed Information" style="color: var(--navy-800);">Breed-Specific Information</option>
+                                <option value="Order Support" style="color: var(--navy-800);">Order Support</option>
+                                <option value="Technical Issue" style="color: var(--navy-800);">Technical Issue</option>
+                                <option value="Partnership" style="color: var(--navy-800);">Partnership Opportunity</option>
+                                <option value="Other" style="color: var(--navy-800);">Other</option>
                             </select>
                         </div>
                         
                         <div class="mb-4">
-                            <label for="message" class="form-label">Message *</label>
-                            <textarea class="form-control" id="message" name="message" rows="6" 
-                                placeholder="Tell us about your dog, your questions, or how we can help you..." required></textarea>
+                            <label for="message" class="form-label" style="color: var(--navy-800); font-weight: 600; margin-bottom: 0.5rem;">Message *</label>
+                            <textarea class="form-control" id="message" name="message" rows="6" required
+                                      placeholder="Tell us about your dog, your questions, or how we can help you..."
+                                      style="border: 2px solid var(--primary-300); border-radius: 0.75rem; padding: 0.75rem 1rem; font-size: 1rem; background: white; color: var(--navy-800) !important; resize: vertical;"></textarea>
                         </div>
                         
                         <div class="d-grid">
@@ -63,36 +150,183 @@
                     </form>
                 </div>
             </div>
-        </div>
 
-        <!-- Contact Information -->
-        <div class="col-lg-4">
-            <div class="card shadow-sm border-0 mb-4">
-                <div class="card-body p-4">
-                    <h4 class="card-title mb-4">Get in Touch</h4>
+            <!-- Contact Information Sidebar -->
+            <div class="col-lg-4">
+                <div class="premium-info-card premium-loading">
+                    <h4 class="mb-4" style="color: var(--primary-800); font-family: var(--font-display); font-weight: 600;">Our Expertise</h4>
                     
-                    <div class="mb-3">
-                        <h6 class="fw-bold">📧 Email</h6>
-                        <p class="text-muted mb-0">hello@talesandtails.com</p>
+                    <div class="mb-4">
+                        <h6 class="fw-bold" style="color: var(--navy-800);">Training & Behavior</h6>
+                        <ul class="list-unstyled" style="color: var(--navy-700); font-weight: 500;">
+                            <li>• Puppy training fundamentals</li>
+                            <li>• Advanced obedience techniques</li>
+                            <li>• Behavioral problem solving</li>
+                            <li>• Service dog training</li>
+                        </ul>
                     </div>
                     
-                    <div class="mb-3">
-                        <h6 class="fw-bold">⏰ Response Time</h6>
-                        <p class="text-muted mb-0">We typically respond within 24 hours</p>
+                    <div class="mb-4">
+                        <h6 class="fw-bold" style="color: var(--navy-800);">Health & Care</h6>
+                        <ul class="list-unstyled" style="color: var(--navy-700); font-weight: 500;">
+                            <li>• Preventive health care</li>
+                            <li>• Nutrition and diet planning</li>
+                            <li>• Senior dog care</li>
+                            <li>• Emergency first aid</li>
+                        </ul>
                     </div>
                     
-                    <div class="mb-3">
-                        <h6 class="fw-bold">�� Our Expertise</h6>
-                        <ul class="list-unstyled text-muted">
-                            <li>• Dog training and behavior</li>
+                    <div class="mb-4">
+                        <h6 class="fw-bold" style="color: var(--navy-800);">Breed Specialization</h6>
+                        <ul class="list-unstyled" style="color: var(--navy-700); font-weight: 500;">
                             <li>• Breed-specific guidance</li>
-                            <li>• Puppy care resources</li>
-                            <li>• Professional development</li>
+                            <li>• Genetic health considerations</li>
+                            <li>• Breeding best practices</li>
+                            <li>• Show dog preparation</li>
                         </ul>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</section>
+
+<!-- Why Contact Us Section -->
+<section class="premium-mission-card p-5">
+    <div class="container" style="position: relative; z-index: 2;">
+        <div class="text-center mb-5">
+            <h2 class="display-5 fw-bold mb-4" style="font-family: var(--font-display); color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">Why Choose Our Expert Support?</h2>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-4 text-center">
+                <div class="premium-service-icon mx-auto mb-4" style="background: rgba(255,255,255,0.2);">
+                    🎓
+                </div>
+                <h4 class="mb-3" style="color: white; font-family: var(--font-display); font-weight: 600; text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">Certified Experts</h4>
+                <p style="color: rgba(255,255,255,0.9); text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">
+                    Our team includes certified dog trainers, veterinarians, and canine behaviorists with years of professional experience.
+                </p>
+            </div>
+            <div class="col-md-4 text-center">
+                <div class="premium-service-icon mx-auto mb-4" style="background: rgba(255,255,255,0.2);">
+                    📚
+                </div>
+                <h4 class="mb-3" style="color: white; font-family: var(--font-display); font-weight: 600; text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">Personalized Guidance</h4>
+                <p style="color: rgba(255,255,255,0.9); text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">
+                    We provide tailored book recommendations based on your dog's breed, age, temperament, and your specific training goals.
+                </p>
+            </div>
+            <div class="col-md-4 text-center">
+                <div class="premium-service-icon mx-auto mb-4" style="background: rgba(255,255,255,0.2);">
+                    🤝
+                </div>
+                <h4 class="mb-3" style="color: white; font-family: var(--font-display); font-weight: 600; text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">Ongoing Support</h4>
+                <p style="color: rgba(255,255,255,0.9); text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">
+                    Our relationship doesn't end with your purchase. We're here to support you throughout your dog's learning journey.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Success/Error Messages -->
+<div id="contactAlert" class="alert alert-dismissible fade" role="alert" style="display: none; position: fixed; top: 100px; right: 20px; z-index: 1050; min-width: 300px;">
+    <span id="contactMessage"></span>
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Animate elements on scroll
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    });
+
+    // Observe all premium-loading elements
+    document.querySelectorAll('.premium-loading').forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(30px)';
+        el.style.transition = 'all 0.6s ease-out';
+        observer.observe(el);
+    });
+
+    // Enhanced form validation and focus styles
+    const formControls = document.querySelectorAll('.form-control');
+    formControls.forEach(control => {
+        control.addEventListener('focus', function() {
+            this.style.borderColor = 'var(--primary-500)';
+            this.style.boxShadow = '0 0 0 3px rgba(47, 133, 90, 0.15)';
+            this.style.transform = 'translateY(-2px)';
+        });
+        
+        control.addEventListener('blur', function() {
+            this.style.borderColor = 'var(--primary-300)';
+            this.style.boxShadow = 'none';
+            this.style.transform = 'translateY(0)';
+        });
+    });
+
+    // Contact form submission
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(this);
+        const submitBtn = this.querySelector('button[type="submit"]');
+        const originalText = submitBtn.innerHTML;
+        
+        // Show loading state
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Sending...';
+        submitBtn.disabled = true;
+        
+        fetch('{% url "books:submit_contact_form" %}', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            const alertDiv = document.getElementById('contactAlert');
+            const messageSpan = document.getElementById('contactMessage');
+            
+            if (data.success) {
+                alertDiv.className = 'alert alert-success alert-dismissible fade show';
+                messageSpan.textContent = data.message;
+                document.getElementById('contactForm').reset();
+                
+                // Hide alert after 5 seconds
+                setTimeout(() => {
+                    alertDiv.style.display = 'none';
+                }, 5000);
+            } else {
+                alertDiv.className = 'alert alert-danger alert-dismissible fade show';
+                messageSpan.textContent = data.message || 'An error occurred. Please try again.';
+            }
+            
+            alertDiv.style.display = 'block';
+        })
+        .catch(error => {
+            const alertDiv = document.getElementById('contactAlert');
+            const messageSpan = document.getElementById('contactMessage');
+            alertDiv.className = 'alert alert-danger alert-dismissible fade show';
+            messageSpan.textContent = 'An error occurred. Please try again.';
+            alertDiv.style.display = 'block';
+            console.error('Error:', error);
+        })
+        .finally(() => {
+            // Restore button state
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+        });
+    });
+});
+</script>
 {% endblock %}
