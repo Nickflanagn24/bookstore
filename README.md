@@ -72,3 +72,45 @@ A specialized e-commerce platform for dog training, care, and breed books, built
 - Python 3.8+
 - Git
 - GitHub Codespaces or local development environment
+
+## 📦 Orders & Payment System
+
+### Overview
+Tales & Tails features a complete e-commerce order management system integrated with Stripe for secure payment processing. The system provides full order tracking, status management, and customer order history.
+
+### Order Management Features
+
+#### 🛒 Order Creation & Processing
+- **Automatic Order Creation**: Orders are created before Stripe checkout to ensure no data loss
+- **Unique Order Numbers**: Each order gets a unique identifier in format `TT-YYYYMMDD-XXXXX`
+- **Order Status Tracking**: Real-time status updates from pending to delivered
+- **Payment Integration**: Seamless Stripe payment processing with webhook support
+
+#### 📊 Order Status Workflow
+Pending → Confirmed → Processing → Shipped → Delivered ↓ (Cancelled - if needed)
+
+
+#### 🔄 Complete Order Lifecycle
+1. **Cart to Order**: Items from shopping cart are converted to order items
+2. **Stripe Checkout**: Secure payment processing with Stripe
+3. **Order Confirmation**: Automatic status update after successful payment
+4. **Status History**: All status changes are tracked with timestamps
+5. **Customer Notifications**: Order confirmations and status updates
+
+### Technical Implementation
+
+#### Models
+- **Order Model**: Core order information with customer details and payment status
+- **OrderItem Model**: Individual items within orders with pricing snapshots
+- **OrderStatusHistory Model**: Complete audit trail of all order status changes
+
+#### Payment Flow Integration
+```python
+# Simplified flow:
+1. User initiates checkout
+2. Order created with 'pending' status
+3. Stripe session created with order metadata
+4. User completes payment on Stripe
+5. Webhook/success handler confirms order
+6. Order status updated to 'confirmed'
+7. Cart cleared, customer redirected to success page
