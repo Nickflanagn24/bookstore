@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}My Orders - Tales & Tails{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row">
+        <div class="col-lg-10 mx-auto">
+            <h1 class="display-5 fw-bold mb-4" style="color: var(--primary-800); font-family: var(--font-display);">My Orders</h1>
+            
+            {% if orders %}
+                <div class="row g-4">
+                    {% for order in orders %}
+                    <div class="col-12">
+                        <div class="card premium-service-card">
+                            <div class="card-body p-4">
+                                <div class="row align-items-center">
+                                    <div class="col-md-3">
+                                        <h5 class="mb-1" style="color: var(--navy-800); font-weight: 600;">{{ order.order_number }}</h5>
+                                        <small style="color: var(--navy-600);">{{ order.created_at|date:"F d, Y" }}</small>
+                                    </div>
+                                    <div class="col-md-2">
+                                        {% if order.status == 'confirmed' %}
+                                            <span class="badge bg-success">{{ order.get_status_display }}</span>
+                                        {% elif order.status == 'pending' %}
+                                            <span class="badge bg-warning text-dark">{{ order.get_status_display }}</span>
+                                        {% elif order.status == 'shipped' %}
+                                            <span class="badge bg-info">{{ order.get_status_display }}</span>
+                                        {% elif order.status == 'delivered' %}
+                                            <span class="badge bg-primary">{{ order.get_status_display }}</span>
+                                        {% elif order.status == 'cancelled' %}
+                                            <span class="badge bg-danger">{{ order.get_status_display }}</span>
+                                        {% else %}
+                                            <span class="badge bg-secondary">{{ order.get_status_display }}</span>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-md-2">
+                                        <strong style="color: var(--primary-700);">${{ order.total_amount }}</strong>
+                                        <br><small style="color: var(--navy-600);">{{ order.total_items }} item{{ order.total_items|pluralize }}</small>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <small style="color: var(--navy-600);">
+                                            {% for item in order.items.all|slice:":2" %}
+                                                {{ item.book_title }}{% if not forloop.last %}, {% endif %}
+                                            {% endfor %}
+                                            {% if order.items.count > 2 %}
+                                                and {{ order.items.count|add:"-2" }} more...
+                                            {% endif %}
+                                        </small>
+                                    </div>
+                                    <div class="col-md-2 text-end">
+                                        <a href="{{ order.get_absolute_url }}" class="btn btn-primary btn-sm">
+                                            View Details
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="text-center py-5">
+                    <div class="display-1 mb-4">📦</div>
+                    <h3 style="color: var(--navy-700);">No Orders Yet</h3>
+                    <p style="color: var(--navy-600);">Start shopping to see your orders here!</p>
+                    <a href="{% url 'books:book_list' %}" class="btn btn-primary btn-lg">
+                        Browse Books
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
