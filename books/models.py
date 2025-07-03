@@ -140,3 +140,20 @@ class ContactMessage(models.Model):
     
     def __str__(self):
         return f"{self.subject} - {self.email}"
+
+class Newsletter(models.Model):
+    """Newsletter subscription model"""
+    email = models.EmailField(unique=True)
+    first_name = models.CharField(max_length=100, blank=True)
+    last_name = models.CharField(max_length=100, blank=True)
+    subscribed_at = models.DateTimeField(auto_now_add=True)
+    is_active = models.BooleanField(default=True)
+    source = models.CharField(max_length=50, default='website', help_text="Where they signed up")
+    
+    class Meta:
+        ordering = ['-subscribed_at']
+        verbose_name = "Newsletter Subscription"
+        verbose_name_plural = "Newsletter Subscriptions"
+    
+    def __str__(self):
+        return f"{self.email} - {'Active' if self.is_active else 'Inactive'}"
