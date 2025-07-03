@@ -191,3 +191,71 @@ Contact ID: {contact_message.id}
             'success': False,
             'message': 'An error occurred while sending your message. Please try again.'
         })
+
+from django.views.decorators.http import require_POST
+import json
+
+@require_POST
+def newsletter_signup(request):
+    """Handle newsletter signup from home page"""
+    try:
+        # Parse form data
+        if request.content_type == 'application/json':
+            data = json.loads(request.body)
+            email = data.get('email')
+        else:
+            email = request.POST.get('email')
+        
+        if not email:
+            return JsonResponse({
+                'success': False,
+                'message': 'Email address is required.'
+            })
+        
+        # Validate email format
+        from django.core.validators import validate_email
+        from django.core.exceptions import ValidationError
+        
+        try:
+            validate_email(email)
+        except ValidationError:
+            return JsonResponse({
+                'success': False,
+                'message': 'Please enter a valid email address.'
+            })
+        
+        # Create or get newsletter subscription
+        from .models import Newsletter
+        newsletter, created = Newsletter.objects.get_or_create(
+            email=email,
+            defaults={
+                'source': 'home_page',
+                'is_active': True
+            }
+        )
+        
+        if created:
+            return JsonResponse({
+                'success': True,
+                'message': f'Thank you! You\'ve been successfully subscribed to our newsletter.'
+            })
+        else:
+            if newsletter.is_active:
+                return JsonResponse({
+                    'success': True,
+                    'message': 'You\'re already subscribed to our newsletter!'
+                })
+            else:
+                # Reactivate subscription
+                newsletter.is_active = True
+                newsletter.save()
+                return JsonResponse({
+                    'success': True,
+                    'message': 'Welcome back! Your newsletter subscription has been reactivated.'
+                })
+        
+    except Exception as e:
+        return JsonResponse({
+            'success': False,
+            'message': 'An error occurred. Please try again.'
+        })

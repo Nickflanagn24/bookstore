@@ -1,7 +1,5 @@
-from .models import ContactMessage
-from .models import ContactMessage
 from django.contrib import admin
-from .models import Book, Author, Category
+from .models import Book, Author, Category, ContactMessage, Newsletter
 
 @admin.register(Author)
 class AuthorAdmin(admin.ModelAdmin):
@@ -92,3 +90,22 @@ class ContactMessageAdmin(admin.ModelAdmin):
         count = queryset.update(is_read=False)
         self.message_user(request, f'{count} messages marked as unread.')
     mark_as_unread.short_description = "Mark selected messages as unread"
+
+@admin.register(Newsletter)
+class NewsletterAdmin(admin.ModelAdmin):
+    list_display = ('email', 'first_name', 'last_name', 'is_active', 'source', 'subscribed_at')
+    list_filter = ('is_active', 'source', 'subscribed_at')
+    search_fields = ('email', 'first_name', 'last_name')
+    readonly_fields = ('subscribed_at',)
+    
+    actions = ['activate_subscriptions', 'deactivate_subscriptions']
+    
+    def activate_subscriptions(self, request, queryset):
+        updated = queryset.update(is_active=True)
+        self.message_user(request, f'{updated} subscriptions activated.')
+    activate_subscriptions.short_description = "Activate selected subscriptions"
+    
+    def deactivate_subscriptions(self, request, queryset):
+        updated = queryset.update(is_active=False)
+        self.message_user(request, f'{updated} subscriptions deactivated.')
+    deactivate_subscriptions.short_description = "Deactivate selected subscriptions"

@@ -339,9 +339,10 @@
                 <p class="lead mb-4" style="color: var(--navy-700); font-weight: 500;">
                     Get the latest book recommendations, training tips, and exclusive offers delivered to your inbox.
                 </p>
-                <form class="row g-3 justify-content-center">
+                <form id="newsletterForm" class="row g-3 justify-content-center" method="post" action="{% url 'books:newsletter_signup' %}">
+                        {% csrf_token %}
                     <div class="col-md-6">
-                        <input type="email" class="premium-form-control" placeholder="Enter your email address" required>
+                        <input type="email" name="email" class="form-control" placeholder="Enter your email address" required>
                     </div>
                     <div class="col-md-auto">
                         <button type="submit" class="btn btn-primary btn-lg">
@@ -427,6 +428,55 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     });
+
+    // Newsletter form submission
+    const newsletterForm = document.getElementById('newsletterForm');
+    if (newsletterForm) {
+        newsletterForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            
+            // Show loading state
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Subscribing...';
+            submitBtn.disabled = true;
+            
+            fetch('{% url "books:newsletter_signup" %}', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Show success message
+                    const emailInput = this.querySelector('input[type="email"]');
+                    emailInput.value = '';
+                    emailInput.style.borderColor = 'var(--success)';
+                    
+                    // Show success alert
+                    alert(data.message);
+                } else {
+                    // Show error message
+                    alert(data.message || 'An error occurred. Please try again.');
+                }
+            })
+            .catch(error => {
+                alert('An error occurred. Please try again.');
+                console.error('Error:', error);
+            })
+            .finally(() => {
+                // Restore button state
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            });
+        });
+    }
+
 });
 </script>
 {% endblock %}
