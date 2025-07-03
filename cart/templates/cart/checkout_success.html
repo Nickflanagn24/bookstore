@@ -4,41 +4,125 @@
 {% block title %}Payment Successful - Tales & Tails{% endblock %}
 
 {% block content %}
-<div class="container text-center">
-    <div class="row justify-content-center">
-        <div class="col-lg-8">
-            <!-- Success Message -->
-            <div class="card border-success mb-4">
-                <div class="card-body py-5">
-                    <div class="mb-4" style="font-size: 4rem; color: #28a745;">✅</div>
-                    <h1 class="text-success mb-3">Payment Successful!</h1>
-                    <p class="lead">Thank you for your purchase from Tales & Tails!</p>
+<div class="container my-5">
+    <div class="row">
+        <div class="col-lg-8 mx-auto text-center">
+            <!-- Success Icon -->
+            <div class="display-1 text-success mb-4">✅</div>
+            
+            <h1 class="display-4 fw-bold mb-4" style="color: var(--primary-800);">Payment Successful!</h1>
+            <p class="lead mb-4" style="color: var(--navy-700);">
+                Thank you for your order! Your payment has been processed successfully.
+            </p>
+            
+            {% if order %}
+            <!-- Order Information -->
+            <div class="card premium-info-card mb-4">
+                <div class="card-body p-5">
+                    <h3 class="mb-4" style="color: var(--primary-800); font-family: var(--font-display);">Order Confirmation</h3>
                     
-                    <!-- Order Details -->
-                    <div class="bg-light p-4 rounded mb-4">
-                        <h5>Confirmation Details</h5>
-                        <p><strong>Email:</strong> {{ customer_email }}</p>
-                        <p><strong>Amount Paid:</strong> <span class="price">${{ amount_total }}</span></p>
-                        <p><strong>Payment Method:</strong> Credit Card</p>
-                    </div>
-
-                    <!-- Next Steps -->
-                    <div class="mb-4">
-                        <h6>What's Next?</h6>
-                        <p>Your digital receipt has been sent to your email.<br>
-                        Start reading your new dog books and enjoy your tail-wagging adventures!</p>
-                    </div>
-
-                    <!-- Action Buttons -->
-                    <div class="d-grid gap-2 d-md-flex justify-content-md-center">
-                        <a href="{% url 'books:book_list' %}" class="btn btn-primary">
-                            📚 Browse More Books
-                        </a>
-                        <a href="{% url 'home' %}" class="btn btn-outline-secondary">
-                            🏠 Back to Home
-                        </a>
+                    <div class="row text-start">
+                        <div class="col-md-6">
+                            <p><strong>Order Number:</strong><br>
+                            <span class="text-primary">{{ order.order_number }}</span></p>
+                            
+                            <p><strong>Order Date:</strong><br>
+                            {{ order.created_at|date:"F d, Y \a\t g:i A" }}</p>
+                            
+                            <p><strong>Total Amount:</strong><br>
+                            <span class="h4 text-success">${{ order.total_amount }}</span></p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Customer Email:</strong><br>
+                            {{ order.customer_email }}</p>
+                            
+                            <p><strong>Status:</strong><br>
+                            <span class="badge bg-success">{{ order.get_status_display }}</span></p>
+                            
+                            <p><strong>Items:</strong><br>
+                            {{ order.total_items }} book{{ order.total_items|pluralize }}</p>
+                        </div>
                     </div>
                 </div>
+            </div>
+            
+            <!-- Order Items -->
+            <div class="card premium-service-card mb-4">
+                <div class="card-header">
+                    <h4 class="mb-0" style="color: var(--navy-800);">Your Books</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        {% for item in order.items.all %}
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-center">
+                                {% if item.book.cover_image or item.book.thumbnail %}
+                                    <img src="{{ item.book.cover_image|default:item.book.thumbnail }}" 
+                                         alt="{{ item.book_title }}" 
+                                         class="me-3 rounded"
+                                         style="width: 60px; height: 80px; object-fit: cover;">
+                                {% else %}
+                                    <div class="me-3 bg-light rounded d-flex align-items-center justify-content-center" 
+                                         style="width: 60px; height: 80px;">
+                                        📖
+                                    </div>
+                                {% endif %}
+                                <div class="text-start">
+                                    <h6 class="mb-1" style="color: var(--navy-800);">{{ item.book_title }}</h6>
+                                    <small class="text-muted">{{ item.book_authors }}</small><br>
+                                    <small><strong>Qty:</strong> {{ item.quantity }} × ${{ item.unit_price }}</small>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            
+            <!-- Next Steps -->
+            <div class="card premium-mission-card p-4 mb-4">
+                <div style="position: relative; z-index: 2;">
+                    <h4 class="mb-3" style="color: white; font-family: var(--font-display);">What Happens Next?</h4>
+                    <div class="row g-3 text-white">
+                        <div class="col-md-4">
+                            <div class="premium-service-icon mx-auto mb-3" style="width: 60px; height: 60px; background: rgba(255,255,255,0.2);">
+                                📧
+                            </div>
+                            <h6>Email Confirmation</h6>
+                            <small>You'll receive an order confirmation email shortly</small>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="premium-service-icon mx-auto mb-3" style="width: 60px; height: 60px; background: rgba(255,255,255,0.2);">
+                                📦
+                            </div>
+                            <h6>Order Processing</h6>
+                            <small>We'll prepare your books for shipping within 1-2 business days</small>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="premium-service-icon mx-auto mb-3" style="width: 60px; height: 60px; background: rgba(255,255,255,0.2);">
+                                🚚
+                            </div>
+                            <h6>Fast Shipping</h6>
+                            <small>FREE shipping on all orders - expect delivery in 3-5 business days</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Action Buttons -->
+            <div class="d-flex gap-3 justify-content-center flex-wrap">
+                {% if order %}
+                    <a href="{{ order.get_absolute_url }}" class="btn btn-primary btn-lg px-5">
+                        View Order Details
+                    </a>
+                {% endif %}
+                <a href="{% url 'orders:order_list' %}" class="btn btn-secondary btn-lg px-5">
+                    My Orders
+                </a>
+                <a href="{% url 'books:book_list' %}" class="btn btn-outline-primary btn-lg px-5">
+                    Continue Shopping
+                </a>
             </div>
         </div>
     </div>
