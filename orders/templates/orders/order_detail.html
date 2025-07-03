@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Order {{ order.order_number }} - Tales & Tails{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row">
+        <div class="col-lg-10 mx-auto">
+            <!-- Order Header -->
+            <div class="card premium-info-card mb-4">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-md-6">
+                            <h1 class="h3 mb-2" style="color: var(--primary-800); font-family: var(--font-display);">Order {{ order.order_number }}</h1>
+                            <p class="mb-0" style="color: var(--navy-600);">Placed on {{ order.created_at|date:"F d, Y \a\t g:i A" }}</p>
+                        </div>
+                        <div class="col-md-6 text-md-end">
+                            {% if order.status == 'confirmed' %}
+                                <span class="badge bg-success fs-6">{{ order.get_status_display }}</span>
+                            {% elif order.status == 'pending' %}
+                                <span class="badge bg-warning text-dark fs-6">{{ order.get_status_display }}</span>
+                            {% elif order.status == 'shipped' %}
+                                <span class="badge bg-info fs-6">{{ order.get_status_display }}</span>
+                            {% elif order.status == 'delivered' %}
+                                <span class="badge bg-primary fs-6">{{ order.get_status_display }}</span>
+                            {% elif order.status == 'cancelled' %}
+                                <span class="badge bg-danger fs-6">{{ order.get_status_display }}</span>
+                            {% else %}
+                                <span class="badge bg-secondary fs-6">{{ order.get_status_display }}</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <!-- Order Items -->
+                <div class="col-lg-8">
+                    <div class="card premium-service-card">
+                        <div class="card-header">
+                            <h4 class="mb-0" style="color: var(--navy-800); font-family: var(--font-display);">Order Items</h4>
+                        </div>
+                        <div class="card-body p-0">
+                            {% for item in order.items.all %}
+                            <div class="border-bottom p-4 {% if forloop.last %}border-0{% endif %}">
+                                <div class="row align-items-center">
+                                    <div class="col-md-2">
+                                        {% if item.book.cover_image or item.book.thumbnail %}
+                                            <img src="{{ item.book.cover_image|default:item.book.thumbnail }}" 
+                                                 alt="{{ item.book_title }}" 
+                                                 class="img-fluid rounded"
+                                                 style="max-height: 80px;">
+                                        {% else %}
+                                            <div class="bg-light rounded d-flex align-items-center justify-content-center" 
+                                                 style="height: 80px; width: 60px;">
+                                                📖
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h6 class="mb-1" style="color: var(--navy-800); font-weight: 600;">{{ item.book_title }}</h6>
+                                        <p class="mb-0 text-muted">{{ item.book_authors }}</p>
+                                        {% if item.book_isbn %}
+                                            <small class="text-muted">ISBN: {{ item.book_isbn }}</small>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-md-2 text-center">
+                                        <span style="color: var(--navy-700);">Qty: {{ item.quantity }}</span>
+                                    </div>
+                                    <div class="col-md-2 text-end">
+                                        <strong style="color: var(--primary-700);">${{ item.total_price }}</strong>
+                                        <br><small class="text-muted">${{ item.unit_price }} each</small>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Order Summary -->
+                <div class="col-lg-4">
+                    <div class="card premium-info-card">
+                        <div class="card-header">
+                            <h5 class="mb-0" style="color: var(--navy-800); font-family: var(--font-display);">Order Summary</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Items ({{ order.total_items }}):</span>
+                                <span>${{ order.total_amount }}</span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Shipping:</span>
+                                <span class="text-success">FREE</span>
+                            </div>
+                            <hr>
+                            <div class="d-flex justify-content-between">
+                                <strong>Total:</strong>
+                                <strong style="color: var(--primary-700);">${{ order.total_amount }}</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Customer Information -->
+                    <div class="card premium-info-card mt-4">
+                        <div class="card-header">
+                            <h5 class="mb-0" style="color: var(--navy-800); font-family: var(--font-display);">Customer Information</h5>
+                        </div>
+                        <div class="card-body">
+                            <p class="mb-2"><strong>Name:</strong> {{ order.customer_full_name }}</p>
+                            <p class="mb-0"><strong>Email:</strong> {{ order.customer_email }}</p>
+                        </div>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="d-grid gap-2 mt-4">
+                        <a href="{% url 'orders:order_list' %}" class="btn btn-secondary">
+                            ← Back to Orders
+                        </a>
+                        {% if order.status == 'confirmed' or order.status == 'shipped' %}
+                            <a href="{% url 'books:contact' %}" class="btn btn-primary">
+                                Contact Support
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
