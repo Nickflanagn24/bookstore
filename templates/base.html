@@ -80,7 +80,7 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="{% url 'accounts:profile' %}">📋 My Profile</a></li>
-                                <li><a class="dropdown-item" href="#">🛒 My Orders</a></li>
+                                <li><a class="dropdown-item" href="{% url 'orders:order_list' %}">📦 My Orders</a></li>
                                 <li><a class="dropdown-item" href="#">⭐ My Reviews</a></li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" href="{% url 'accounts:logout' %}">🚪 Logout</a></li>
@@ -91,7 +91,7 @@
                             <a class="nav-link" href="{% url 'accounts:login' %}">🔑 Login</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'accounts:register' %}">🐾 Join Pack</a>
+                            <a class="nav-link" href="{% url 'accounts:register' %}">🐾 Join Pack</a></li>
                         </li>
                     {% endif %}
                 </ul>
