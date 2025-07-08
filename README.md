@@ -392,10 +392,33 @@ Future Enhancements
     License
 This project is developed for educational purposes as part of a Full-Stack Development course.
 
-🤝 Contributing
+ Contributing
 This is an educational project. For suggestions or improvements, please contact the development team.
 
-📞 Support
-For technical support or questions about the platform, please use the contact form on the website or reach out to the development team.
+## 📋 Project Management
+
+### Development Workflow
+This project follows Agile development methodology with 2-week sprints.
+
+**Track Progress**: [GitHub Project Board](https://github.com/yourusername/yourrepo/projects/1)
+
+### Current Sprint
+- **Sprint 1**: User Authentication System
+- **Duration**: 2 weeks
+- **Goal**: Complete user registration, login, and profile management
+
+### User Stories Progress
+- [ ] US001: User Registration with Dog Profile
+- [ ] US002: Secure Login/Logout Functionality  
+- [ ] US003: Profile Management and Updates
+
+### Development Process
+1. **Backlog**: All user stories and features
+2. **Sprint Planning**: Select items for current sprint
+3. **Current Sprint**: Active development work
+4. **In Progress**: Currently coding
+5. **Review**: Testing and code review
+6. **Done**: Completed features
+
 
 © 2025 Tales & Tails. All rights reserved. "Every great dog story starts with the right book."
