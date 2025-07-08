@@ -19,9 +19,9 @@
             <div class="card book-card">
                 <div class="book-cover-container">
                     {% if book.cover_image %}
-                        <img src="{{ book.cover_image }}" class="book-cover-high-res" alt="{{ book.title }}" loading="lazy" onerror="this.src='{% static 'images/no-book-cover.png' %}'">
+                        <img src="{{ book.cover_image }}" class="book-cover-high-res" alt="{{ book.title }}" loading="lazy" onerror="this.src='/static/images/no-book-cover.png'">
                     {% elif book.thumbnail %}
-                        <img src="{{ book.thumbnail }}" class="book-cover-high-res" alt="{{ book.title }}" loading="lazy" onerror="this.src='{% static 'images/no-book-cover.png' %}'">
+                        <img src="{{ book.thumbnail }}" class="book-cover-high-res" alt="{{ book.title }}" loading="lazy" onerror="this.src='/static/images/no-book-cover.png'">
                     {% else %}
                         <div class="no-image-placeholder">📚</div>
                     {% endif %}
@@ -30,7 +30,7 @@
                     <h6 class="book-title">{{ book.title|truncatechars:50 }}</h6>
                     <p class="book-author">{{ book.authors_list|truncatechars:30 }}</p>
                     <div class="d-flex justify-content-between align-items-center">
-                        <span class="price">${{ book.price }}</span>
+                        <span class="price">{{ book.display_price }}</span>
                         <a href="{% url 'books:book_detail' book.pk %}" class="btn btn-primary btn-sm">View Details</a>
                     </div>
                 </div>

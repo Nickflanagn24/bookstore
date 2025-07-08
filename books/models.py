@@ -123,7 +123,7 @@ class Book(models.Model):
 
     @property
     def display_price(self):
-        return f"${self.price:.2f}"
+        return f"£{self.price:.2f}"
 class ContactMessage(models.Model):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)

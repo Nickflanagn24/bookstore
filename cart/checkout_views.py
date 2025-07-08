@@ -77,7 +77,7 @@ def create_checkout_session(request):
         for item in cart.items.all():
             line_items.append({
                 'price_data': {
-                    'currency': 'usd',
+                    'currency': 'gbp',
                     'product_data': {
                         'name': item.book.title,
                         'description': f"by {item.book.authors_list}",
