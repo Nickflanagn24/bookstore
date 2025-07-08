@@ -12,7 +12,7 @@ class OrderItemInline(admin.TabularInline):
     
     def total_price(self, obj):
         if obj.pk:
-            return f"${obj.total_price:.2f}"
+            return f"£{obj.total_price:.2f}"
         return ""
     total_price.short_description = "Total"
 
