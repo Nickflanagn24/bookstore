@@ -17,7 +17,6 @@ ENV/
 
 # Static files
 /staticfiles/
-/static/
 /collected-static/
 
 # IDE specific files
