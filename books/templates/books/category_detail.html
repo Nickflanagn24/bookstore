@@ -30,21 +30,17 @@
                         
                         <!-- Two buttons: View Details and Add to Cart -->
                         <div class="d-grid gap-2">
-                            <a href="{% url 'books:book_detail' book.pk %}" class="btn btn-outline-primary btn-sm">
-                                📖 View Details
+                            <a href="{{ book.get_absolute_url }}" class="btn btn-primary">
+                                <i class="fas fa-eye me-2"></i>View Details
                             </a>
                             {% if user.is_authenticated %}
                                 <form method="post" action="{% url 'cart:add_to_cart' book.pk %}" class="d-grid">
                                     {% csrf_token %}
                                     <input type="hidden" name="quantity" value="1">
-                                    <button type="submit" class="btn btn-primary btn-sm">
+                                    <button type="submit" class="btn btn-success btn-sm">
                                         🛒 Add to Cart
                                     </button>
                                 </form>
-                            {% else %}
-                                <a href="{% url 'accounts:login' %}" class="btn btn-primary btn-sm">
-                                    🔑 Login to Purchase
-                                </a>
                             {% endif %}
                         </div>
                     </div>
