@@ -191,4 +191,8 @@ if 'django.contrib.sitemaps' not in INSTALLED_APPS:
 # =============================================================================
 
 # Whitenoise static files serving
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+
+# Additional whitenoise settings
+WHITENOISE_USE_FINDERS = True
+WHITENOISE_AUTOREFRESH = True
