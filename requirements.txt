@@ -6,3 +6,4 @@ whitenoise==6.9.0
 pillow==11.1.0
 requests==2.32.3
 stripe==12.2.0
+gunicorn==21.2.0
