@@ -1518,3 +1518,42 @@ textarea.form-control:active {
 .navbar-nav .nav-item .dropdown-menu {
     z-index: 1060 !important;
 }
+
+
+/* ===================================
+   Facebook Button Styling
+   =================================== */
+
+/* Facebook Button Styling */
+.btn-facebook {
+    background: linear-gradient(135deg, #1877f2 0%, #42a5f5 100%);
+    color: white;
+    padding: var(--space-3) var(--space-5);
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    font-weight: 600;
+    border: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: inline-flex;
+    align-items: center;
+    box-shadow: var(--shadow-md);
+}
+
+.btn-facebook:hover {
+    background: linear-gradient(135deg, #166fe5 0%, #1565c0 100%);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.btn-facebook:active {
+    transform: translateY(0);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .btn-facebook {
+        width: 100%;
+        justify-content: center;
+    }
+}
