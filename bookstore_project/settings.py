@@ -194,3 +194,79 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 # Additional whitenoise settings
 WHITENOISE_USE_FINDERS = True
 WHITENOISE_AUTOREFRESH = True
+
+
+# ===================================
+# Email Configuration - Gmail SMTP
+# ===================================
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'rm setup_gmail_correct_path.pyappland22@gmail.com'
+EMAIL_HOST_PASSWORD = 'valciabbwgxhlovk'
+DEFAULT_FROM_EMAIL = 'rm setup_gmail_correct_path.pyappland22@gmail.com'
+SERVER_EMAIL = 'rm setup_gmail_correct_path.pyappland22@gmail.com'
+
+# Email settings for Tales & Tails
+EMAIL_SUBJECT_PREFIX = '[Tales & Tails] '
+ADMINS = [('Admin', 'rm setup_gmail_correct_path.pyappland22@gmail.com')]
+MANAGERS = ADMINS
+
+# For development testing - uncomment to print emails to console instead
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+
+# ===================================
+# Email Configuration - Console (Development)
+# ===================================
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+DEFAULT_FROM_EMAIL = 'noreply@talesandtails.com'
+SERVER_EMAIL = 'noreply@talesandtails.com'
+
+# When Gmail is fixed, uncomment these and comment console backend:
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+# EMAIL_HOST_USER = 'your-gmail@gmail.com'
+# EMAIL_HOST_PASSWORD = 'your-app-password'
+
+
+# ===================================
+# Email Configuration - Gmail SMTP (NEW PASSWORD)
+# ===================================
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'rm new_app_password_setup.pyappland22@gmail.com'
+EMAIL_HOST_PASSWORD = 'ybzvxccjntejvqlm'
+DEFAULT_FROM_EMAIL = 'rm new_app_password_setup.pyappland22@gmail.com'
+SERVER_EMAIL = 'rm new_app_password_setup.pyappland22@gmail.com'
+
+# Email settings for Tales & Tails
+EMAIL_SUBJECT_PREFIX = '[Tales & Tails] '
+ADMINS = [('Admin', 'rm new_app_password_setup.pyappland22@gmail.com')]
+MANAGERS = ADMINS
+
+
+# ===================================
+# Email Configuration - Console (WORKING NOW)
+# ===================================
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+DEFAULT_FROM_EMAIL = 'noreply@talesandtails.com'
+SERVER_EMAIL = 'noreply@talesandtails.com'
+
+# Email settings for Tales & Tails
+EMAIL_SUBJECT_PREFIX = '[Tales & Tails] '
+ADMINS = [('Admin', 'admin@talesandtails.com')]
+MANAGERS = ADMINS
+
+# Switch to Gmail later when ready:
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+# EMAIL_HOST_USER = 'your-gmail@gmail.com'
+# EMAIL_HOST_PASSWORD = 'your-app-password'
