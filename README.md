@@ -1,6 +1,6 @@
 # 📚🐕 Tales & Tails - Where Every Dog Story Begins
 
-A specialized e-commerce platform for dog training, care, and breed books, built with Django and integrated with Google Books API for comprehensive canine literature.
+A specialised e-commerce platform for dog training, care, and breed books, built with Django and integrated with Google Books API for comprehensive canine literature.
 
 <div align="center">
 
@@ -14,7 +14,7 @@ A specialized e-commerce platform for dog training, care, and breed books, built
 
 *Professional e-commerce platform specializing in dog training, care, and breed books*
 
-[🌐 Live Demo](https://your-heroku-app.herokuapp.com) • [📖 Documentation](docs/) • [🐛 Issues](https://github.com/Nickflanagn24/bookstore/issues)
+[🌐 Live Demo](https://tales-and-tails-bookstore-2b31d0bd7c27.herokuapp.com/) • [📖 Documentation](docs/) • [🐛 Issues](https://github.com/Nickflanagn24/bookstore/issues)
 
 </div>
 
@@ -123,7 +123,7 @@ Visit `http://localhost:8000` to see your local instance! 🎉
 
 ### 👤 User Experience
 - **Custom Registration**: Dog breed and experience level profiling
-- **Personalized Recommendations**: Books tailored to user's dog
+- **Personalised Recommendations**: Books tailored to user's dog
 - **Professional Design**: Forest green theme with responsive layout
 - **Newsletter**: Curated book recommendations and dog care tips
 
@@ -175,16 +175,6 @@ Run the test suite:
 - **Search**: Advanced book discovery
 - **Metadata**: Comprehensive book information
 - **Images**: High-quality book covers
-
-## 🤝 Contributing
-
-This is an educational project. For suggestions or improvements:
-
-1. Fork the repository
-2. Create a feature branch
-3. Commit your changes
-4. Push to the branch
-5. Open a Pull Request
 
 ## 📄 License
 
