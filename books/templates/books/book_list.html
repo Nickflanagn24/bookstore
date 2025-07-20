@@ -1,8 +1,46 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}All Books - Tales & Tails{% endblock %}
-{% block meta_description %}Browse our complete collection of professional dog books. Training guides, health resources, breed information, and expert veterinary texts.{% endblock %}
+{% block title %}All Books - Tales & Tails
+<style>
+.price-button-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.price-button-stack .price {
+    font-weight: bold;
+    color: #2B7A2B;
+    font-size: 1.1rem;
+}
+
+.price-button-stack .btn {
+    width: 100%;
+}
+</style>
+
+{% endblock %}
+{% block meta_description %}Browse our complete collection of professional dog books. Training guides, health resources, breed information, and expert veterinary texts.
+<style>
+.price-button-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.price-button-stack .price {
+    font-weight: bold;
+    color: #2B7A2B;
+    font-size: 1.1rem;
+}
+
+.price-button-stack .btn {
+    width: 100%;
+}
+</style>
+
+{% endblock %}
 
 {% block content %}
 <div class="container">
@@ -29,7 +67,7 @@
                 <div class="card-body">
                     <h6 class="book-title">{{ book.title|truncatechars:50 }}</h6>
                     <p class="book-author">{{ book.authors_list|truncatechars:30 }}</p>
-                    <div class="d-flex justify-content-between align-items-center">
+                    <div class="price-button-stack">
                         <span class="price">{{ book.display_price }}</span>
                         <a href="{{ book.get_absolute_url }}" class="btn btn-primary"><i class="fas fa-eye me-2"></i>View Details</a>
                     </div>
@@ -48,4 +86,23 @@
         {% endfor %}
     </div>
 </div>
+
+<style>
+.price-button-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.price-button-stack .price {
+    font-weight: bold;
+    color: #2B7A2B;
+    font-size: 1.1rem;
+}
+
+.price-button-stack .btn {
+    width: 100%;
+}
+</style>
+
 {% endblock %}
