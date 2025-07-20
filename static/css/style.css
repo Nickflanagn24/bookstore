@@ -1557,3 +1557,79 @@ textarea.form-control:active {
         justify-content: center;
     }
 }
+
+
+/* =================================================
+   BOOK CARD ACCESSIBILITY - CONTRAST FIXES
+   Applied globally for consistency across all pages
+   ================================================= */
+
+/* Book titles - dark gray for excellent contrast */
+.book-title,
+.card .book-title,
+.book-card .book-title {
+    color: #212529 !important;  /* Dark gray - WCAG AA compliant */
+    font-weight: 600;           /* Bolder for better readability */
+    font-size: 0.95rem;
+    line-height: 1.3;
+}
+
+/* Book authors - medium gray for good contrast */
+.book-author,
+.card .book-author,
+.book-card .book-author {
+    color: #495057 !important;  /* Medium gray - good contrast ratio */
+    font-size: 0.85rem;
+    font-weight: 400;
+}
+
+/* Book prices - darker green for better contrast */
+.price,
+.book-price,
+.card .price,
+.price-button-stack .price {
+    color: #1a5f1a !important;  /* Darker green - meets contrast standards */
+    font-weight: bold !important;
+    font-size: 1.1rem;
+}
+
+/* Hover states for enhanced visibility */
+.book-card:hover .book-title,
+.card:hover .book-title {
+    color: #000000 !important;  /* Pure black on hover */
+}
+
+.book-card:hover .book-author,
+.card:hover .book-author {
+    color: #343a40 !important;  /* Darker gray on hover */
+}
+
+/* Button contrast improvements */
+.book-card .btn-primary,
+.card .btn-primary {
+    background-color: #1a5f1a !important;  /* Darker green */
+    border-color: #1a5f1a !important;
+    color: #ffffff !important;
+}
+
+.book-card .btn-primary:hover,
+.card .btn-primary:hover {
+    background-color: #155315 !important;  /* Even darker on hover */
+    border-color: #155315 !important;
+    color: #ffffff !important;
+}
+
+/* Ensure text remains readable in all states */
+.book-card .card-body,
+.card .card-body {
+    color: #212529;  /* Default dark text */
+}
+
+/* Featured/Special book cards */
+.featured .book-title {
+    color: #000000 !important;
+}
+
+.featured .book-author {
+    color: #495057 !important;
+}
