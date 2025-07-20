@@ -149,7 +149,7 @@ STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY', default='')
 EMAIL_BACKEND = config('EMAIL_BACKEND', default='django.core.mail.backends.console.EmailBackend')
 EMAIL_HOST = config('EMAIL_HOST', default='')
 EMAIL_PORT = config('EMAIL_PORT', default=587, cast=int)
-EMAIL_USE_TLS = config('EMAIL_USE_TLS', default=True, cast=bool)
+('EMAIL_USE_TLS', default=True, cast=bool)
 EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
 DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default='bookstore@example.com')
@@ -195,68 +195,34 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 WHITENOISE_USE_FINDERS = True
 WHITENOISE_AUTOREFRESH = True
 
-
-# ===================================
-# Email Configuration - Gmail SMTP
-# ===================================
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'REDACTED_EMAIL<=='
-EMAIL_HOST_PASSWORD = 'REDACTED_PASSWORD<=='
-DEFAULT_FROM_EMAIL = 'REDACTED_EMAIL<=='
-SERVER_EMAIL = 'REDACTED_EMAIL<=='
-
 # Email settings for Tales & Tails
 EMAIL_SUBJECT_PREFIX = '[Tales & Tails] '
 ADMINS = [('Admin', 'REDACTED_EMAIL<==')]
 MANAGERS = ADMINS
 
 # For development testing - uncomment to print emails to console instead
-# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
+# 
 
 # ===================================
 # Email Configuration - Console (Development)
 # ===================================
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-DEFAULT_FROM_EMAIL = 'noreply@talesandtails.com'
-SERVER_EMAIL = 'noreply@talesandtails.com'
 
 # When Gmail is fixed, uncomment these and comment console backend:
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_HOST = 'smtp.gmail.com'
-# EMAIL_PORT = 587
-# EMAIL_USE_TLS = True
-# EMAIL_HOST_USER = 'your-gmail@gmail.com'
-# EMAIL_HOST_PASSWORD = 'your-app-password'
-
-
-# ===================================
-# Email Configuration - Gmail SMTP (NEW PASSWORD)
-# ===================================
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'rm REDACTED_EMAIL<=='
-EMAIL_HOST_PASSWORD = 'ybzvxccjntejvqlm'
-DEFAULT_FROM_EMAIL = 'rm REDACTED_EMAIL<=='
-SERVER_EMAIL = 'rm REDACTED_EMAIL<=='
+# 
+# 
+# 
+# 
+# 
+# 
 
 # Email settings for Tales & Tails
 EMAIL_SUBJECT_PREFIX = '[Tales & Tails] '
 ADMINS = [('Admin', 'rm REDACTED_EMAIL<==')]
 MANAGERS = ADMINS
 
-
 # ===================================
 # Email Configuration - Console (WORKING NOW)
 # ===================================
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-DEFAULT_FROM_EMAIL = 'noreply@talesandtails.com'
-SERVER_EMAIL = 'noreply@talesandtails.com'
 
 # Email settings for Tales & Tails
 EMAIL_SUBJECT_PREFIX = '[Tales & Tails] '
@@ -264,9 +230,43 @@ ADMINS = [('Admin', 'admin@talesandtails.com')]
 MANAGERS = ADMINS
 
 # Switch to Gmail later when ready:
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_HOST = 'smtp.gmail.com'
-# EMAIL_PORT = 587
-# EMAIL_USE_TLS = True
-# EMAIL_HOST_USER = 'your-gmail@gmail.com'
-# EMAIL_HOST_PASSWORD = 'your-app-password'
+# 
+# 
+# 
+# 
+# 
+# 
+
+# ===================================
+# Email Configuration (Secure - uses .env file)
+# ===================================
+EMAIL_BACKEND = os.getenv('EMAIL_BACKEND', 'django.core.mail.backends.console.EmailBackend')
+EMAIL_HOST = os.getenv('EMAIL_HOST', 'smtp.gmail.com')
+EMAIL_PORT = int(os.getenv('EMAIL_PORT', '587'))
+.getenv('EMAIL_USE_TLS', 'True').lower() == 'true'
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', '')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', '')
+DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL', 'noreply@talesandtails.com')
+SERVER_EMAIL = os.getenv('SERVER_EMAIL', 'noreply@talesandtails.com')
+
+# Email settings for Tales & Tails
+EMAIL_SUBJECT_PREFIX = '[Tales & Tails] '
+ADMINS = [('Admin', os.getenv('ADMIN_EMAIL', 'admin@talesandtails.com'))]
+MANAGERS = ADMINS
+
+# ===================================
+# Email Configuration (Secure - uses .env file)
+# ===================================
+EMAIL_BACKEND = os.getenv('EMAIL_BACKEND', 'django.core.mail.backends.console.EmailBackend')
+EMAIL_HOST = os.getenv('EMAIL_HOST', 'smtp.gmail.com')
+EMAIL_PORT = int(os.getenv('EMAIL_PORT', '587'))
+EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS', 'True').lower() == 'true'
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', '')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', '')
+DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL', 'noreply@talesandtails.com')
+SERVER_EMAIL = os.getenv('SERVER_EMAIL', 'noreply@talesandtails.com')
+
+# Email settings for Tales & Tails
+EMAIL_SUBJECT_PREFIX = '[Tales & Tails] '
+ADMINS = [('Admin', os.getenv('ADMIN_EMAIL', 'admin@talesandtails.com'))]
+MANAGERS = ADMINS
