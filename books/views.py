@@ -302,7 +302,7 @@ def book_create(request):
         if form.is_valid():
             book = form.save()
             messages.success(request, f'Book "{book.title}" created successfully!')
-            return redirect('books:book_detail', pk=book.pk)
+            return redirect('books:book_manage')
     else:
         form = BookForm()
     
@@ -316,17 +316,38 @@ def book_create(request):
 @user_passes_test(is_staff_user)
 def book_edit(request, pk):
     """Edit existing book"""
+    print("=" * 50)
+    print("🚀 BOOK_EDIT VIEW CALLED!")
+    print(f"📖 PK: {pk}")
+    print(f"📤 Method: {request.method}")
+    print(f"👤 User: {request.user}")
+    print("=" * 50)
+    
     book = get_object_or_404(Book, pk=pk)
+    print(f"📚 Book found: {book.title}")
     
     if request.method == 'POST':
+        print("🔥 POST REQUEST DETECTED!")
+        print(f"📝 POST data: {dict(request.POST)}")
+        
         form = BookForm(request.POST, instance=book)
+        print(f"📋 Form created: {form}")
+        
         if form.is_valid():
+            print("✅ Form is VALID!")
             book = form.save()
-            messages.success(request, f'Book "{book.title}" updated successfully!')
-            return redirect('books:book_detail', pk=book.pk)
+            print(f"💾 Book saved: {book.title}")
+            messages.success(request, f'Book "{book.title}" has been updated successfully!')
+            print("📤 Redirecting to book_manage...")
+            return redirect('books:book_manage')
+        else:
+            print("❌ Form is INVALID!")
+            print(f"🐛 Form errors: {form.errors}")
     else:
+        print("�� GET request - showing form")
         form = BookForm(instance=book)
     
+    print(f"🎨 Rendering template with book: {book.title}")
     return render(request, 'books/form.html', {
         'form': form,
         'book': book,

@@ -1,50 +1,347 @@
+{% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>{{ title|default:"Edit Book" }} - Tales & Tails</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit {{ book.title }} - Tales & Tails</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
 </head>
-<body>
-    <div class="container mt-4">
-        <h1>{{ title|default:"Edit Book" }}</h1>
-        
-        <div class="card">
-            <div class="card-body">
-                <form method="post">
+<body class="form-page">
+    <div class="container-fluid">
+        <div class="main-container">
+            <!-- Header -->
+            <div class="header-section">
+                <h1>
+                    <i class="fas fa-edit"></i>
+                    <span>Edit Book: {{ book.title }}</span>
+                </h1>
+                <p>
+                    <i class="fas fa-paw me-2"></i>
+                    Professional Book Management System
+                </p>
+            </div>
+            
+            <!-- Success Messages -->
+            {% if messages %}
+                <div class="px-3 px-md-4 pt-3">
+                    {% for message in messages %}
+                        <div class="alert alert-success alert-dismissible fade show">
+                            <i class="fas fa-check-circle me-2"></i>{{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            
+            <div class="form-section">
+                <form method="post" id="book-form">
                     {% csrf_token %}
                     
-                    <div class="mb-3">
-                        <label class="form-label">Title</label>
-                        {{ form.title }}
-                    </div>
-                    
-                    <div class="mb-3">
-                        <label class="form-label">Price</label>
-                        {{ form.price }}
-                    </div>
-                    
-                    <div class="mb-3">
-                        <label class="form-label">Description</label>
-                        {{ form.description }}
-                    </div>
-                    
-                    <div class="mb-3">
-                        <label class="form-label">Stock Quantity</label>
-                        {{ form.stock_quantity }}
-                    </div>
-                    
-                    <div class="mb-3">
-                        <div class="form-check">
-                            {{ form.is_available }}
-                            <label class="form-check-label">Available</label>
+                    <!-- Basic Information -->
+                    <div class="section-card">
+                        <div class="section-header">
+                            <i class="fas fa-info-circle"></i>
+                            Basic Information
+                        </div>
+                        <div class="section-body">
+                            <div class="row">
+                                <div class="col-md-8 col-12">
+                                    <div class="mb-3">
+                                        <label for="id_title" class="form-label">
+                                            <i class="fas fa-book"></i> Title *
+                                        </label>
+                                        {{ form.title }}
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-12">
+                                    <div class="mb-3">
+                                        <label for="id_price" class="form-label">
+                                            <i class="fas fa-pound-sign"></i> Price *
+                                        </label>
+                                        {{ form.price }}
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="id_subtitle" class="form-label">
+                                    <i class="fas fa-heading"></i> Subtitle
+                                </label>
+                                {{ form.subtitle }}
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="id_description" class="form-label">
+                                    <i class="fas fa-align-left"></i> Description
+                                </label>
+                                {{ form.description }}
+                            </div>
                         </div>
                     </div>
                     
-                    <button type="submit" class="btn btn-success">{{ button|default:"Save" }}</button>
-                    <a href="{% url 'books:book_manage' %}" class="btn btn-secondary">Cancel</a>
+                    <!-- Images Section -->
+                    <div class="section-card">
+                        <div class="section-header">
+                            <i class="fas fa-images"></i>
+                            Book Images
+                        </div>
+                        <div class="section-body">
+                            <div class="row">
+                                <div class="col-md-6 col-12">
+                                    <label for="id_thumbnail" class="form-label">
+                                        <i class="fas fa-image"></i> Thumbnail URL
+                                    </label>
+                                    {{ form.thumbnail }}
+                                    {% if book.thumbnail %}
+                                        <div class="image-preview">
+                                            <img src="{{ book.thumbnail }}" alt="Thumbnail" loading="lazy">
+                                            <div class="status-indicator status-success mt-2">
+                                                <i class="fas fa-check-circle"></i>
+                                                Image loaded successfully
+                                            </div>
+                                        </div>
+                                    {% else %}
+                                        <div class="image-preview">
+                                            <i class="fas fa-image fa-2x text-muted"></i>
+                                            <div class="status-indicator status-warning mt-2">
+                                                <i class="fas fa-exclamation-triangle"></i>
+                                                No thumbnail URL provided
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <label for="id_cover_image" class="form-label">
+                                        <i class="fas fa-file-image"></i> Cover Image URL
+                                    </label>
+                                    {{ form.cover_image }}
+                                    {% if book.cover_image %}
+                                        <div class="image-preview">
+                                            <img src="{{ book.cover_image }}" alt="Cover" loading="lazy">
+                                            <div class="status-indicator status-success mt-2">
+                                                <i class="fas fa-check-circle"></i>
+                                                Image loaded successfully
+                                            </div>
+                                        </div>
+                                    {% else %}
+                                        <div class="image-preview">
+                                            <i class="fas fa-file-image fa-2x text-muted"></i>
+                                            <div class="status-indicator status-warning mt-2">
+                                                <i class="fas fa-exclamation-triangle"></i>
+                                                No cover image URL provided
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Details & Inventory -->
+                    <div class="section-card">
+                        <div class="section-header">
+                            <i class="fas fa-cogs"></i>
+                            Details & Inventory
+                        </div>
+                        <div class="section-body">
+                            <div class="row">
+                                <div class="col-lg-4 col-md-6 col-12">
+                                    <div class="mb-3">
+                                        <label for="id_stock_quantity" class="form-label">
+                                            <i class="fas fa-boxes"></i> Stock Quantity *
+                                        </label>
+                                        {{ form.stock_quantity }}
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6 col-12">
+                                    <div class="mb-3">
+                                        <label for="id_language" class="form-label">
+                                            <i class="fas fa-language"></i> Language *
+                                        </label>
+                                        {{ form.language }}
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-12">
+                                    <div class="mb-3">
+                                        <label for="id_page_count" class="form-label">
+                                            <i class="fas fa-file-alt"></i> Page Count
+                                        </label>
+                                        {{ form.page_count }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Authors & Categories -->
+                    <div class="section-card">
+                        <div class="section-header">
+                            <i class="fas fa-users"></i>
+                            Authors & Categories
+                        </div>
+                        <div class="section-body">
+                            <div class="row">
+                                <div class="col-md-6 col-12">
+                                    <div class="mb-3">
+                                        <label for="id_authors" class="form-label">
+                                            <i class="fas fa-user-edit"></i> Authors *
+                                        </label>
+                                        {{ form.authors }}
+                                        <div class="form-text">
+                                            <i class="fas fa-info-circle"></i>
+                                            Hold Ctrl/Cmd to select multiple authors
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="mb-3">
+                                        <label for="id_categories" class="form-label">
+                                            <i class="fas fa-tags"></i> Categories
+                                        </label>
+                                        {{ form.categories }}
+                                        <div class="form-text">
+                                            <i class="fas fa-info-circle"></i>
+                                            Hold Ctrl/Cmd to select multiple categories
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Publishing Information -->
+                    <div class="section-card">
+                        <div class="section-header">
+                            <i class="fas fa-building"></i>
+                            Publishing Information
+                        </div>
+                        <div class="section-body">
+                            <div class="mb-3">
+                                <label for="id_publisher" class="form-label">
+                                    <i class="fas fa-industry"></i> Publisher
+                                </label>
+                                {{ form.publisher }}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Status Options -->
+                    <div class="section-card">
+                        <div class="section-header">
+                            <i class="fas fa-toggle-on"></i>
+                            Status Options
+                        </div>
+                        <div class="section-body">
+                            <div class="row">
+                                <div class="col-md-6 col-12">
+                                    <div class="form-check">
+                                        {{ form.is_available }}
+                                        <label class="form-check-label" for="id_is_available">
+                                            <i class="fas fa-shopping-cart me-2"></i>
+                                            Available for Purchase
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="form-check">
+                                        {{ form.is_featured }}
+                                        <label class="form-check-label" for="id_is_featured">
+                                            <i class="fas fa-star me-2"></i>
+                                            Featured Book
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Hidden fields to preserve database data -->
+                    <div style="display: none;">
+                        {{ form.main_category }}
+                        {{ form.published_date }}
+                    </div>
+                    
                 </form>
+            </div>
+            
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <div class="d-flex justify-content-between align-items-center flex-wrap">
+                    <a href="{% url 'books:book_manage' %}" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left me-2"></i>
+                        Back to Management
+                    </a>
+                    <button type="submit" form="book-form" class="btn btn-success btn-lg">
+                        <i class="fas fa-save me-2"></i>
+                        Update Book
+                    </button>
+                </div>
             </div>
         </div>
     </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Form validation and UX improvements
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('book-form');
+            
+            // Image preview updates
+            const thumbnailInput = document.getElementById('id_thumbnail');
+            const coverInput = document.getElementById('id_cover_image');
+            
+            if (thumbnailInput) {
+                thumbnailInput.addEventListener('input', function() {
+                    updateImagePreview(this, 'thumbnail');
+                });
+            }
+            
+            if (coverInput) {
+                coverInput.addEventListener('input', function() {
+                    updateImagePreview(this, 'cover');
+                });
+            }
+            
+            function updateImagePreview(input, type) {
+                const url = input.value;
+                const preview = input.closest('.col-md-6').querySelector('.image-preview');
+                
+                if (url) {
+                    preview.innerHTML = `
+                        <img src="${url}" alt="${type}" loading="lazy" style="max-width: 120px; max-height: 160px;">
+                        <div class="status-indicator status-success mt-2">
+                            <i class="fas fa-check-circle"></i>
+                            Image URL updated
+                        </div>
+                    `;
+                } else {
+                    const icon = type === 'thumbnail' ? 'image' : 'file-image';
+                    preview.innerHTML = `
+                        <i class="fas fa-${icon} fa-2x text-muted"></i>
+                        <div class="status-indicator status-warning mt-2">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            No ${type} URL provided
+                        </div>
+                    `;
+                }
+            }
+            
+            // Smooth scrolling for validation errors
+            if (form) {
+                form.addEventListener('submit', function(e) {
+                    const invalidFields = form.querySelectorAll(':invalid');
+                    if (invalidFields.length > 0) {
+                        invalidFields[0].scrollIntoView({ 
+                            behavior: 'smooth', 
+                            block: 'center' 
+                        });
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 </html>

@@ -1633,3 +1633,638 @@ textarea.form-control:active {
 .featured .book-author {
     color: #495057 !important;
 }
+
+/* ==========================================
+   PROFESSIONAL FORM STYLING - Tales & Tails
+   ========================================== */
+
+:root {
+    --primary-green: #2d5530;
+    --light-green: #4a7c59;
+    --accent-green: #6bb77b;
+    --soft-green: #e8f5e8;
+    --warning-amber: #ff9800;
+    --white: #ffffff;
+    --light-gray: #f8f9fa;
+    --border-radius: 12px;
+    --shadow-light: 0 4px 15px rgba(0,0,0,0.05);
+    --shadow-medium: 0 8px 25px rgba(45, 85, 48, 0.15);
+    --shadow-strong: 0 15px 35px rgba(45, 85, 48, 0.2);
+    --transition: all 0.3s ease;
+}
+
+/* Form Page Background */
+body.form-page {
+    background: linear-gradient(135deg, #f8fffe 0%, #e8f5e8 100%);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+}
+
+/* Main Container - Responsive */
+.main-container {
+    background: var(--white);
+    border-radius: 20px;
+    box-shadow: var(--shadow-strong);
+    overflow: hidden;
+    margin: 1rem auto;
+    max-width: 1000px;
+    width: 95%;
+}
+
+/* Responsive breakpoints */
+@media (max-width: 768px) {
+    .main-container {
+        border-radius: 15px;
+        margin: 0.5rem auto;
+        width: 98%;
+    }
+}
+
+@media (max-width: 576px) {
+    .main-container {
+        border-radius: 10px;
+        margin: 0.25rem auto;
+        width: 100%;
+    }
+}
+
+/* Header Section */
+.header-section {
+    background: linear-gradient(135deg, var(--primary-green) 0%, var(--light-green) 100%);
+    color: var(--white);
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.header-section::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20px;
+    width: 100px;
+    height: 200%;
+    background: rgba(255,255,255,0.1);
+    transform: rotate(15deg);
+}
+
+.header-section h1 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    position: relative;
+    z-index: 1;
+}
+
+.header-section p {
+    margin: 0.5rem 0 0 0;
+    opacity: 0.85;
+    font-size: 0.95rem;
+    position: relative;
+    z-index: 1;
+}
+
+/* Responsive Header */
+@media (max-width: 768px) {
+    .header-section {
+        padding: 1.5rem 1rem;
+    }
+    
+    .header-section h1 {
+        font-size: 1.5rem;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.25rem;
+    }
+    
+    .header-section p {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .header-section {
+        padding: 1rem;
+    }
+    
+    .header-section h1 {
+        font-size: 1.3rem;
+    }
+    
+    .header-section p {
+        font-size: 0.85rem;
+    }
+}
+
+/* Section Cards */
+.section-card {
+    border: none;
+    margin-bottom: 1.5rem;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: var(--shadow-light);
+    transition: var(--transition);
+}
+
+.section-card:hover {
+    box-shadow: var(--shadow-medium);
+    transform: translateY(-2px);
+}
+
+.section-header {
+    background: linear-gradient(135deg, var(--accent-green) 0%, var(--light-green) 100%);
+    color: var(--white);
+    padding: 1rem 1.5rem;
+    font-weight: 600;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.section-body {
+    padding: 1.5rem;
+    background: #fdfdfd;
+}
+
+/* Responsive Sections */
+@media (max-width: 768px) {
+    .section-header {
+        padding: 0.75rem 1rem;
+        font-size: 1rem;
+    }
+    
+    .section-body {
+        padding: 1rem;
+    }
+    
+    .section-card {
+        margin-bottom: 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .section-header {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.95rem;
+    }
+    
+    .section-body {
+        padding: 0.75rem;
+    }
+}
+
+/* Form Labels */
+.form-label {
+    font-weight: 600;
+    color: var(--primary-green);
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.95rem;
+}
+
+/* Form Controls */
+.form-control, .form-select {
+    border: 2px solid #e8f0e8;
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    transition: var(--transition);
+    background: var(--white);
+    font-size: 0.95rem;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--accent-green);
+    box-shadow: 0 0 0 0.2rem rgba(107, 183, 123, 0.25);
+    background: var(--white);
+}
+
+.form-control:hover, .form-select:hover {
+    border-color: var(--light-green);
+}
+
+/* Responsive Form Controls */
+@media (max-width: 576px) {
+    .form-control, .form-select {
+        padding: 0.6rem 0.8rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* Image Preview */
+.image-preview {
+    border: 3px dashed var(--accent-green);
+    border-radius: 10px;
+    padding: 1rem;
+    text-align: center;
+    background: var(--soft-green);
+    margin-top: 0.5rem;
+    transition: var(--transition);
+}
+
+.image-preview:hover {
+    border-color: var(--light-green);
+    background: #ddf2dd;
+}
+
+.image-preview img {
+    max-width: 120px;
+    max-height: 160px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    transition: var(--transition);
+}
+
+.image-preview img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+}
+
+/* Responsive Image Preview */
+@media (max-width: 768px) {
+    .image-preview {
+        padding: 0.75rem;
+    }
+    
+    .image-preview img {
+        max-width: 100px;
+        max-height: 130px;
+    }
+}
+
+@media (max-width: 576px) {
+    .image-preview {
+        padding: 0.5rem;
+    }
+    
+    .image-preview img {
+        max-width: 80px;
+        max-height: 100px;
+    }
+}
+
+/* Status Indicators */
+.status-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.status-success { 
+    color: #28a745; 
+}
+
+.status-warning { 
+    color: var(--warning-amber); 
+}
+
+/* Form Checks */
+.form-check {
+    background: var(--soft-green);
+    border-radius: 10px;
+    padding: 1rem;
+    margin-bottom: 0.5rem;
+    border: 2px solid transparent;
+    transition: var(--transition);
+}
+
+.form-check:hover {
+    border-color: var(--accent-green);
+    background: #ddf2dd;
+}
+
+.form-check-input:checked {
+    background-color: var(--accent-green);
+    border-color: var(--accent-green);
+}
+
+.form-check-label {
+    font-weight: 500;
+    color: var(--primary-green);
+    cursor: pointer;
+}
+
+/* Responsive Form Checks */
+@media (max-width: 576px) {
+    .form-check {
+        padding: 0.75rem;
+    }
+}
+
+/* Buttons */
+.btn-success {
+    background: linear-gradient(135deg, var(--accent-green) 0%, var(--light-green) 100%);
+    border: none;
+    border-radius: var(--border-radius);
+    padding: 0.75rem 2rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 15px rgba(107, 183, 123, 0.3);
+    transition: var(--transition);
+    color: var(--white);
+}
+
+.btn-success:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(107, 183, 123, 0.4);
+    background: linear-gradient(135deg, var(--light-green) 0%, var(--primary-green) 100%);
+    color: var(--white);
+}
+
+.btn-secondary {
+    background: #6c757d;
+    border: none;
+    border-radius: var(--border-radius);
+    padding: 0.75rem 2rem;
+    font-weight: 500;
+    transition: var(--transition);
+    color: var(--white);
+}
+
+.btn-secondary:hover {
+    background: #5a6268;
+    transform: translateY(-1px);
+    color: var(--white);
+}
+
+/* Responsive Buttons */
+@media (max-width: 768px) {
+    .btn-success, .btn-secondary {
+        padding: 0.6rem 1.5rem;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .btn-success, .btn-secondary {
+        padding: 0.5rem 1rem;
+        font-size: 0.85rem;
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+    
+    .action-buttons .d-flex {
+        flex-direction: column-reverse;
+    }
+    
+    .action-buttons .d-flex .btn:first-child {
+        margin-bottom: 0;
+    }
+}
+
+/* Alert Success */
+.alert-success {
+    background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+    border: none;
+    border-radius: var(--border-radius);
+    border-left: 4px solid var(--accent-green);
+    color: var(--primary-green);
+    font-weight: 500;
+    animation: slideInDown 0.5s ease;
+}
+
+@keyframes slideInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Form Text */
+.form-text {
+    color: var(--light-green);
+    font-style: italic;
+    font-size: 0.8rem;
+}
+
+/* Action Buttons */
+.action-buttons {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    padding: 2rem;
+    border-top: 3px solid var(--soft-green);
+}
+
+/* Responsive Action Buttons */
+@media (max-width: 768px) {
+    .action-buttons {
+        padding: 1.5rem 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .action-buttons {
+        padding: 1rem 0.75rem;
+    }
+}
+
+/* Form Section */
+.form-section {
+    padding: 0 2rem 0 2rem;
+}
+
+@media (max-width: 768px) {
+    .form-section {
+        padding: 0 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .form-section {
+        padding: 0 0.5rem;
+    }
+}
+
+/* Grid Responsive Adjustments */
+@media (max-width: 768px) {
+    .row > [class*="col-md-"] {
+        margin-bottom: 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .row > [class*="col-"] {
+        margin-bottom: 0.75rem;
+    }
+}
+
+/* Textarea Specific */
+textarea.form-control {
+    min-height: 120px;
+    resize: vertical;
+}
+
+@media (max-width: 576px) {
+    textarea.form-control {
+        min-height: 100px;
+    }
+}
+
+/* Select Multiple Styling */
+select[multiple] {
+    min-height: 120px;
+}
+
+@media (max-width: 576px) {
+    select[multiple] {
+        min-height: 100px;
+        font-size: 0.85rem;
+    }
+}
+
+/* Loading Animation for Image Previews */
+.image-preview.loading {
+    position: relative;
+}
+
+.image-preview.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid var(--accent-green);
+    border-top: 2px solid transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Focus Management */
+*:focus {
+    outline: none;
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+    .form-control, .form-select {
+        border-width: 3px;
+    }
+    
+    .section-card {
+        border: 2px solid var(--primary-green);
+    }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Print Styles */
+@media print {
+    .btn, .action-buttons {
+        display: none;
+    }
+    
+    .main-container {
+        box-shadow: none;
+        border: 1px solid #000;
+    }
+    
+    .header-section {
+        background: #f0f0f0 !important;
+        color: #000 !important;
+    }
+}
+
+
+/* Header Text Contrast Fix */
+.header-section h1,
+.header-section h1 span,
+.header-section p {
+    color: #ffffff !important;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    position: relative;
+    z-index: 2;
+}
+
+.header-section h1 i {
+    color: #ffffff !important;
+}
+
+/* Ensure header background has enough contrast */
+.header-section {
+    background: linear-gradient(135deg, #1a3d1f 0%, #2d5530 50%, #4a7c59 100%) !important;
+}
+
+
+/* ==========================================
+   MOBILE SPACING FIXES
+   ========================================== */
+
+/* Fix Add New Book button spacing on mobile */
+@media (max-width: 768px) {
+    /* Add spacing between title and button */
+    .d-flex.justify-content-between.align-items-center {
+        gap: 1rem;
+        flex-direction: column;
+        align-items: stretch !important;
+    }
+    
+    /* Make button full width on mobile for better touch target */
+    .d-flex.justify-content-between.align-items-center .btn {
+        width: 100%;
+        margin-top: 1rem;
+    }
+    
+    /* Alternative: Keep them side by side but add margin */
+    .page-header .d-flex {
+        gap: 1rem;
+    }
+    
+    .page-header h1 {
+        margin-bottom: 1rem;
+    }
+}
+
+/* For very small screens */
+@media (max-width: 576px) {
+    .d-flex.justify-content-between.align-items-center {
+        gap: 1.5rem;
+    }
+    
+    .d-flex.justify-content-between.align-items-center .btn {
+        margin-top: 1.5rem;
+        padding: 0.75rem 1rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* If you have a specific header class, target it directly */
+.book-management-header .d-flex {
+    gap: 1.5rem;
+}
+
+@media (max-width: 768px) {
+    .book-management-header .d-flex {
+        flex-direction: column;
+        align-items: flex-start !important;
+        gap: 1rem;
+    }
+    
+    .book-management-header .btn {
+        align-self: stretch;
+    }
+}
