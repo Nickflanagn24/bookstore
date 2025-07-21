@@ -259,3 +259,91 @@ def newsletter_signup(request):
             'success': False,
             'message': 'An error occurred. Please try again.'
         })
+
+# =====================================
+# CRUD Views - Staff Only
+# =====================================
+from django.contrib.auth.decorators import user_passes_test
+from .forms import BookForm
+
+def is_staff_user(user):
+    """Check if user is staff"""
+    return user.is_staff
+
+@login_required
+@user_passes_test(is_staff_user)
+def book_manage(request):
+    """Staff book management dashboard"""
+    search = request.GET.get('search', '')
+    books = Book.objects.all()
+    
+    if search:
+        books = books.filter(
+            Q(title__icontains=search) | 
+            Q(authors__name__icontains=search)
+        ).distinct()
+    
+    books = books.order_by('-created_at')
+    paginator = Paginator(books, 20)
+    page = request.GET.get('page')
+    books = paginator.get_page(page)
+    
+    return render(request, 'books/manage.html', {
+        'books': books,
+        'search': search
+    })
+
+@login_required
+@user_passes_test(is_staff_user)
+def book_create(request):
+    """Create new book"""
+    if request.method == 'POST':
+        form = BookForm(request.POST)
+        if form.is_valid():
+            book = form.save()
+            messages.success(request, f'Book "{book.title}" created successfully!')
+            return redirect('books:book_detail', pk=book.pk)
+    else:
+        form = BookForm()
+    
+    return render(request, 'books/form.html', {
+        'form': form,
+        'title': 'Add New Book',
+        'button': 'Create Book'
+    })
+
+@login_required
+@user_passes_test(is_staff_user)
+def book_edit(request, pk):
+    """Edit existing book"""
+    book = get_object_or_404(Book, pk=pk)
+    
+    if request.method == 'POST':
+        form = BookForm(request.POST, instance=book)
+        if form.is_valid():
+            book = form.save()
+            messages.success(request, f'Book "{book.title}" updated successfully!')
+            return redirect('books:book_detail', pk=book.pk)
+    else:
+        form = BookForm(instance=book)
+    
+    return render(request, 'books/form.html', {
+        'form': form,
+        'book': book,
+        'title': f'Edit {book.title}',
+        'button': 'Update Book'
+    })
+
+@login_required
+@user_passes_test(is_staff_user)
+def book_remove(request, pk):
+    """Delete book with confirmation"""
+    book = get_object_or_404(Book, pk=pk)
+    
+    if request.method == 'POST':
+        title = book.title
+        book.delete()
+        messages.success(request, f'Book "{title}" deleted successfully!')
+        return redirect('books:book_manage')
+    
+    return render(request, 'books/delete.html', {'book': book})

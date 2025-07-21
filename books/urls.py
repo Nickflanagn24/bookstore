@@ -20,4 +20,10 @@ urlpatterns = [
     path('contact/', views.contact, name='contact'),
     path('contact/submit/', views.submit_contact_form, name='submit_contact_form'),
     path("newsletter/signup/", views.newsletter_signup, name="newsletter_signup"),
+    
+    # Staff CRUD URLs
+    path('manage/', views.book_manage, name='book_manage'),
+    path('add/', views.book_create, name='book_create'),
+    path('book/<uuid:pk>/edit/', views.book_edit, name='book_edit'),
+    path('book/<uuid:pk>/delete/', views.book_remove, name='book_remove'),
 ]
