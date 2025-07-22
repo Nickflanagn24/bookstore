@@ -18,4 +18,8 @@ urlpatterns = [
     path('checkout/success/', checkout_views.checkout_success, name='checkout_success'),
     path('checkout/cancelled/', checkout_views.checkout_cancelled, name='checkout_cancelled'),
     path('stripe/webhook/', checkout_views.stripe_webhook, name='stripe_webhook'),
+    
+    # Professional Secure Checkout URLs
+    path("secure-checkout/", checkout_views.hardwired_checkout, name="secure_checkout"),
+    path("process-secure-payment/", checkout_views.process_hardwired_payment, name="process_secure_payment"),
 ]

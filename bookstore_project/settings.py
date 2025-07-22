@@ -223,3 +223,18 @@ SERVER_EMAIL = os.getenv('SERVER_EMAIL', 'noreply@talesandtails.com')
 EMAIL_SUBJECT_PREFIX = '[Tales & Tails] '
 ADMINS = [('Admin', os.getenv('ADMIN_EMAIL', 'admin@talesandtails.com'))]
 MANAGERS = ADMINS
+
+# =================================
+# STRIPE CONFIGURATION
+# =================================
+STRIPE_PUBLISHABLE_KEY = config('STRIPE_PUBLISHABLE_KEY', default='')
+STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY', default='')
+STRIPE_ENDPOINT_SECRET = config('STRIPE_ENDPOINT_SECRET', default='')
+
+# Validate Stripe keys are loaded
+if not STRIPE_PUBLISHABLE_KEY or not STRIPE_SECRET_KEY:
+    print("⚠️  WARNING: Stripe keys not found in environment variables")
+    print(f"STRIPE_PUBLISHABLE_KEY: {'✅' if STRIPE_PUBLISHABLE_KEY else '❌'}")
+    print(f"STRIPE_SECRET_KEY: {'✅' if STRIPE_SECRET_KEY else '❌'}")
+else:
+    print("✅ Stripe keys loaded successfully")
