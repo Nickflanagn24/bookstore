@@ -2268,3 +2268,130 @@ select[multiple] {
         align-self: stretch;
     }
 }
+
+/* ========================================
+   PAGINATION STYLING - Tales & Tails
+   ======================================== */
+
+/* Custom Pagination Styling */
+.pagination-custom {
+    --bs-pagination-padding-x: 0.875rem;
+    --bs-pagination-padding-y: 0.5rem;
+    --bs-pagination-font-size: 1rem;
+    --bs-pagination-color: #2B7A2B;
+    --bs-pagination-bg: #ffffff;
+    --bs-pagination-border-width: 2px;
+    --bs-pagination-border-color: #2B7A2B;
+    --bs-pagination-border-radius: 8px;
+    --bs-pagination-hover-color: #ffffff;
+    --bs-pagination-hover-bg: #2B7A2B;
+    --bs-pagination-hover-border-color: #2B7A2B;
+    --bs-pagination-focus-color: #ffffff;
+    --bs-pagination-focus-bg: #1e5a1e;
+    --bs-pagination-focus-border-color: #1e5a1e;
+    --bs-pagination-active-color: #ffffff;
+    --bs-pagination-active-bg: #2B7A2B;
+    --bs-pagination-active-border-color: #2B7A2B;
+    --bs-pagination-disabled-color: #6c757d;
+    --bs-pagination-disabled-bg: #f8f9fa;
+    --bs-pagination-disabled-border-color: #dee2e6;
+}
+
+.pagination-custom .page-link {
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(43, 122, 43, 0.1);
+    border-radius: 8px;
+    margin: 0 2px;
+}
+
+.pagination-custom .page-item.active .page-link {
+    background: linear-gradient(135deg, #2B7A2B 0%, #1e5a1e 100%);
+    border-color: #2B7A2B;
+    font-weight: 700;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(43, 122, 43, 0.3);
+}
+
+.pagination-custom .page-link:hover:not(.active) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(43, 122, 43, 0.25);
+    background-color: #2B7A2B;
+    border-color: #2B7A2B;
+    color: #ffffff;
+}
+
+.pagination-custom .page-item:first-child .page-link {
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px;
+}
+
+.pagination-custom .page-item:last-child .page-link {
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px;
+}
+
+/* Book counter styling */
+.book-counter {
+    color: #2B7A2B;
+    font-weight: 500;
+    font-size: 0.95rem;
+    background: rgba(43, 122, 43, 0.05);
+    padding: 8px 16px;
+    border-radius: 20px;
+    display: inline-block;
+    border: 1px solid rgba(43, 122, 43, 0.2);
+}
+
+.book-counter .fas {
+    color: #2B7A2B;
+    margin-right: 6px;
+}
+
+/* Responsive pagination */
+@media (max-width: 768px) {
+    .pagination-custom {
+        --bs-pagination-padding-x: 0.5rem;
+        --bs-pagination-padding-y: 0.375rem;
+        --bs-pagination-font-size: 0.875rem;
+    }
+    
+    .pagination-custom .page-link {
+        margin: 0 1px;
+    }
+    
+    /* Hide text on mobile, keep icons */
+    .pagination-custom .page-link .d-none.d-sm-inline {
+        display: none !important;
+    }
+}
+
+@media (max-width: 576px) {
+    .pagination-custom .page-item:not(.active) .page-link {
+        padding: 0.375rem 0.5rem;
+    }
+    
+    /* Show only essential pagination on mobile */
+    .pagination-custom .page-item:first-child,
+    .pagination-custom .page-item:last-child {
+        display: none;
+    }
+}
+
+/* Pagination container styling */
+.pagination-container {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    padding: 20px;
+    margin-top: 3rem;
+    box-shadow: 0 8px 32px rgba(43, 122, 43, 0.1);
+    border: 1px solid rgba(43, 122, 43, 0.1);
+}
+
+/* Pagination loading state */
+.pagination-loading .page-link {
+    opacity: 0.6;
+    pointer-events: none;
+}
+

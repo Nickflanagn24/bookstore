@@ -1,7 +1,11 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}All Books - Tales & Tails
+{% block title %}All Books - Tales & Tails{% endblock %}
+
+{% block meta_description %}Browse our complete collection of professional dog books. Training guides, health resources, breed information, and expert veterinary texts.{% endblock %}
+
+{% block extra_css %}
 <style>
 .price-button-stack {
     display: flex;
@@ -19,27 +23,6 @@
     width: 100%;
 }
 </style>
-
-{% endblock %}
-{% block meta_description %}Browse our complete collection of professional dog books. Training guides, health resources, breed information, and expert veterinary texts.
-<style>
-.price-button-stack {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.price-button-stack .price {
-    font-weight: bold;
-    color: #2B7A2B;
-    font-size: 1.1rem;
-}
-
-.price-button-stack .btn {
-    width: 100%;
-}
-</style>
-
 {% endblock %}
 
 {% block content %}
@@ -85,24 +68,54 @@
         </div>
         {% endfor %}
     </div>
+
+    <!-- Styled Pagination Controls -->
+    {% if books.has_other_pages %}
+    <div class="pagination-container">
+        <nav aria-label="Book pagination" class="d-flex justify-content-center">
+            <ul class="pagination pagination-lg pagination-custom">
+                {% if books.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page=1" title="Go to first page">
+                            <i class="fas fa-angle-double-left me-1"></i><span class="d-none d-sm-inline">First</span>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ books.previous_page_number }}" title="Go to previous page">
+                            <i class="fas fa-angle-left me-1"></i><span class="d-none d-sm-inline">Previous</span>
+                        </a>
+                    </li>
+                {% endif %}
+                
+                <li class="page-item active">
+                    <span class="page-link">
+                        <i class="fas fa-book-open me-2"></i>
+                        Page {{ books.number }} of {{ books.paginator.num_pages }}
+                    </span>
+                </li>
+                
+                {% if books.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ books.next_page_number }}" title="Go to next page">
+                            <span class="d-none d-sm-inline">Next</span><i class="fas fa-angle-right ms-1"></i>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ books.paginator.num_pages }}" title="Go to last page">
+                            <span class="d-none d-sm-inline">Last</span><i class="fas fa-angle-double-right ms-1"></i>
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+        
+        <div class="text-center mt-3">
+            <span class="book-counter">
+                <i class="fas fa-book"></i>
+                Showing {{ books.start_index }}-{{ books.end_index }} of {{ books.paginator.count }} books
+            </span>
+        </div>
+    </div>
+    {% endif %}
 </div>
-
-<style>
-.price-button-stack {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.price-button-stack .price {
-    font-weight: bold;
-    color: #2B7A2B;
-    font-size: 1.1rem;
-}
-
-.price-button-stack .btn {
-    width: 100%;
-}
-</style>
-
 {% endblock %}

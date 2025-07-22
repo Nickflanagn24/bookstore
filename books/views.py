@@ -23,10 +23,25 @@ def home(request):
 
 def book_list(request):
     """Book listing page with search and filtering"""
-    books = Book.objects.filter(is_available=True).select_related().prefetch_related('authors', 'categories')
+    from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+    
+    books_queryset = Book.objects.filter(is_available=True).select_related().prefetch_related('authors', 'categories')
+    
+    # Pagination
+    paginator = Paginator(books_queryset, 12)  # Show 12 books per page
+    page = request.GET.get('page')
+    
+    try:
+        books = paginator.page(page)
+    except PageNotAnInteger:
+        books = paginator.page(1)
+    except EmptyPage:
+        books = paginator.page(paginator.num_pages)
+    
+    print(f"DEBUG: Total books: {paginator.count}, Pages: {paginator.num_pages}, Has other pages: {books.has_other_pages()}")
     
     context = {
-        'books': books[:12],  # First 12 books for now
+        'books': books,
         'categories': Category.objects.all(),
     }
     
