@@ -280,10 +280,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const timer = setInterval(() => {
             current += increment;
             if (current >= target) {
-                element.textContent = target + (element.textContent.includes('+') ? '+' : element.textContent.includes('/') ? '/7' : '');
+                element.textContent = (target === 100) ? "100%" : target + (element.textContent.includes("+") ? "+" : element.textContent.includes("/") ? "/7" : "");
                 clearInterval(timer);
             } else {
-                element.textContent = Math.floor(current) + (element.textContent.includes('+') ? '+' : element.textContent.includes('/') ? '/7' : '');
+                element.textContent = (target === 100 && Math.floor(current) === target) ? "100%" : Math.floor(current) + (element.textContent.includes("+") ? "+" : element.textContent.includes("/") ? "/7" : "");
             }
         }, 20);
     }
