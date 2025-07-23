@@ -1,0 +1,57 @@
+
+/* ===================================
+   Book Detail Page Image Fix
+   =================================== */
+
+.book-cover-detail {
+    max-width: 85%;
+    max-height: 85%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    transition: transform 0.4s ease;
+}
+
+.book-cover-detail:hover {
+    transform: scale(1.05);
+}
+
+.no-image-placeholder-large {
+    font-size: 6rem;
+    color: var(--primary-300);
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 400px;
+    background: linear-gradient(135deg, var(--primary-50), var(--navy-50));
+    border-radius: var(--radius-md);
+}
+
+/* Responsive adjustments for book detail images */
+@media (max-width: 768px) {
+    .book-cover-detail {
+        max-width: 90%;
+        max-height: 90%;
+    }
+    
+    .no-image-placeholder-large {
+        height: 300px;
+        font-size: 4rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .book-cover-detail {
+        max-width: 95%;
+        max-height: 95%;
+    }
+    
+    .no-image-placeholder-large {
+        height: 250px;
+        font-size: 3rem;
+    }
+}

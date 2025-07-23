@@ -13,9 +13,9 @@
             <div class="card shadow-sm">
                 <div class="book-cover-container text-center">
                     {% if book.cover_image %}
-                        <img src="{{ book.cover_image }}" class="card-img-top book-cover-detail" alt="{{ book.title }}">
+                        <img src="{{ book.cover_image }}" class="book-cover-detail" alt="{{ book.title }}">
                     {% elif book.thumbnail %}
-                        <img src="{{ book.thumbnail }}" class="card-img-top book-cover-detail" alt="{{ book.title }}">
+                        <img src="{{ book.thumbnail }}" class="book-cover-detail" alt="{{ book.title }}">
                     {% else %}
                         <div class="no-image-placeholder-large">📚</div>
                     {% endif %}
