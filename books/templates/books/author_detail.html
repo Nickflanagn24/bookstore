@@ -16,7 +16,13 @@
             <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
                 <div class="card">
                     {% if book.thumbnail %}
-                    <img src="{{ book.thumbnail }}" class="card-img-top" alt="{{ book.title }}" style="height: 200px; object-fit: cover;">
+                    <div class="book-cover-container">
+                        <img src="{{ book.thumbnail }}" class="book-cover-high-res" alt="{{ book.title }}">
+                    </div>
+                    {% else %}
+                    <div class="book-cover-container">
+                        <div class="no-image-placeholder">��</div>
+                    </div>
                     {% endif %}
                     <div class="card-body">
                         <h6 class="card-title">{{ book.title|truncatechars:40 }}</h6>
