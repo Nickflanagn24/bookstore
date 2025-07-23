@@ -65,10 +65,16 @@ def book_detail(request, pk):
         is_available=True
     ).distinct().select_related().prefetch_related('authors')[:4]
     
+    # Check if user can review and get user review
+    user_can_review = book.user_can_review(request.user) if request.user.is_authenticated else False
+    user_review = book.get_user_review(request.user) if request.user.is_authenticated else None
+    
     context = {
-        'book': book,
-        'recommendations': recommendations,
-        'in_stock': book.is_in_stock,
+        "book": book,
+        "recommendations": recommendations,
+        "in_stock": book.is_in_stock,
+        "user_can_review": user_can_review,
+        "user_review": user_review,
     }
     
     return render(request, 'books/book_detail.html', context)
@@ -383,3 +389,102 @@ def book_remove(request, pk):
         return redirect('books:book_manage')
     
     return render(request, 'books/delete.html', {'book': book})
+
+# =====================================
+# REVIEW Views
+# =====================================
+from .forms import ReviewForm
+from .models import Review
+
+@login_required
+def review_create(request, book_id):
+    """Create a new review for a book"""
+    book = get_object_or_404(Book, id=book_id, is_available=True)
+    
+    # Check if user already reviewed this book
+    if book.reviews.filter(user=request.user).exists():
+        messages.warning(request, 'You have already reviewed this book.')
+        return redirect('books:book_detail', pk=book.id)
+    
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.user = request.user
+            review.book = book
+            review.save()
+            
+            # Update book's average rating
+            book.update_average_rating()
+            
+            messages.success(request, 'Your review has been added successfully!')
+            return redirect('books:book_detail', pk=book.id)
+    else:
+        form = ReviewForm()
+    
+    context = {
+        'form': form,
+        'book': book,
+        'title': f'Review: {book.title}',
+    }
+    return render(request, 'books/review_form.html', context)
+
+@login_required
+def review_edit(request, review_id):
+    """Edit an existing review"""
+    review = get_object_or_404(Review, id=review_id, user=request.user)
+    book = review.book
+    
+    if request.method == 'POST':
+        form = ReviewForm(request.POST, instance=review)
+        if form.is_valid():
+            form.save()
+            
+            # Update book's average rating
+            book.update_average_rating()
+            
+            messages.success(request, 'Your review has been updated successfully!')
+            return redirect('books:book_detail', pk=book.id)
+    else:
+        form = ReviewForm(instance=review)
+    
+    context = {
+        'form': form,
+        'book': book,
+        'review': review,
+        'title': f'Edit Review: {book.title}',
+        'is_edit': True,
+    }
+    return render(request, 'books/review_form.html', context)
+
+@login_required
+def review_delete(request, review_id):
+    """Delete a review"""
+    review = get_object_or_404(Review, id=review_id, user=request.user)
+    book = review.book
+    
+    if request.method == 'POST':
+        review.delete()
+        
+        # Update book's average rating
+        book.update_average_rating()
+        
+        messages.success(request, 'Your review has been deleted.')
+        return redirect('books:book_detail', pk=book.id)
+    
+    context = {
+        'review': review,
+        'book': book,
+    }
+    return render(request, 'books/review_delete.html', context)
+
+@login_required
+def user_reviews(request):
+    """Display all reviews by the current user"""
+    reviews = Review.objects.filter(user=request.user).select_related('book')
+    
+    context = {
+        'reviews': reviews,
+        'total_reviews': reviews.count(),
+    }
+    return render(request, 'books/user_reviews.html', context)

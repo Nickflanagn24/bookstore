@@ -1,5 +1,5 @@
 from django import forms
-from .models import Book, Author, Category
+from .models import Book, Author, Category, Review
 
 class BookForm(forms.ModelForm):
     """Form for Book CRUD operations"""
@@ -51,3 +51,36 @@ class BookForm(forms.ModelForm):
             self.fields['is_available'].initial = True
             self.fields['language'].initial = 'English'
             self.fields['stock_quantity'].initial = 1
+
+class ReviewForm(forms.ModelForm):
+    """Form for creating and editing reviews"""
+    
+    class Meta:
+        model = Review
+        fields = ['rating', 'title', 'comment']
+        widgets = {
+            'rating': forms.Select(attrs={
+                'class': 'form-select',
+                'id': 'rating-select'
+            }),
+            'title': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Give your review a title...',
+                'maxlength': 200
+            }),
+            'comment': forms.Textarea(attrs={
+                'class': 'form-control',
+                'placeholder': 'Share your thoughts about this book...',
+                'rows': 4
+            }),
+        }
+        
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['rating'].empty_label = "Select a rating"
+        self.fields['title'].label = "Review Title"
+        self.fields['comment'].label = "Your Review"
+        
+        # Add Bootstrap validation classes
+        for field in self.fields.values():
+            field.widget.attrs.update({'class': field.widget.attrs.get('class', '') + ' is-invalid' if self.errors else ''})

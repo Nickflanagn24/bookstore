@@ -127,7 +127,7 @@
             <div class="col-md-4">
                 <div class="card text-center">
                     <div class="card-body">
-                        <h5 class="text-primary-custom">0</h5>
+                        <h5 class="text-primary-custom">{{ user_reviews_count|default:0 }}</h5>
                         <p class="card-text small">Books Purchased</p>
                     </div>
                 </div>
@@ -135,7 +135,7 @@
             <div class="col-md-4">
                 <div class="card text-center">
                     <div class="card-body">
-                        <h5 class="text-secondary-custom">0</h5>
+                        <h5 class="text-secondary-custom">{{ user_reviews_count|default:0 }}</h5>
                         <p class="card-text small">Reviews Written</p>
                     </div>
                 </div>
@@ -143,7 +143,7 @@
             <div class="col-md-4">
                 <div class="card text-center">
                     <div class="card-body">
-                        <h5 class="text-accent-custom">0</h5>
+                        <h5 class="text-accent-custom">{{ user_reviews_count|default:0 }}</h5>
                         <p class="card-text small">Wishlist Items</p>
                     </div>
                 </div>

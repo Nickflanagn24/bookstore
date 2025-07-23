@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}My Reviews - Tales & Tails{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="text-primary-custom">
+                    <i class="fas fa-star me-2"></i>My Reviews
+                </h2>
+                <span class="badge bg-primary fs-6">{{ total_reviews }} review{{ total_reviews|pluralize }}</span>
+            </div>
+        </div>
+    </div>
+
+    {% if reviews %}
+        <div class="row">
+            {% for review in reviews %}
+            <div class="col-lg-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <!-- Book Info -->
+                        <div class="d-flex mb-3">
+                            <div class="me-3">
+                                {% if review.book.cover_image or review.book.thumbnail %}
+                                    <img src="{{ review.book.cover_image|default:review.book.thumbnail }}" 
+                                         alt="{{ review.book.title }}" 
+                                         style="width: 60px; height: 80px; object-fit: cover;"
+                                         class="rounded">
+                                {% else %}
+                                    <div class="bg-light p-2 rounded" style="width: 60px; height: 80px; display: flex; align-items: center; justify-content: center;">
+                                        <i class="fas fa-book text-muted"></i>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="flex-grow-1">
+                                <h6 class="mb-1">
+                                    <a href="{% url 'books:book_detail' review.book.id %}" class="text-decoration-none">
+                                        {{ review.book.title }}
+                                    </a>
+                                </h6>
+                                <p class="text-muted small mb-2">by {{ review.book.authors_list }}</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="text-warning">{{ review.star_display }}</span>
+                                    <small class="text-muted">{{ review.created_at|date:"M d, Y" }}</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Review Content -->
+                        <h6 class="mb-2">{{ review.title }}</h6>
+                        <p class="text-muted mb-3">{{ review.comment|truncatewords:30 }}</p>
+
+                        <!-- Action Buttons -->
+                        <div class="d-flex gap-2">
+                            <a href="{% url 'books:review_edit' review.id %}" class="btn btn-sm btn-outline-primary">
+                                <i class="fas fa-edit me-1"></i>Edit
+                            </a>
+                            <a href="{% url 'books:review_delete' review.id %}" class="btn btn-sm btn-outline-danger">
+                                <i class="fas fa-trash-alt me-1"></i>Delete
+                            </a>
+                            <a href="{% url 'books:book_detail' review.book.id %}" class="btn btn-sm btn-outline-secondary">
+                                <i class="fas fa-eye me-1"></i>View Book
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="text-center py-5">
+            <div class="mb-4">
+                <i class="fas fa-star fa-4x text-muted"></i>
+            </div>
+            <h4 class="text-muted mb-3">No Reviews Yet</h4>
+            <p class="text-muted mb-4">You haven't written any book reviews yet. Start exploring our collection and share your thoughts!</p>
+            <a href="{% url 'books:book_list' %}" class="btn btn-primary">
+                <i class="fas fa-book me-2"></i>Browse Books
+            </a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

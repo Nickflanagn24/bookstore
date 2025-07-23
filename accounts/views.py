@@ -1,3 +1,4 @@
+from books.models import Review
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
@@ -75,6 +76,9 @@ def profile_view(request):
     context = {
         'user': request.user,
     }
+    # Get user reviews count
+    user_reviews_count = Review.objects.filter(user=request.user).count() if hasattr(request.user, "reviews") else 0
+    context["user_reviews_count"] = user_reviews_count
     return render(request, 'accounts/profile.html', context)
 
 @login_required
