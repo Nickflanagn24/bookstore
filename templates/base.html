@@ -114,6 +114,8 @@
 
     <!-- Main Content -->
     <main class="container my-4">
+        <!-- Breadcrumb Navigation -->
+        {% include "components/breadcrumbs.html" %}
         {% if messages %}
             {% for message in messages %}
                 <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">

@@ -2395,3 +2395,74 @@ select[multiple] {
     pointer-events: none;
 }
 
+
+/* ===================================
+   BREADCRUMB STYLING - Tales & Tails  
+   =================================== */
+
+.breadcrumb-nav {
+    background: linear-gradient(135deg, #e8f5e8 0%, #f0f9f4 100%);
+    border: 1px solid #bce5cd;
+    border-radius: 12px;
+    padding: 1rem 0;
+    margin: 1rem 0 1.5rem 0;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    position: relative;
+}
+
+.breadcrumb-nav::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #2f855a, #68d391, #2f855a);
+}
+
+.breadcrumb {
+    background: transparent !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.breadcrumb-item {
+    color: #2d3748;
+    font-weight: 500;
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+    content: "›";
+    color: #2f855a;
+    font-weight: 700;
+    font-size: 1.3rem;
+    padding: 0 0.75rem;
+}
+
+.breadcrumb-item.active {
+    color: #1b4332;
+    font-weight: 600;
+    background: rgba(47, 133, 90, 0.15);
+    padding: 0.5rem 0.75rem;
+    border-radius: 8px;
+    border: 1px solid #8dd1a8;
+}
+
+.breadcrumb-link {
+    color: #4a5568;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    padding: 0.5rem 0.75rem;
+    border-radius: 8px;
+    border: 1px solid transparent;
+}
+
+.breadcrumb-link:hover {
+    color: #1b4332;
+    background: #dcf2e4;
+    text-decoration: none;
+    border-color: #8dd1a8;
+}
+

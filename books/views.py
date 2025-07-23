@@ -75,6 +75,7 @@ def book_detail(request, pk):
         "in_stock": book.is_in_stock,
         "user_can_review": user_can_review,
         "user_review": user_review,
+            "book": book,
     }
     
     return render(request, 'books/book_detail.html', context)
