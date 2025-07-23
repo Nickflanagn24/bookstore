@@ -81,28 +81,42 @@ def book_detail(request, pk):
     return render(request, 'books/book_detail.html', context)
 
 def category_detail(request, slug):
-    """Category page showing all books in a category"""
+    """Category page showing all books in a category with pagination"""
     category = get_object_or_404(Category, slug=slug)
-    books = Book.objects.filter(categories=category, is_available=True)
+    
+    # Get all books in this category
+    books_list = Book.objects.filter(categories=category, is_available=True).order_by("-created_at")
+    
+    # Add pagination (12 books per page to match books page)
+    paginator = Paginator(books_list, 12)
+    page_number = request.GET.get("page")
+    books = paginator.get_page(page_number)
     
     context = {
-        'category': category,
-        'books': books[:12],  # First 12 books
+        "category": category,
+        "books": books,
     }
     
-    return render(request, 'books/category_detail.html', context)
+    return render(request, "books/category_detail.html", context)
 
 def author_detail(request, pk):
-    """Author page showing all books by an author"""
+    """Author page showing all books by an author with pagination"""
     author = get_object_or_404(Author, pk=pk)
-    books = Book.objects.filter(authors=author, is_available=True)
+    
+    # Get all books by this author
+    books_list = Book.objects.filter(authors=author, is_available=True).order_by("-created_at")
+    
+    # Add pagination (12 books per page)
+    paginator = Paginator(books_list, 12)
+    page_number = request.GET.get("page")
+    books = paginator.get_page(page_number)
     
     context = {
-        'author': author,
-        'books': books[:12],  # First 12 books
+        "author": author,
+        "books": books,
     }
     
-    return render(request, 'books/author_detail.html', context)
+    return render(request, "books/author_detail.html", context)
 
 def search_ajax(request):
     """AJAX search for live search functionality"""
@@ -481,11 +495,17 @@ def review_delete(request, review_id):
 
 @login_required
 def user_reviews(request):
-    """Display all reviews by the current user"""
-    reviews = Review.objects.filter(user=request.user).select_related('book')
+    """Display all reviews by the current user with pagination"""
+    reviews_list = Review.objects.filter(user=request.user).select_related("book").order_by("-created_at")
+    
+    # Add pagination (10 reviews per page)
+    paginator = Paginator(reviews_list, 10)
+    page_number = request.GET.get("page")
+    reviews = paginator.get_page(page_number)
     
     context = {
-        'reviews': reviews,
-        'total_reviews': reviews.count(),
+        "reviews": reviews,
+        "total_reviews": reviews_list.count(),
     }
-    return render(request, 'books/user_reviews.html', context)
+    
+    return render(request, "books/user_reviews.html", context)
