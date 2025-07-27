@@ -3,7 +3,8 @@
 
 {% block title %}Tales & Tails - Premium Dog Books & Training Resources{% endblock %}
 
-{% block meta_description %}Discover premium dog books and training resources at Tales & Tails. Expert-curated collection for dog owners, trainers, and veterinarians. Where every dog story begins.{% endblock %}
+{% block meta_description %}Discover premium dog books and training resources at Tales & Tails. Expert-curated
+collection for dog owners, trainers, and veterinarians. Where every dog story begins.{% endblock %}
 
 {% block content %}
 <!-- Premium Hero Section -->
@@ -15,18 +16,16 @@
                     <h1 class="display-2 fw-bold mb-4" style="color: var(--primary-800);">
                         Welcome to
                         <span class="d-block" style="color: var(--primary-700);">Tales & Tails</span>
-                        <span class="d-block" style="font-size: 1.8rem; color: var(--navy-800); font-weight: 500;">Where Every Dog Story Begins</span>
+                        <span class="d-block" style="font-size: 1.8rem; color: var(--navy-800); font-weight: 500;">Where
+                            Every Dog Story Begins</span>
                     </h1>
                     <p class="lead mb-4" style="color: var(--navy-800); font-weight: 500; font-size: 1.3rem;">
-                        Discover the world's most comprehensive collection of professional dog books, training guides, 
+                        Discover the world's most comprehensive collection of professional dog books, training guides,
                         and veterinary resources. From puppy care to advanced training techniques.
                     </p>
-                    <div class="d-flex gap-3 flex-wrap">
+                    <div class="d-flex flex-wrap gap-3 justify-content-lg-start justify-content-center">
                         <a href="{% url 'books:book_list' %}" class="btn btn-primary btn-lg px-5 py-3">
                             <i class="fas fa-search me-2"></i>Browse Books
-                        </a>
-                        <a href="{% url 'books:about' %}" class="btn btn-secondary btn-lg px-5 py-3">
-                            <i class="fas fa-info-circle me-2"></i>Learn More
                         </a>
                     </div>
                 </div>
@@ -36,7 +35,8 @@
                     <div class="position-relative">
                         <div class="display-1 mb-4">📚🐕</div>
                         <div class="premium-glass-effect p-5 d-inline-block">
-                            <h3 class="mb-3" style="color: var(--primary-800); font-family: var(--font-display); font-weight: 700;">
+                            <h3 class="mb-3"
+                                style="color: var(--primary-800); font-family: var(--font-display); font-weight: 700;">
                                 Professional Resources
                             </h3>
                             <p class="mb-0" style="color: var(--navy-700); font-weight: 500;">
@@ -51,31 +51,48 @@
 </section>
 
 <!-- Premium Stats Bar with Better Contrast -->
-<section class="py-5" style="background: linear-gradient(135deg, var(--primary-700) 0%, var(--navy-800) 100%); box-shadow: var(--shadow-lg);">
+<section class="py-5"
+    style="background: linear-gradient(135deg, var(--primary-700) 0%, var(--navy-800) 100%); box-shadow: var(--shadow-lg);">
     <div class="container">
         <div class="row text-center">
             <div class="col-md-3">
                 <div class="premium-loading">
-                    <h4 class="fw-bold mb-2" style="font-family: var(--font-display); color: white; font-size: 2.5rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">{{ total_books }}+</h4>
-                    <p class="mb-0" style="color: white; font-weight: 600; font-size: 1.1rem; text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">Expert Books</p>
+                    <h4 class="fw-bold mb-2"
+                        style="font-family: var(--font-display); color: white; font-size: 2.5rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">
+                        {{ total_books }}+</h4>
+                    <p class="mb-0"
+                        style="color: white; font-weight: 600; font-size: 1.1rem; text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">
+                        Expert Books</p>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="premium-loading">
-                    <h4 class="fw-bold mb-2" style="font-family: var(--font-display); color: white; font-size: 2.5rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">{{ total_authors }}+</h4>
-                    <p class="mb-0" style="color: white; font-weight: 600; font-size: 1.1rem; text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">Renowned Authors</p>
+                    <h4 class="fw-bold mb-2"
+                        style="font-family: var(--font-display); color: white; font-size: 2.5rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">
+                        {{ total_authors }}+</h4>
+                    <p class="mb-0"
+                        style="color: white; font-weight: 600; font-size: 1.1rem; text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">
+                        Renowned Authors</p>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="premium-loading">
-                    <h4 class="fw-bold mb-2" style="font-family: var(--font-display); color: white; font-size: 2.5rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">100%</h4>
-                    <p class="mb-0" style="color: white; font-weight: 600; font-size: 1.1rem; text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">Secure Checkout</p>
+                    <h4 class="fw-bold mb-2"
+                        style="font-family: var(--font-display); color: white; font-size: 2.5rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">
+                        100%</h4>
+                    <p class="mb-0"
+                        style="color: white; font-weight: 600; font-size: 1.1rem; text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">
+                        Secure Checkout</p>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="premium-loading">
-                    <h4 class="fw-bold mb-2" style="font-family: var(--font-display); color: white; font-size: 2.5rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">24/7</h4>
-                    <p class="mb-0" style="color: white; font-weight: 600; font-size: 1.1rem; text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">Expert Support</p>
+                    <h4 class="fw-bold mb-2"
+                        style="font-family: var(--font-display); color: white; font-size: 2.5rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">
+                        24/7</h4>
+                    <p class="mb-0"
+                        style="color: white; font-weight: 600; font-size: 1.1rem; text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">
+                        Expert Support</p>
                 </div>
             </div>
         </div>
@@ -87,8 +104,10 @@
 <section class="py-5">
     <div class="container">
         <div class="text-center mb-5">
-            <h2 class="display-5 fw-bold mb-4" style="color: var(--primary-800); font-family: var(--font-display);">Featured Books</h2>
-            <p class="lead" style="color: var(--navy-700); font-weight: 500;">Hand-picked by our experts for exceptional quality and value</p>
+            <h2 class="display-5 fw-bold mb-4" style="color: var(--primary-800); font-family: var(--font-display);">
+                Featured Books</h2>
+            <p class="lead" style="color: var(--navy-700); font-weight: 500;">Hand-picked by our experts for exceptional
+                quality and value</p>
             <div class="premium-section-divider"></div>
         </div>
         <div class="row g-4">
@@ -97,17 +116,16 @@
                 <div class="book-card premium-loading">
                     <div class="book-cover-container">
                         {% if book.cover_image or book.thumbnail %}
-                            <img src="{{ book.cover_image|default:book.thumbnail }}" 
-                                 alt="{{ book.title }}" 
-                                 class="book-cover-high-res"
-                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                            <div class="no-image-placeholder" style="display: none;">
-                                📖
-                            </div>
+                        <img src="{{ book.cover_image|default:book.thumbnail }}" alt="{{ book.title }}"
+                            class="book-cover-high-res"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="no-image-placeholder" style="display: none;">
+                            📖
+                        </div>
                         {% else %}
-                            <div class="no-image-placeholder">
-                                📖
-                            </div>
+                        <div class="no-image-placeholder">
+                            📖
+                        </div>
                         {% endif %}
                         <div class="position-absolute top-0 end-0 m-3">
                             <span class="badge bg-warning text-dark fw-bold">Featured</span>
@@ -115,14 +133,16 @@
                     </div>
                     <div class="card-body d-flex flex-column">
                         <h5 class="book-title" style="color: var(--navy-800); font-weight: 600;">{{ book.title }}</h5>
-                        <p class="book-author" style="color: var(--navy-700); font-weight: 500;">{{ book.authors_list|default:"Various Authors" }}</p>
+                        <p class="book-author" style="color: var(--navy-700); font-weight: 500;">{{
+                            book.authors_list|default:"Various Authors" }}</p>
                         <div class="mt-auto">
                             <div class="d-flex justify-content-between align-items-center mb-3">
-                                <span class="price" style="color: var(--primary-700); font-weight: 700;">{{ book.display_price }}</span>
+                                <span class="price" style="color: var(--primary-700); font-weight: 700;">{{
+                                    book.display_price }}</span>
                                 {% if book.is_in_stock %}
-                                    <span class="badge bg-success">In Stock</span>
+                                <span class="badge bg-success">In Stock</span>
                                 {% else %}
-                                    <span class="badge bg-danger">Out of Stock</span>
+                                <span class="badge bg-danger">Out of Stock</span>
                                 {% endif %}
                             </div>
                             <div class="d-grid gap-2">
@@ -130,12 +150,12 @@
                                     <i class="fas fa-eye me-2"></i>View Details
                                 </a>
                                 {% if book.is_in_stock and user.is_authenticated %}
-                                    <form method="post" action="{% url 'cart:add_to_cart' book.id %}" class="d-inline">
-                                        {% csrf_token %}
-                                        <button type="submit" class="btn btn-success btn-sm w-100">
-                                            <i class="fas fa-cart-plus me-2"></i>Add to Cart
-                                        </button>
-                                    </form>
+                                <form method="post" action="{% url 'cart:add_to_cart' book.id %}" class="d-inline">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-success btn-sm w-100">
+                                        <i class="fas fa-cart-plus me-2"></i>Add to Cart
+                                    </button>
+                                </form>
                                 {% endif %}
                             </div>
                         </div>
@@ -158,8 +178,10 @@
 <section class="premium-values-section">
     <div class="container">
         <div class="text-center mb-5">
-            <h2 class="display-5 fw-bold mb-4" style="color: var(--primary-800); font-family: var(--font-display);">Browse by Category</h2>
-            <p class="lead" style="color: var(--navy-700); font-weight: 500;">Find exactly what you need for your canine companion</p>
+            <h2 class="display-5 fw-bold mb-4" style="color: var(--primary-800); font-family: var(--font-display);">
+                Browse by Category</h2>
+            <p class="lead" style="color: var(--navy-700); font-weight: 500;">Find exactly what you need for your canine
+                companion</p>
         </div>
         <div class="row g-4">
             {% for category in categories %}
@@ -168,22 +190,26 @@
                     <div class="premium-service-card text-center p-5 premium-loading category-card">
                         <div class="premium-service-icon category-icon">
                             {% if 'puppy' in category.name|lower or 'training' in category.name|lower %}
-                                🐶
+                            🐶
                             {% elif 'health' in category.name|lower or 'medical' in category.name|lower %}
-                                🏥
+                            🏥
                             {% elif 'breed' in category.name|lower %}
-                                🏆
+                            🏆
                             {% elif 'behavior' in category.name|lower %}
-                                🧠
+                            🧠
                             {% else %}
-                                📚
+                            📚
                             {% endif %}
                         </div>
-                        <h4 class="mb-3" style="font-family: var(--font-display); color: var(--navy-800); font-weight: 600;">{{ category.name }}</h4>
+                        <h4 class="mb-3"
+                            style="font-family: var(--font-display); color: var(--navy-800); font-weight: 600;">{{
+                            category.name }}</h4>
                         {% if category.description %}
-                            <p class="mb-3" style="color: var(--navy-700); font-weight: 500;">{{ category.description|truncatewords:15 }}</p>
+                        <p class="mb-3" style="color: var(--navy-700); font-weight: 500;">{{
+                            category.description|truncatewords:15 }}</p>
                         {% else %}
-                            <p class="mb-3" style="color: var(--navy-700); font-weight: 500;">Explore our collection of {{ category.name|lower }} resources.</p>
+                        <p class="mb-3" style="color: var(--navy-700); font-weight: 500;">Explore our collection of {{
+                            category.name|lower }} resources.</p>
                         {% endif %}
                         <div class="premium-badge">Explore Category</div>
                     </div>
@@ -200,8 +226,10 @@
 <section class="py-5">
     <div class="container">
         <div class="text-center mb-5">
-            <h2 class="display-5 fw-bold mb-4" style="color: var(--primary-800); font-family: var(--font-display);">Recently Added</h2>
-            <p class="lead" style="color: var(--navy-700); font-weight: 500;">Fresh additions to our premium collection</p>
+            <h2 class="display-5 fw-bold mb-4" style="color: var(--primary-800); font-family: var(--font-display);">
+                Recently Added</h2>
+            <p class="lead" style="color: var(--navy-700); font-weight: 500;">Fresh additions to our premium collection
+            </p>
             <div class="premium-section-divider"></div>
         </div>
         <div class="row g-4">
@@ -210,17 +238,16 @@
                 <div class="book-card premium-loading">
                     <div class="book-cover-container">
                         {% if book.cover_image or book.thumbnail %}
-                            <img src="{{ book.cover_image|default:book.thumbnail }}" 
-                                 alt="{{ book.title }}" 
-                                 class="book-cover-high-res"
-                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                            <div class="no-image-placeholder" style="display: none;">
-                                📖
-                            </div>
+                        <img src="{{ book.cover_image|default:book.thumbnail }}" alt="{{ book.title }}"
+                            class="book-cover-high-res"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="no-image-placeholder" style="display: none;">
+                            📖
+                        </div>
                         {% else %}
-                            <div class="no-image-placeholder">
-                                📖
-                            </div>
+                        <div class="no-image-placeholder">
+                            📖
+                        </div>
                         {% endif %}
                         <div class="position-absolute top-0 end-0 m-3">
                             <span class="badge bg-info text-white fw-bold">New</span>
@@ -228,14 +255,16 @@
                     </div>
                     <div class="card-body d-flex flex-column">
                         <h5 class="book-title" style="color: var(--navy-800); font-weight: 600;">{{ book.title }}</h5>
-                        <p class="book-author" style="color: var(--navy-700); font-weight: 500;">{{ book.authors_list|default:"Various Authors" }}</p>
+                        <p class="book-author" style="color: var(--navy-700); font-weight: 500;">{{
+                            book.authors_list|default:"Various Authors" }}</p>
                         <div class="mt-auto">
                             <div class="d-flex justify-content-between align-items-center mb-3">
-                                <span class="price" style="color: var(--primary-700); font-weight: 700;">{{ book.display_price }}</span>
+                                <span class="price" style="color: var(--primary-700); font-weight: 700;">{{
+                                    book.display_price }}</span>
                                 {% if book.is_in_stock %}
-                                    <span class="badge bg-success">In Stock</span>
+                                <span class="badge bg-success">In Stock</span>
                                 {% else %}
-                                    <span class="badge bg-danger">Out of Stock</span>
+                                <span class="badge bg-danger">Out of Stock</span>
                                 {% endif %}
                             </div>
                             <div class="d-grid gap-2">
@@ -243,12 +272,12 @@
                                     <i class="fas fa-eye me-2"></i>View Details
                                 </a>
                                 {% if book.is_in_stock and user.is_authenticated %}
-                                    <form method="post" action="{% url 'cart:add_to_cart' book.id %}" class="d-inline">
-                                        {% csrf_token %}
-                                        <button type="submit" class="btn btn-success btn-sm w-100">
-                                            <i class="fas fa-cart-plus me-2"></i>Add to Cart
-                                        </button>
-                                    </form>
+                                <form method="post" action="{% url 'cart:add_to_cart' book.id %}" class="d-inline">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-success btn-sm w-100">
+                                        <i class="fas fa-cart-plus me-2"></i>Add to Cart
+                                    </button>
+                                </form>
                                 {% endif %}
                             </div>
                         </div>
@@ -266,16 +295,22 @@
     <div class="container" style="position: relative; z-index: 2;">
         <div class="row align-items-center">
             <div class="col-md-6">
-                <h2 class="display-5 fw-bold mb-4" style="font-family: var(--font-display); color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">Why Choose Tales & Tails?</h2>
+                <h2 class="display-5 fw-bold mb-4"
+                    style="font-family: var(--font-display); color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">
+                    Why Choose Tales & Tails?</h2>
                 <div class="row g-4">
                     <div class="col-12">
                         <div class="d-flex align-items-start">
-                            <div class="premium-service-icon me-4" style="width: 60px; height: 60px; font-size: 1.5rem; flex-shrink: 0; background: rgba(255,255,255,0.2);">
+                            <div class="premium-service-icon me-4"
+                                style="width: 60px; height: 60px; font-size: 1.5rem; flex-shrink: 0; background: rgba(255,255,255,0.2);">
                                 ✨
                             </div>
                             <div>
-                                <h5 class="mb-2" style="color: white; font-family: var(--font-display); font-weight: 600; text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">Expert Curation</h5>
-                                <p class="mb-0" style="color: rgba(255,255,255,0.9); text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">
+                                <h5 class="mb-2"
+                                    style="color: white; font-family: var(--font-display); font-weight: 600; text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">
+                                    Expert Curation</h5>
+                                <p class="mb-0"
+                                    style="color: rgba(255,255,255,0.9); text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">
                                     Every book is hand-selected by professional dog trainers and veterinarians.
                                 </p>
                             </div>
@@ -283,12 +318,16 @@
                     </div>
                     <div class="col-12">
                         <div class="d-flex align-items-start">
-                            <div class="premium-service-icon me-4" style="width: 60px; height: 60px; font-size: 1.5rem; flex-shrink: 0; background: rgba(255,255,255,0.2);">
+                            <div class="premium-service-icon me-4"
+                                style="width: 60px; height: 60px; font-size: 1.5rem; flex-shrink: 0; background: rgba(255,255,255,0.2);">
                                 🚀
                             </div>
                             <div>
-                                <h5 class="mb-2" style="color: white; font-family: var(--font-display); font-weight: 600; text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">Fast Delivery</h5>
-                                <p class="mb-0" style="color: rgba(255,255,255,0.9); text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">
+                                <h5 class="mb-2"
+                                    style="color: white; font-family: var(--font-display); font-weight: 600; text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">
+                                    Fast Delivery</h5>
+                                <p class="mb-0"
+                                    style="color: rgba(255,255,255,0.9); text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">
                                     Quick and secure shipping to get you started on your dog's journey immediately.
                                 </p>
                             </div>
@@ -296,13 +335,17 @@
                     </div>
                     <div class="col-12">
                         <div class="d-flex align-items-start">
-                            <div class="premium-service-icon me-4" style="width: 60px; height: 60px; font-size: 1.5rem; flex-shrink: 0; background: rgba(255,255,255,0.2);">
+                            <div class="premium-service-icon me-4"
+                                style="width: 60px; height: 60px; font-size: 1.5rem; flex-shrink: 0; background: rgba(255,255,255,0.2);">
                                 💬
                             </div>
                             <div>
-                                <h5 class="mb-2" style="color: white; font-family: var(--font-display); font-weight: 600; text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">Expert Support</h5>
-                                <p class="mb-0" style="color: rgba(255,255,255,0.9); text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">
-                                    Get personalized recommendations from our team of canine experts.
+                                <h5 class="mb-2"
+                                    style="color: white; font-family: var(--font-display); font-weight: 600; text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">
+                                    Expert Support</h5>
+                                <p class="mb-0"
+                                    style="color: rgba(255,255,255,0.9); text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">
+                                    Get personalised recommendations from our team of canine experts.
                                 </p>
                             </div>
                         </div>
@@ -311,18 +354,20 @@
             </div>
             <div class="col-md-6 text-center">
                 <div class="premium-glass-effect p-5">
-                    <h3 class="mb-4" style="color: white; font-family: var(--font-display); font-weight: 600; text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">Join Our Community</h3>
+                    <h3 class="mb-4"
+                        style="color: white; font-family: var(--font-display); font-weight: 600; text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">
+                        Join Our Community</h3>
                     <p class="mb-4" style="color: rgba(255,255,255,0.9); text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">
                         Connect with thousands of dog lovers who trust Tales & Tails for their canine education needs.
                     </p>
                     {% if not user.is_authenticated %}
-                        <a href="{% url 'accounts:register' %}" class="btn btn-light btn-lg">
-                            <i class="fas fa-user-plus me-2"></i>Join Today
-                        </a>
+                    <a href="{% url 'accounts:register' %}" class="btn btn-light btn-lg">
+                        <i class="fas fa-user-plus me-2"></i>Join Today
+                    </a>
                     {% else %}
-                        <a href="{% url 'accounts:profile' %}" class="btn btn-light btn-lg">
-                            <i class="fas fa-user me-2"></i>My Profile
-                        </a>
+                    <a href="{% url 'accounts:profile' %}" class="btn btn-light btn-lg">
+                        <i class="fas fa-user me-2"></i>My Profile
+                    </a>
                     {% endif %}
                 </div>
             </div>
@@ -335,14 +380,17 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8 mx-auto text-center">
-                <h2 class="display-5 fw-bold mb-4" style="color: var(--primary-800); font-family: var(--font-display);">Stay Updated</h2>
+                <h2 class="display-5 fw-bold mb-4" style="color: var(--primary-800); font-family: var(--font-display);">
+                    Stay Updated</h2>
                 <p class="lead mb-4" style="color: var(--navy-700); font-weight: 500;">
                     Get the latest book recommendations, training tips, and exclusive offers delivered to your inbox.
                 </p>
-                <form id="newsletterForm" class="row g-3 justify-content-center" method="post" action="{% url 'books:newsletter_signup' %}">
-                        {% csrf_token %}
+                <form id="newsletterForm" class="row g-3 justify-content-center" method="post"
+                    action="{% url 'books:newsletter_signup' %}">
+                    {% csrf_token %}
                     <div class="col-md-6">
-                        <input type="email" name="email" class="form-control" placeholder="Enter your email address" required>
+                        <input type="email" name="email" class="form-control" placeholder="Enter your email address"
+                            required>
                     </div>
                     <div class="col-md-auto">
                         <button type="submit" class="btn btn-primary btn-lg">
@@ -359,124 +407,124 @@
 
 {% block extra_js %}
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Animate elements on scroll
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
-            }
-        });
-    });
-
-    // Observe all premium-loading elements
-    document.querySelectorAll('.premium-loading').forEach(el => {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(30px)';
-        el.style.transition = 'all 0.6s ease-out';
-        observer.observe(el);
-    });
-
-    // Add to cart functionality with AJAX
-    document.querySelectorAll('form[action*="add_to_cart"]').forEach(form => {
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const button = this.querySelector('button[type="submit"]');
-            const originalText = button.innerHTML;
-            
-            button.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Adding...';
-            button.disabled = true;
-            
-            fetch(this.action, {
-                method: 'POST',
-                body: new FormData(this),
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
+    document.addEventListener('DOMContentLoaded', function () {
+        // Animate elements on scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
                 }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    button.innerHTML = '<i class="fas fa-check me-2"></i>Added!';
-                    button.classList.remove('btn-success');
-                    button.classList.add('btn-info');
-                    
-                    // Update cart count if element exists
-                    const cartBadge = document.querySelector('.badge.bg-danger');
-                    if (cartBadge && data.cart_count) {
-                        cartBadge.textContent = data.cart_count;
+            });
+        });
+
+        // Observe all premium-loading elements
+        document.querySelectorAll('.premium-loading').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.6s ease-out';
+            observer.observe(el);
+        });
+
+        // Add to cart functionality with AJAX
+        document.querySelectorAll('form[action*="add_to_cart"]').forEach(form => {
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                const button = this.querySelector('button[type="submit"]');
+                const originalText = button.innerHTML;
+
+                button.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Adding...';
+                button.disabled = true;
+
+                fetch(this.action, {
+                    method: 'POST',
+                    body: new FormData(this),
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
                     }
-                    
-                    setTimeout(() => {
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            button.innerHTML = '<i class="fas fa-check me-2"></i>Added!';
+                            button.classList.remove('btn-success');
+                            button.classList.add('btn-info');
+
+                            // Update cart count if element exists
+                            const cartBadge = document.querySelector('.badge.bg-danger');
+                            if (cartBadge && data.cart_count) {
+                                cartBadge.textContent = data.cart_count;
+                            }
+
+                            setTimeout(() => {
+                                button.innerHTML = originalText;
+                                button.classList.remove('btn-info');
+                                button.classList.add('btn-success');
+                                button.disabled = false;
+                            }, 2000);
+                        } else {
+                            button.innerHTML = originalText;
+                            button.disabled = false;
+                            alert('Error adding to cart. Please try again.');
+                        }
+                    })
+                    .catch(error => {
                         button.innerHTML = originalText;
-                        button.classList.remove('btn-info');
-                        button.classList.add('btn-success');
                         button.disabled = false;
-                    }, 2000);
-                } else {
-                    button.innerHTML = originalText;
-                    button.disabled = false;
-                    alert('Error adding to cart. Please try again.');
-                }
-            })
-            .catch(error => {
-                button.innerHTML = originalText;
-                button.disabled = false;
-                alert('Error adding to cart. Please try again.');
+                        alert('Error adding to cart. Please try again.');
+                    });
             });
         });
+
+        // Newsletter form submission
+        const newsletterForm = document.getElementById('newsletterForm');
+        if (newsletterForm) {
+            newsletterForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                const formData = new FormData(this);
+                const submitBtn = this.querySelector('button[type="submit"]');
+                const originalText = submitBtn.innerHTML;
+
+                // Show loading state
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Subscribing...';
+                submitBtn.disabled = true;
+
+                fetch('{% url "books:newsletter_signup" %}', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                    }
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Show success message
+                            const emailInput = this.querySelector('input[type="email"]');
+                            emailInput.value = '';
+                            emailInput.style.borderColor = 'var(--success)';
+
+                            // Show success alert
+                            alert(data.message);
+                        } else {
+                            // Show error message
+                            alert(data.message || 'An error occurred. Please try again.');
+                        }
+                    })
+                    .catch(error => {
+                        alert('An error occurred. Please try again.');
+                        console.error('Error:', error);
+                    })
+                    .finally(() => {
+                        // Restore button state
+                        submitBtn.innerHTML = originalText;
+                        submitBtn.disabled = false;
+                    });
+            });
+        }
+
     });
-
-    // Newsletter form submission
-    const newsletterForm = document.getElementById('newsletterForm');
-    if (newsletterForm) {
-        newsletterForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const formData = new FormData(this);
-            const submitBtn = this.querySelector('button[type="submit"]');
-            const originalText = submitBtn.innerHTML;
-            
-            // Show loading state
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Subscribing...';
-            submitBtn.disabled = true;
-            
-            fetch('{% url "books:newsletter_signup" %}', {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    // Show success message
-                    const emailInput = this.querySelector('input[type="email"]');
-                    emailInput.value = '';
-                    emailInput.style.borderColor = 'var(--success)';
-                    
-                    // Show success alert
-                    alert(data.message);
-                } else {
-                    // Show error message
-                    alert(data.message || 'An error occurred. Please try again.');
-                }
-            })
-            .catch(error => {
-                alert('An error occurred. Please try again.');
-                console.error('Error:', error);
-            })
-            .finally(() => {
-                // Restore button state
-                submitBtn.innerHTML = originalText;
-                submitBtn.disabled = false;
-            });
-        });
-    }
-
-});
 </script>
 {% endblock %}
