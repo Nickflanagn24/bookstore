@@ -4,6 +4,8 @@
 {% block title %}Your Cart - Tales & Tails{% endblock %}
 
 {% block content %}
+<!-- Set variable to prevent duplicate breadcrumbs -->
+{% with has_custom_breadcrumb=True %}
 <div class="container">
     <!-- Cart Header -->
     <div class="row mb-4">
@@ -168,6 +170,7 @@
         </div>
     {% endif %}
 </div>
+{% endwith %}
 
 <!-- JavaScript for quantity controls -->
 <script>
