@@ -56,7 +56,7 @@
                             <small class="text-muted">Quantity: {{ item.quantity }}</small>
                         </div>
                         <div class="col-3 text-end">
-                            <span class="price">${{ item.total_price }}</span>
+                            <span class="price">£{{ item.total_price }}</span>
                         </div>
                     </div>
                     {% endfor %}
@@ -70,7 +70,7 @@
                 
                 <div class="d-flex justify-content-between mb-2">
                     <span>Subtotal ({{ cart.total_items }} item{{ cart.total_items|pluralize }}):</span>
-                    <span>${{ cart.total_price }}</span>
+                    <span>£{{ cart.total_price }}</span>
                 </div>
                 <div class="d-flex justify-content-between mb-2">
                     <span>Shipping:</span>
@@ -83,7 +83,7 @@
                 <hr>
                 <div class="d-flex justify-content-between mb-4">
                     <strong>Total:</strong>
-                    <strong class="price">${{ cart.total_price }}</strong>
+                    <strong class="price">£{{ cart.total_price }}</strong>
                 </div>
 
                 <div class="mb-4">
