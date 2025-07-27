@@ -237,3 +237,5 @@ if not STRIPE_PUBLISHABLE_KEY or not STRIPE_SECRET_KEY:
     print(f"STRIPE_SECRET_KEY: {'✅' if STRIPE_SECRET_KEY else '❌'}")
 else:
     print("✅ Stripe keys loaded successfully")
+# Site URL for generating absolute URLs in emails
+SITE_URL = config('SITE_URL', default='http://127.0.0.1:8000')
