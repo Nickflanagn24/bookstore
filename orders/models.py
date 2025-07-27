@@ -84,6 +84,11 @@ class Order(models.Model):
         from django.urls import reverse
         return reverse('orders:order_detail', kwargs={'order_number': self.order_number})
 
+    @property
+    def total_price(self):
+        """Calculate total price of all items in the order"""
+        return sum((item.unit_price or 0) * (item.quantity or 0) for item in self.items.all())
+
 
 class OrderItem(models.Model):
     """Individual items within an order"""
@@ -101,6 +106,11 @@ class OrderItem(models.Model):
     unit_price = models.DecimalField(max_digits=10, decimal_places=2)
     quantity = models.PositiveIntegerField(default=1)
     
+    @property
+    def total_price(self):
+        """Calculate total price of item"""
+        return (self.unit_price or 0) * (self.quantity or 0)
+    
     # Timestamps
     created_at = models.DateTimeField(auto_now_add=True)
     
@@ -114,7 +124,7 @@ class OrderItem(models.Model):
     
     @property
     def total_price(self):
-        return self.unit_price * self.quantity
+        return (self.unit_price or 0) * (self.quantity or 0)
     
     def save(self, *args, **kwargs):
         # Snapshot book details at time of order
@@ -146,3 +156,8 @@ class OrderStatusHistory(models.Model):
     
     def __str__(self):
         return f"Order {self.order.order_number}: {self.from_status} → {self.to_status}"
+
+    @property
+    def total_price(self):
+        """Calculate total price of all items in the order"""
+        return sum((item.unit_price or 0) * (item.quantity or 0) for item in self.items.all())
