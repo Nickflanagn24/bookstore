@@ -85,7 +85,7 @@
 
                                 <!-- Item Total & Remove -->
                                 <div class="col-md-2 col-6 text-end">
-                                    <p class="price mb-2">${{ item.total_price }}</p>
+                                    <p class="price mb-2">£{{ item.total_price }}</p>
                                     <form method="post" action="{% url 'cart:remove_item' item.id %}" class="d-inline">
                                         {% csrf_token %}
                                         <button type="submit" class="btn btn-sm btn-outline-danger remove-btn">
@@ -122,7 +122,7 @@
                     <div class="card-body">
                         <div class="d-flex justify-content-between mb-2">
                             <span>Subtotal ({{ cart.total_items }} item{{ cart.total_items|pluralize }}):</span>
-                            <span class="price">${{ cart.total_price }}</span>
+                            <span class="price">£{{ cart.total_price }}</span>
                         </div>
                         <div class="d-flex justify-content-between mb-2">
                             <span>Shipping:</span>
@@ -131,7 +131,7 @@
                         <hr>
                         <div class="d-flex justify-content-between mb-3">
                             <strong>Total:</strong>
-                            <strong class="price">${{ cart.total_price }}</strong>
+                            <strong class="price">£{{ cart.total_price }}</strong>
                         </div>
 
                         <!-- Checkout Button -->
