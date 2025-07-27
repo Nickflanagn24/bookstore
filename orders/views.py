@@ -2,6 +2,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.http import JsonResponse
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+from django.conf import settings
 from django.views.decorators.http import require_POST
 from django.utils import timezone
 from .models import Order, OrderItem
@@ -64,6 +67,33 @@ def create_order_from_cart(request):
                 unit_price=cart_item.book.price
             )
         
+        # Send order confirmation email
+        from django.core.mail import send_mail
+        from django.template.loader import render_to_string
+        from django.utils.html import strip_tags
+        from django.conf import settings
+        
+        # Prepare email
+        context = {
+            "order": order,
+            "site_url": request.build_absolute_uri("/").rstrip("/"),
+        }
+        html_message = render_to_string("emails/order_confirmation.html", context)
+        plain_message = strip_tags(html_message)
+        
+        # Send email
+        try:
+            send_mail(
+                subject=f"Tales & Tails - Order Confirmation #{order.order_number}",
+                message=plain_message,
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[order.customer_email],
+                html_message=html_message,
+                fail_silently=True,
+            )
+            print(f"✅ Order confirmation email sent to {order.customer_email}")
+        except Exception as e:
+            print(f"❌ Failed to send order confirmation email: {e}")
         # Clear the cart
         cart.items.all().delete()
         
