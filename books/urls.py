@@ -1,9 +1,13 @@
 from django.urls import path
 from . import views
+from .email_preview import preview_email_template
+from .test_email_public import test_email_public
 
 app_name = 'books'
 
 urlpatterns = [
+    path('test-email-public/', test_email_public, name='test_email_public'),
+    path('test-email/', views.test_email, name='test_email'),
     # Main book pages
     path('', views.book_list, name='book_list'),
     path('book/<uuid:pk>/', views.book_detail, name='book_detail'),
@@ -32,4 +36,9 @@ urlpatterns = [
     path('review/<int:review_id>/edit/', views.review_edit, name='review_edit'),
     path('review/<int:review_id>/delete/', views.review_delete, name='review_delete'),
     path('my-reviews/', views.user_reviews, name='user_reviews'),
+    
+    # Email preview URLs (only for development)
+    path('email/preview/order/', lambda request: preview_email_template(request, 'order_confirmation'), name='preview_order_email'),
+    path('email/preview/shipping/', lambda request: preview_email_template(request, 'shipping_notification'), name='preview_shipping_email'),
+    path('email/preview/password/', lambda request: preview_email_template(request, 'password_reset'), name='preview_password_email'),
 ]
