@@ -15,18 +15,21 @@
 </style>
 {% endblock %}
 
+{% block breadcrumbs %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'cart:cart_detail' %}">Cart</a></li>
+        <li class="breadcrumb-item active">Checkout</li>
+    </ol>
+</nav>
+{% endblock %}
+
 {% block content %}
 <div class="checkout-container">
     <div class="row mb-4">
         <div class="col-12">
             <h1 class="text-primary-custom">Secure Checkout</h1>
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
-                    <li class="breadcrumb-item"><a href="{% url 'cart:cart_detail' %}">Cart</a></li>
-                    <li class="breadcrumb-item active">Checkout</li>
-                </ol>
-            </nav>
         </div>
     </div>
 
@@ -100,7 +103,7 @@
 
                 <div class="security-badges">
                     <div class="security-badge">🔒 SSL Secure</div>
-                    <div class="security-badge">�� Stripe Protected</div>
+                    <div class="security-badge">💳 Stripe Protected</div>
                     <div class="security-badge">✅ PCI Compliant</div>
                 </div>
 

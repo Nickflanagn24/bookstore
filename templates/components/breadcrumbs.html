@@ -1,31 +1,8 @@
-{% load breadcrumb_tags %}
-
-{% breadcrumbs as crumbs %}
-{% if crumbs|length > 1 %}
-<nav aria-label="breadcrumb" class="breadcrumb-nav">
-    <div class="container">
-        <ol class="breadcrumb mb-0">
-            {% for crumb in crumbs %}
-                {% if forloop.last %}
-                    <li class="breadcrumb-item active" aria-current="page">
-                        <i class="fas fa-bookmark me-1"></i>{{ crumb.name }}
-                    </li>
-                {% else %}
-                    <li class="breadcrumb-item">
-                        {% if crumb.url %}
-                            <a href="{{ crumb.url }}" class="breadcrumb-link">
-                                {% if forloop.first %}
-                                    <i class="fas fa-home me-1"></i>
-                                {% endif %}
-                                {{ crumb.name }}
-                            </a>
-                        {% else %}
-                            {{ crumb.name }}
-                        {% endif %}
-                    </li>
-                {% endif %}
-            {% endfor %}
-        </ol>
-    </div>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+        {% if request.path != '/' %}
+        <li class="breadcrumb-item active">{{ request.resolver_match.url_name|title }}</li>
+        {% endif %}
+    </ol>
 </nav>
-{% endif %}

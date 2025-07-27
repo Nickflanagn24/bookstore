@@ -120,7 +120,7 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="{% url 'accounts:profile' %}">📋 My Profile</a></li>
-                                <li><a class="dropdown-item" href="{% url 'orders:order_list' %}">�� My Orders</a></li>
+                                <li><a class="dropdown-item" href="{% url 'orders:order_list' %}">🧾 My Orders</a></li>
                                 <li><a class="dropdown-item" href="{% url 'books:user_reviews' %}">⭐ My Reviews</a></li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" href="{% url 'accounts:logout' %}">🚪 Logout</a></li>
@@ -131,7 +131,7 @@
                             <a class="nav-link" href="{% url 'accounts:login' %}">🔑 Login</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'accounts:register' %}">🐾 Join Pack</a></li>
+                            <a class="nav-link" href="{% url 'accounts:register' %}">�� Join Pack</a></li>
                         </li>
                     {% endif %}
                 </ul>
@@ -142,7 +142,13 @@
     <!-- Main Content -->
     <main class="container my-4">
         <!-- Breadcrumb Navigation -->
-        {% include "components/breadcrumbs.html" %}
+        {% block breadcrumbs %}
+            <!-- Default breadcrumb implementation -->
+            {% if not has_custom_breadcrumb %}
+                {% include "components/breadcrumbs.html" %}
+            {% endif %}
+        {% endblock %}
+        
         {% if messages %}
             {% for message in messages %}
                 <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">

@@ -3,20 +3,21 @@
 
 {% block title %}Your Cart - Tales & Tails{% endblock %}
 
+{% block breadcrumbs %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+        <li class="breadcrumb-item active">Shopping Cart</li>
+    </ol>
+</nav>
+{% endblock %}
+
 {% block content %}
-<!-- Set variable to prevent duplicate breadcrumbs -->
-{% with has_custom_breadcrumb=True %}
 <div class="container">
     <!-- Cart Header -->
     <div class="row mb-4">
         <div class="col-12">
             <h1 class="text-primary-custom">🛒 Your Shopping Cart</h1>
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
-                    <li class="breadcrumb-item active">Shopping Cart</li>
-                </ol>
-            </nav>
         </div>
     </div>
 
@@ -170,7 +171,6 @@
         </div>
     {% endif %}
 </div>
-{% endwith %}
 
 <!-- JavaScript for quantity controls -->
 <script>
