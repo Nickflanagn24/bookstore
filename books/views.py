@@ -27,6 +27,24 @@ def book_list(request):
     
     books_queryset = Book.objects.filter(is_available=True).select_related().prefetch_related('authors', 'categories')
     
+    # Handle search query
+    query = request.GET.get("q")
+    if query:
+        books_queryset = books_queryset.filter(
+            Q(title__icontains=query) |
+            Q(authors__name__icontains=query) |
+            Q(isbn__icontains=query)
+        ).distinct()
+    
+    # Handle search query
+    query = request.GET.get("q")
+    if query:
+        books_queryset = books_queryset.filter(
+            Q(title__icontains=query) |
+            Q(authors__name__icontains=query) |
+            Q(isbn__icontains=query)
+        ).distinct()
+    
     # Pagination
     paginator = Paginator(books_queryset, 12)  # Show 12 books per page
     page = request.GET.get('page')
