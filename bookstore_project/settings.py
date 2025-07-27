@@ -239,3 +239,6 @@ else:
     print("✅ Stripe keys loaded successfully")
 # Site URL for generating absolute URLs in emails
 SITE_URL = config('SITE_URL', default='http://127.0.0.1:8000')
+
+# Add breadcrumbs context processor
+TEMPLATES[0]['OPTIONS']['context_processors'].append('books.context_processors.breadcrumbs')

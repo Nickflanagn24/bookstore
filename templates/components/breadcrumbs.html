@@ -1,8 +1,56 @@
-<nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
-        {% if request.path != '/' %}
-        <li class="breadcrumb-item active">{{ request.resolver_match.url_name|title }}</li>
+{% load breadcrumb_tags %}
+
+<nav class="breadcrumb-nav" aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+    
+    {% if "books/about" in request.path %}
+      <li class="breadcrumb-item active" aria-current="page">About</li>
+    
+    {% elif "books/contact" in request.path %}
+      <li class="breadcrumb-item active" aria-current="page">Contact</li>
+    
+    {% elif "books" in request.path and "detail" not in request.path and "about" not in request.path and "contact" not in request.path %}
+      <li class="breadcrumb-item active" aria-current="page">Books</li>
+    
+    {% elif "books" in request.path and "detail" in request.path %}
+      <li class="breadcrumb-item"><a href="{% url 'books:book_list' %}">Books</a></li>
+      
+      {% if book %}
+        <li class="breadcrumb-item active" aria-current="page">{{ book.title }}</li>
+      {% elif object and object.title %}
+        <li class="breadcrumb-item active" aria-current="page">{{ object.title }}</li>
+      {% else %}
+        <li class="breadcrumb-item active" aria-current="page">Book Details</li>
+      {% endif %}
+    
+    {% elif "cart" in request.path %}
+      <li class="breadcrumb-item active" aria-current="page">Shopping Cart</li>
+    
+    {% elif "orders" in request.path and "list" in request.path %}
+      <li class="breadcrumb-item active" aria-current="page">My Orders</li>
+    
+    {% elif "orders" in request.path and "detail" in request.path %}
+      <li class="breadcrumb-item"><a href="{% url 'orders:order_list' %}">My Orders</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Order Details</li>
+    
+    {% elif "accounts/profile" in request.path %}
+      <li class="breadcrumb-item active" aria-current="page">My Profile</li>
+    
+    {% elif "accounts/login" in request.path %}
+      <li class="breadcrumb-item active" aria-current="page">Login</li>
+    
+    {% elif "accounts/register" in request.path %}
+      <li class="breadcrumb-item active" aria-current="page">Registration</li>
+    
+    {% elif breadcrumb_items %}
+      {% for item in breadcrumb_items %}
+        {% if forloop.last %}
+          <li class="breadcrumb-item active" aria-current="page">{{ item.title }}</li>
+        {% else %}
+          <li class="breadcrumb-item"><a href="{{ item.url }}">{{ item.title }}</a></li>
         {% endif %}
-    </ol>
+      {% endfor %}
+    {% endif %}
+  </ol>
 </nav>

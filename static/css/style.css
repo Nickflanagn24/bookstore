@@ -2592,3 +2592,175 @@ select[multiple] {
         background: rgba(255, 255, 255, 0.1);
     }
 }
+
+/* ===================================
+   ENHANCED BREADCRUMB STYLING - Tales & Tails
+   =================================== */
+
+.breadcrumb-nav {
+    background: linear-gradient(135deg, var(--primary-50) 0%, var(--navy-50) 100%);
+    border: 1px solid var(--primary-200);
+    border-radius: var(--radius-xl);
+    padding: 0.75rem 1.25rem;
+    margin: 1rem 0 2rem 0;
+    box-shadow: var(--shadow-md);
+    position: relative;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+}
+
+.breadcrumb-nav:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-2px);
+    border-color: var(--primary-300);
+}
+
+.breadcrumb-nav::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary-600), var(--sage-medium), var(--primary-600));
+    opacity: 0.8;
+}
+
+.breadcrumb-nav::after {
+    content: '';
+    position: absolute;
+    bottom: -50%;
+    right: -20%;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, var(--primary-200), transparent);
+    border-radius: 50%;
+    opacity: 0.2;
+    z-index: 0;
+}
+
+.breadcrumb {
+    background: transparent !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    font-size: 0.95rem;
+    font-weight: 500;
+    position: relative;
+    z-index: 1;
+}
+
+.breadcrumb-item {
+    color: var(--navy-600);
+    font-weight: 500;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+    content: "›";
+    color: var(--primary-600);
+    font-weight: 700;
+    font-size: 1.3rem;
+    line-height: 1;
+    padding: 0 0.5rem;
+    vertical-align: middle;
+}
+
+.breadcrumb-item.active {
+    color: var(--primary-700);
+    font-weight: 600;
+    background: rgba(47, 133, 90, 0.1);
+    padding: 0.35rem 0.75rem;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--primary-300);
+}
+
+.breadcrumb-item a {
+    color: var(--navy-700);
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 0.35rem 0.75rem;
+    border-radius: var(--radius-lg);
+    border: 1px solid transparent;
+    display: inline-block;
+}
+
+.breadcrumb-item a:hover {
+    color: var(--primary-700);
+    background: var(--primary-100);
+    text-decoration: none;
+    border-color: var(--primary-300);
+    transform: translateY(-1px);
+}
+
+/* First item (home) styling */
+.breadcrumb-item:first-child a {
+    display: inline-flex;
+    align-items: center;
+    font-weight: 600;
+}
+
+.breadcrumb-item:first-child a::before {
+    content: "🏠";
+    margin-right: 0.35rem;
+    font-size: 1rem;
+}
+
+/* Animated hover effect for the breadcrumb nav */
+.breadcrumb-nav:hover::before {
+    animation: slide 1.5s linear infinite;
+}
+
+@keyframes slide {
+    0% {
+        background-position: 0% 0%;
+    }
+    100% {
+        background-position: 100% 0%;
+    }
+}
+
+/* Responsive breadcrumbs for mobile */
+@media (max-width: 768px) {
+    .breadcrumb-nav {
+        padding: 0.6rem 1rem;
+        margin: 0.75rem 0 1.5rem 0;
+    }
+    
+    .breadcrumb {
+        font-size: 0.85rem;
+    }
+    
+    .breadcrumb-item + .breadcrumb-item::before {
+        font-size: 1.1rem;
+        padding: 0 0.3rem;
+    }
+    
+    .breadcrumb-item a, 
+    .breadcrumb-item.active {
+        padding: 0.3rem 0.5rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .breadcrumb-nav {
+        padding: 0.5rem 0.75rem;
+        margin: 0.5rem 0 1rem 0;
+    }
+    
+    .breadcrumb {
+        font-size: 0.8rem;
+    }
+    
+    /* For very small screens, simplify the breadcrumbs */
+    .breadcrumb-item:not(:last-child):not(:first-child) {
+        display: none;
+    }
+    
+    /* Show ellipsis for truncated breadcrumbs */
+    .breadcrumb-item:first-child + .breadcrumb-item::before {
+        content: "...";
+        font-size: 1rem;
+        padding: 0 0.4rem;
+    }
+}
