@@ -398,9 +398,6 @@ heroku run python manage.py migrate
 
 ## 🧪 Testing
 
-Run the test suite:
-*Add test command here*
-
 ### Test Coverage
 - User authentication and profiles
 - E-commerce functionality (cart, checkout, orders)
