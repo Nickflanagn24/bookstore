@@ -1,4 +1,4 @@
-{% load static %}
+Copy{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -122,6 +122,15 @@
                                 <li><a class="dropdown-item" href="{% url 'accounts:profile' %}">📋 My Profile</a></li>
                                 <li><a class="dropdown-item" href="{% url 'orders:order_list' %}">🧾 My Orders</a></li>
                                 <li><a class="dropdown-item" href="{% url 'books:user_reviews' %}">⭐ My Reviews</a></li>
+                                
+                                <!-- New Admin Section -->
+                                {% if user.is_superuser %}
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="/books/manage/">⚙️ Manage Books</a></li>
+                                    <li><a class="dropdown-item" href="/admin/">🔧 Admin Dashboard</a></li>
+                                {% endif %}
+                                <!-- End Admin Section -->
+                                
                                 <li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" href="{% url 'accounts:logout' %}">🚪 Logout</a></li>
                             </ul>
