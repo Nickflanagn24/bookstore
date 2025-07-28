@@ -1,0 +1,22 @@
+# robots.txt for Tales & Tails Bookstore
+User-agent: *
+Allow: /
+Allow: /books/
+Allow: /about/
+Allow: /contact/
+Allow: /static/
+
+# Disallow admin and account management areas
+Disallow: /admin/
+Disallow: /accounts/login/
+Disallow: /accounts/profile/
+Disallow: /cart/checkout/
+Disallow: /orders/create/
+
+# Disallow duplicate or filtered content to prevent indexing
+Disallow: /*?sort=
+Disallow: /*?filter=
+Disallow: /*?page=
+
+# Link to sitemap
+Sitemap: https://tales-and-tails-bookstore-2b31d0bd7c27.herokuapp.com/sitemap.xml

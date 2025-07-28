@@ -1,0 +1,21 @@
+<!-- Add these to your base.html template head section -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>{% block title %}Tales & Tails - Where Every Dog Story Begins{% endblock %}</title>
+    
+    <meta name="description" content="{% block meta_description %}Tales & Tails - The premier bookstore for dog training, care, and breed books. Professional resources for dog owners, trainers, and veterinarians.{% endblock %}">
+    
+    <!-- Additional SEO tags -->
+    <meta name="keywords" content="dog books, dog training, canine literature, dog care, veterinary books">
+    <meta name="author" content="Tales & Tails">
+    <meta property="og:title" content="{% block og_title %}Tales & Tails - Dog Book Specialists{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}Professional dog book specialists offering training guides, breed books, and veterinary resources.{% endblock %}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
+    
+    {% block extra_meta %}{% endblock %}
+    
+    <!-- Your CSS includes, etc. -->
+</head>
