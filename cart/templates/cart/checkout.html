@@ -10,8 +10,29 @@
     .checkout-btn { background: linear-gradient(45deg, #28a745, #20c997); border: none; padding: 15px 30px; font-size: 1.1rem; font-weight: bold; border-radius: 8px; transition: all 0.3s ease; }
     .checkout-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(40, 167, 69, 0.3); }
     .checkout-btn:disabled { background: #6c757d; cursor: not-allowed; transform: none; }
-    .security-badges { display: flex; justify-content: center; gap: 15px; margin-top: 1rem; }
-    .security-badge { background: white; padding: 8px 15px; border-radius: 6px; font-size: 0.9rem; color: #28a745; border: 1px solid #e9ecef; }
+    
+    /* Fixed security badges with better contrast */
+    .security-badges { display: flex; justify-content: center; gap: 15px; margin-top: 1rem; flex-wrap: wrap; }
+    .security-badge { 
+        background: #f0f9ff; /* Light blue background */
+        padding: 8px 15px; 
+        border-radius: 6px; 
+        font-size: 0.9rem; 
+        color: #004085; /* Dark blue text for better contrast */
+        border: 1px solid #b8daff;
+        font-weight: 600; /* Make text bolder for better contrast */
+    }
+    
+    /* Ensure text contrast */
+    .text-muted { color: #495057 !important; } /* Darker than standard text-muted */
+    .price { color: #0d5f27 !important; font-weight: 600; } /* Darker green for price */
+    .text-success { color: #0d5f27 !important; font-weight: 600; } /* Darker green for success text */
+    
+    /* Better focus styles for accessibility */
+    button:focus, a:focus {
+        outline: 3px solid #007bff;
+        outline-offset: 2px;
+    }
 </style>
 {% endblock %}
 
@@ -102,9 +123,9 @@
                 </div>
 
                 <div class="security-badges">
-                    <div class="security-badge">🔒 SSL Secure</div>
-                    <div class="security-badge">💳 Stripe Protected</div>
-                    <div class="security-badge">✅ PCI Compliant</div>
+                    <div class="security-badge" aria-label="SSL Secure Connection">🔒 SSL Secure</div>
+                    <div class="security-badge" aria-label="Protected by Stripe Payment Processing">💳 Stripe Protected</div>
+                    <div class="security-badge" aria-label="PCI Security Standards Compliant">✅ PCI Compliant</div>
                 </div>
 
                 <div class="text-center mt-3">
@@ -125,10 +146,12 @@
 </div>
 
 <div id="loading-overlay" class="d-none position-fixed top-0 start-0 w-100 h-100" 
-     style="background: rgba(0,0,0,0.5); z-index: 9999;">
+     style="background: rgba(0,0,0,0.5); z-index: 9999;" role="alert" aria-live="assertive">
     <div class="d-flex justify-content-center align-items-center h-100">
         <div class="text-center text-white">
-            <div class="spinner-border mb-3" role="status"></div>
+            <div class="spinner-border mb-3" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
             <h5>Processing your payment...</h5>
             <p>Please wait while we redirect you to Stripe.</p>
         </div>
@@ -145,8 +168,11 @@ document.addEventListener("DOMContentLoaded", function() {
         checkoutButton.disabled = true;
         checkoutButton.innerHTML = "⏳ Redirecting to secure checkout...";
         
-        // Redirect to your custom secure checkout
-        window.location.href = "{% url "cart:secure_checkout" %}";
+        // Show loading overlay
+        document.getElementById("loading-overlay").classList.remove("d-none");
+        
+        // Redirect to secure checkout
+        window.location.href = "{% url 'cart:secure_checkout' %}";
     });
 });
 </script>
