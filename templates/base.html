@@ -123,7 +123,7 @@
                                 <li><a class="dropdown-item" href="{% url 'orders:order_list' %}">🧾 My Orders</a></li>
                                 <li><a class="dropdown-item" href="{% url 'books:user_reviews' %}">⭐ My Reviews</a></li>
                                 
-                                <!-- New Admin Section -->
+                                <!-- Admin Section -->
                                 {% if user.is_superuser %}
                                     <li><hr class="dropdown-divider"></li>
                                     <li><a class="dropdown-item" href="/books/manage/">⚙️ Manage Books</a></li>
@@ -140,7 +140,7 @@
                             <a class="nav-link" href="{% url 'accounts:login' %}">🔑 Login</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'accounts:register' %}">�� Join Pack</a></li>
+                            <a class="nav-link" href="{% url 'accounts:register' %}">📝 Join Pack</a>
                         </li>
                     {% endif %}
                 </ul>
