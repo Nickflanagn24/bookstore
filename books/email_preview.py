@@ -1,10 +1,35 @@
+"""
+Debugging utilities for the books application.
+
+This module provides tools for development and debugging purposes,
+such as email template previewing. These functions are designed to
+only be accessible in DEBUG mode for security reasons.
+"""
 from django.http import HttpResponse
 from django.template.loader import render_to_string
 from django.conf import settings
 import datetime
 
+
 def preview_email_template(request, template_name):
-    """Preview email templates with sample data (only in DEBUG mode)"""
+    """
+    Preview email templates with sample data.
+    
+    Renders an email template with realistic dummy data for testing and
+    development purposes. This function is only accessible when Django's
+    DEBUG setting is enabled, to prevent exposure in production.
+    
+    Args:
+        request: The HTTP request object
+        template_name: The name of the email template to preview, without
+                      the 'emails/' prefix or '.html' suffix
+                      
+    Returns:
+        HttpResponse: The rendered email template as HTML or an error message
+        
+    Security:
+        Only accessible when settings.DEBUG is True
+    """
     # Only allow in DEBUG mode for security
     if not settings.DEBUG:
         return HttpResponse("Email preview only available in DEBUG mode.", status=403)
@@ -117,3 +142,4 @@ def preview_email_template(request, template_name):
         return HttpResponse(html_content)
     except Exception as e:
         return HttpResponse(f"Error loading template: {str(e)}")
+        

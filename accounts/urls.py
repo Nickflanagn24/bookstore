@@ -1,3 +1,9 @@
+"""
+URL configuration for the accounts application.
+
+This module defines URL patterns for user authentication and profile management,
+including registration, login, logout, and profile editing functionality.
+"""
 from django.urls import path
 from . import views
 

@@ -1,11 +1,26 @@
 #!/usr/bin/env python
-"""Django's command-line utility for administrative tasks."""
+"""
+Django's command-line utility for administrative tasks.
+
+This script is the entry point for Django's management commands such as
+runserver, makemigrations, migrate, etc. It sets up the environment and
+delegates to Django's command system.
+"""
 import os
 import sys
 
 
 def main():
-    """Run administrative tasks."""
+    """
+    Run administrative tasks.
+    
+    Sets up the Django environment, processes command-line arguments,
+    and executes the appropriate Django management command.
+    
+    Raises:
+        ImportError: If Django cannot be imported, suggesting issues
+                     with installation or the Python environment
+    """
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "bookstore_project.settings")
     try:
         from django.core.management import execute_from_command_line

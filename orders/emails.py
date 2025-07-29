@@ -1,10 +1,33 @@
+"""
+Email notification functions for the orders application.
+
+This module provides functions for sending order-related email notifications,
+such as order confirmations and shipping notifications.
+"""
+import logging
+
+from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
-from django.conf import settings
 from django.urls import reverse
 
+
+logger = logging.getLogger(__name__)
+
+
 def send_order_confirmation(order):
-    """Send order confirmation email"""
+    """
+    Send order confirmation email to the customer.
+    
+    Generates and sends an order confirmation email with order details
+    in both plain text and HTML formats (if a template exists).
+    
+    Args:
+        order: The Order object with customer and order information
+        
+    Returns:
+        bool: True if the email was sent successfully, False otherwise
+    """
     if not order.user or not order.user.email:
         return False
     
@@ -43,7 +66,8 @@ Thank you for shopping with Tales & Tails!
     # HTML version
     try:
         html_content = render_to_string('emails/order_confirmation.html', context)
-    except:
+    except Exception as e:
+        logger.error(f"Error rendering HTML template: {str(e)}")
         html_content = None
     
     # Send email
@@ -61,11 +85,23 @@ Thank you for shopping with Tales & Tails!
         msg.send()
         return True
     except Exception as e:
-        print(f"Error sending order confirmation: {str(e)}")
+        logger.error(f"Error sending order confirmation: {str(e)}")
         return False
 
+
 def send_shipping_notification(order):
-    """Send shipping notification email"""
+    """
+    Send shipping notification email to the customer.
+    
+    Generates and sends an email notifying the customer that their order
+    has been shipped, including tracking information if available.
+    
+    Args:
+        order: The Order object with shipping and customer information
+        
+    Returns:
+        bool: True if the email was sent successfully, False otherwise
+    """
     if not order.user or not order.user.email:
         return False
     
@@ -77,7 +113,10 @@ def send_shipping_notification(order):
     tracking_url = None
     if hasattr(order, 'tracking_number') and order.tracking_number:
         # This is a simple example - you might need to use specific carrier APIs
-        tracking_url = f"https://www.royalmail.com/track-your-item#/tracking-results/{order.tracking_number}"
+        tracking_url = (
+            f"https://www.royalmail.com/track-your-item#/tracking-results/"
+            f"{order.tracking_number}"
+        )
     
     context = {
         'order': order,
@@ -90,6 +129,17 @@ def send_shipping_notification(order):
     subject = f'Tales & Tails - Your Order #{order.id} Has Shipped!'
     
     # Plain text version
+    shipping_date_str = (
+        order.shipping_date.strftime('%B %d, %Y')
+        if hasattr(order, 'shipping_date') else 'N/A'
+    )
+    
+    tracking_info = (
+        f"- Tracking Number: {order.tracking_number}"
+        if hasattr(order, 'tracking_number') and order.tracking_number
+        else ""
+    )
+    
     text_content = f"""
 Your Order Has Shipped!
 
@@ -99,8 +149,8 @@ Great news! Your order from Tales & Tails has been shipped and is on its way to 
 
 Shipping Details:
 - Order Number: {order.id}
-- Shipping Date: {order.shipping_date.strftime('%B %d, %Y') if hasattr(order, 'shipping_date') else 'N/A'}
-{f"- Tracking Number: {order.tracking_number}" if hasattr(order, 'tracking_number') and order.tracking_number else ""}
+- Shipping Date: {shipping_date_str}
+{tracking_info}
 
 View your order details at: {order_url}
 
@@ -112,7 +162,8 @@ We hope you enjoy your books!
     # HTML version
     try:
         html_content = render_to_string('emails/shipping_notification.html', context)
-    except:
+    except Exception as e:
+        logger.error(f"Error rendering HTML template: {str(e)}")
         html_content = None
     
     # Send email
@@ -130,5 +181,6 @@ We hope you enjoy your books!
         msg.send()
         return True
     except Exception as e:
-        print(f"Error sending shipping notification: {str(e)}")
+        logger.error(f"Error sending shipping notification: {str(e)}")
         return False
+        

@@ -1,6 +1,13 @@
+"""
+URL configuration for the cart application.
+
+This module defines URL patterns for cart-related views, including cart management,
+checkout processes, and payment handling through Stripe integration.
+"""
 from django.urls import path
 from . import views
 from . import checkout_views
+
 
 app_name = 'cart'
 
@@ -14,12 +21,36 @@ urlpatterns = [
     
     # Checkout URLs
     path('checkout/', checkout_views.checkout, name='checkout'),
-    path('checkout/create-session/', checkout_views.create_checkout_session, name='create_checkout_session'),
-    path('checkout/success/', checkout_views.checkout_success, name='checkout_success'),
-    path('checkout/cancelled/', checkout_views.checkout_cancelled, name='checkout_cancelled'),
-    path('stripe/webhook/', checkout_views.stripe_webhook, name='stripe_webhook'),
+    path(
+        'checkout/create-session/',
+        checkout_views.create_checkout_session,
+        name='create_checkout_session'
+    ),
+    path(
+        'checkout/success/',
+        checkout_views.checkout_success,
+        name='checkout_success'
+    ),
+    path(
+        'checkout/cancelled/',
+        checkout_views.checkout_cancelled,
+        name='checkout_cancelled'
+    ),
+    path(
+        'stripe/webhook/',
+        checkout_views.stripe_webhook,
+        name='stripe_webhook'
+    ),
     
     # Professional Secure Checkout URLs
-    path("secure-checkout/", checkout_views.hardwired_checkout, name="secure_checkout"),
-    path("process-secure-payment/", checkout_views.process_hardwired_payment, name="process_secure_payment"),
+    path(
+        "secure-checkout/",
+        checkout_views.hardwired_checkout,
+        name="secure_checkout"
+    ),
+    path(
+        "process-secure-payment/",
+        checkout_views.process_hardwired_payment,
+        name="process_secure_payment"
+    ),
 ]

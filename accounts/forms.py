@@ -1,10 +1,22 @@
+"""
+Custom form classes for user authentication and profile management.
+
+This module contains forms for user registration, profile updates,
+and custom authentication, with specific fields for dog owner profiles.
+"""
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth import authenticate
 from .models import CustomUser
 
 class CustomUserCreationForm(UserCreationForm):
-    """Custom user registration form with dog-specific fields"""
+    """
+    Custom user registration form with dog-specific fields.
+    
+    Extends Django's UserCreationForm to include additional fields relevant
+    to the application, such as dog ownership details and communication preferences.
+    All form fields are styled with Bootstrap classes.
+    """
     
     email = forms.EmailField(
         required=True,
@@ -54,6 +66,13 @@ class CustomUserCreationForm(UserCreationForm):
                  'dog_owner', 'dog_breed', 'newsletter_subscription')
 
     def __init__(self, *args, **kwargs):
+        """
+        Initialise the form and set custom widget attributes.
+        
+        Args:
+            *args: Variable length argument list
+            **kwargs: Arbitrary keyword arguments
+        """
         super().__init__(*args, **kwargs)
         self.fields['username'].widget.attrs.update({
             'class': 'form-control',
@@ -69,6 +88,15 @@ class CustomUserCreationForm(UserCreationForm):
         })
 
     def save(self, commit=True):
+        """
+        Save the form data to create a new user.
+        
+        Args:
+            commit (bool): Whether to save the user to the database
+            
+        Returns:
+            CustomUser: The newly created user object
+        """
         user = super().save(commit=False)
         user.email = self.cleaned_data['email']
         user.first_name = self.cleaned_data['first_name']
@@ -81,7 +109,12 @@ class CustomUserCreationForm(UserCreationForm):
         return user
 
 class CustomUserChangeForm(UserChangeForm):
-    """Form for updating user profile"""
+    """
+    Form for updating user profile information.
+    
+    Extends Django's UserChangeForm to include custom user fields relevant
+    to the application's profile management functionality.
+    """
     
     class Meta:
         model = CustomUser
@@ -90,7 +123,12 @@ class CustomUserChangeForm(UserChangeForm):
                  'marketing_emails')
 
 class ProfileUpdateForm(forms.ModelForm):
-    """Form for updating user profile information"""
+    """
+    Form for updating user profile information.
+    
+    Provides fields for users to update their personal details, dog information,
+    and communication preferences. All form fields are styled with Bootstrap classes.
+    """
     
     class Meta:
         model = CustomUser
@@ -110,7 +148,12 @@ class ProfileUpdateForm(forms.ModelForm):
         }
 
 class CustomLoginForm(forms.Form):
-    """Custom login form"""
+    """
+    Custom login form that authenticates users using email instead of username.
+    
+    Provides fields for email-based authentication with additional options like
+    remember me functionality. All form fields are styled with Bootstrap classes.
+    """
     
     email = forms.EmailField(
         widget=forms.EmailInput(attrs={
@@ -131,10 +174,28 @@ class CustomLoginForm(forms.Form):
     )
 
     def __init__(self, *args, **kwargs):
+        """
+        Initialise the form and store the request object.
+        
+        Args:
+            *args: Variable length argument list
+            **kwargs: Arbitrary keyword arguments with optional 'request' parameter
+        """
         self.request = kwargs.pop('request', None)
         super().__init__(*args, **kwargs)
 
     def clean(self):
+        """
+        Validate the form data and authenticate the user.
+        
+        Retrieves the CustomUser by email and attempts authentication.
+        
+        Returns:
+            dict: The cleaned data
+            
+        Raises:
+            ValidationError: If authentication fails or account is inactive
+        """
         email = self.cleaned_data.get('email')
         password = self.cleaned_data.get('password')
 
@@ -152,4 +213,11 @@ class CustomLoginForm(forms.Form):
         return self.cleaned_data
 
     def get_user(self):
+        """
+        Return the authenticated user.
+        
+        Returns:
+            CustomUser: The authenticated user or None
+        """
         return getattr(self, 'user_cache', None)
+        

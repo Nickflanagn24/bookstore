@@ -1,5 +1,8 @@
 """
-Google Books API integration service
+Google Books API integration service.
+
+This module provides a service class for interacting with the Google Books API,
+allowing for book searches, retrieval by ID or ISBN, and data extraction.
 """
 
 import requests
@@ -9,17 +12,29 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+
 class GoogleBooksAPI:
-    """Service class for Google Books API integration"""
+    """
+    Service class for Google Books API integration.
+    
+    Provides methods for searching and retrieving book information from the
+    Google Books API, with options for different search parameters and
+    data extraction.
+    """
     
     BASE_URL = "https://www.googleapis.com/books/v1/volumes"
     
     def __init__(self):
+        """
+        Initialise the API service with the API key from settings.
+        """
         self.api_key = settings.GOOGLE_BOOKS_API_KEY
     
-    def search_books(self, query: str, max_results: int = 10, start_index: int = 0) -> Dict:
+    def search_books(
+        self, query: str, max_results: int = 10, start_index: int = 0
+    ) -> Dict:
         """
-        Search for books using Google Books API
+        Search for books using Google Books API.
         
         Args:
             query: Search query string
@@ -50,7 +65,7 @@ class GoogleBooksAPI:
     
     def get_book_by_id(self, google_book_id: str) -> Optional[Dict]:
         """
-        Get a specific book by its Google Books ID
+        Get a specific book by its Google Books ID.
         
         Args:
             google_book_id: Google Books volume ID
@@ -75,7 +90,7 @@ class GoogleBooksAPI:
     
     def search_by_isbn(self, isbn: str) -> Optional[Dict]:
         """
-        Search for a book by ISBN
+        Search for a book by ISBN.
         
         Args:
             isbn: ISBN-10 or ISBN-13
@@ -95,7 +110,7 @@ class GoogleBooksAPI:
     
     def search_by_title_author(self, title: str, author: str = None) -> Dict:
         """
-        Search for books by title and optionally author
+        Search for books by title and optionally author.
         
         Args:
             title: Book title
@@ -115,13 +130,16 @@ class GoogleBooksAPI:
     @staticmethod
     def extract_book_data(book_item: Dict) -> Dict:
         """
-        Extract and normalize book data from Google Books API response
+        Extract and normalise book data from Google Books API response.
+        
+        Processes the raw API response to extract relevant book information
+        in a standardised format suitable for application use.
         
         Args:
             book_item: Single book item from API response
             
         Returns:
-            Normalized book data dictionary
+            Normalised book data dictionary
         """
         volume_info = book_item.get('volumeInfo', {})
         sale_info = book_item.get('saleInfo', {})
@@ -143,7 +161,11 @@ class GoogleBooksAPI:
         # Extract images
         image_links = volume_info.get('imageLinks', {})
         thumbnail = image_links.get('thumbnail', '')
-        cover_image = image_links.get('large') or image_links.get('medium') or thumbnail
+        cover_image = (
+            image_links.get('large') or 
+            image_links.get('medium') or 
+            thumbnail
+        )
         
         # Extract categories
         categories = volume_info.get('categories', [])

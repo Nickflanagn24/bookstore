@@ -1,17 +1,46 @@
+"""
+View functions for the books application.
+
+This module provides Django view functions for displaying and managing books,
+authors, categories, reviews, and handling various user interactions such as
+contact submissions and newsletter signups.
+"""
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
-from django.http import JsonResponse
-from .models import Book, Author, Category
+from django.http import JsonResponse, HttpResponse
+from django.views.decorators.http import require_POST
+from django.core.mail import send_mail, EmailMultiAlternatives
+from django.conf import settings
+from django.contrib.auth.decorators import user_passes_test
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError
+from django.template.loader import render_to_string
+import json
+
+from .models import Book, Author, Category, ContactMessage, Newsletter, Review
 from .utils import get_featured_books, get_recent_books
+from .forms import BookForm, ReviewForm
 from accounts.forms import CustomUserCreationForm, ProfileUpdateForm
 from accounts.models import CustomUser
 
+
 def home(request):
-    """Homepage view with featured and recent books"""
+    """
+    Display the homepage with featured and recent books.
+    
+    Shows a curated selection of featured and recently added books,
+    along with category navigation and site statistics.
+    
+    Args:
+        request: The HTTP request object
+        
+    Returns:
+        Rendered homepage template with context data
+    """
     context = {
         'featured_books': get_featured_books(limit=8),
         'recent_books': get_recent_books(limit=8),
@@ -21,20 +50,23 @@ def home(request):
     }
     return render(request, 'books/home.html', context)
 
+
 def book_list(request):
-    """Book listing page with search and filtering"""
-    from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+    """
+    Display the book listing page with search and filtering capabilities.
     
-    books_queryset = Book.objects.filter(is_available=True).select_related().prefetch_related('authors', 'categories')
+    Shows all available books with pagination, and allows filtering by
+    search query terms that match title, author, or ISBN.
     
-    # Handle search query
-    query = request.GET.get("q")
-    if query:
-        books_queryset = books_queryset.filter(
-            Q(title__icontains=query) |
-            Q(authors__name__icontains=query) |
-            Q(isbn__icontains=query)
-        ).distinct()
+    Args:
+        request: The HTTP request object
+        
+    Returns:
+        Rendered book list template with context data
+    """
+    books_queryset = Book.objects.filter(
+        is_available=True
+    ).select_related().prefetch_related('authors', 'categories')
     
     # Handle search query
     query = request.GET.get("q")
@@ -56,8 +88,6 @@ def book_list(request):
     except EmptyPage:
         books = paginator.page(paginator.num_pages)
     
-    print(f"DEBUG: Total books: {paginator.count}, Pages: {paginator.num_pages}, Has other pages: {books.has_other_pages()}")
-    
     context = {
         'books': books,
         'categories': Category.objects.all(),
@@ -65,8 +95,22 @@ def book_list(request):
     
     return render(request, 'books/book_list.html', context)
 
+
 def book_detail(request, pk):
-    """Individual book detail page with comprehensive information"""
+    """
+    Display detailed information for a specific book.
+    
+    Shows comprehensive information about a book including description,
+    authors, categories, and similar book recommendations. Also displays
+    review information and review capabilities for authenticated users.
+    
+    Args:
+        request: The HTTP request object
+        pk: The UUID primary key of the book
+        
+    Returns:
+        Rendered book detail template with context data
+    """
     book = get_object_or_404(
         Book.objects.select_related().prefetch_related('authors', 'categories'),
         pk=pk,
@@ -84,8 +128,11 @@ def book_detail(request, pk):
     ).distinct().select_related().prefetch_related('authors')[:4]
     
     # Check if user can review and get user review
-    user_can_review = book.user_can_review(request.user) if request.user.is_authenticated else False
-    user_review = book.get_user_review(request.user) if request.user.is_authenticated else None
+    user_can_review = False
+    user_review = None
+    if request.user.is_authenticated:
+        user_can_review = book.user_can_review(request.user)
+        user_review = book.get_user_review(request.user)
     
     context = {
         "book": book,
@@ -93,17 +140,31 @@ def book_detail(request, pk):
         "in_stock": book.is_in_stock,
         "user_can_review": user_can_review,
         "user_review": user_review,
-            "book": book,
     }
     
     return render(request, 'books/book_detail.html', context)
 
+
 def category_detail(request, slug):
-    """Category page showing all books in a category with pagination"""
+    """
+    Display all books belonging to a specific category.
+    
+    Shows a paginated list of books that belong to the specified category.
+    
+    Args:
+        request: The HTTP request object
+        slug: The URL slug of the category
+        
+    Returns:
+        Rendered category detail template with context data
+    """
     category = get_object_or_404(Category, slug=slug)
     
     # Get all books in this category
-    books_list = Book.objects.filter(categories=category, is_available=True).order_by("-created_at")
+    books_list = Book.objects.filter(
+        categories=category, 
+        is_available=True
+    ).order_by("-created_at")
     
     # Add pagination (12 books per page to match books page)
     paginator = Paginator(books_list, 12)
@@ -117,12 +178,27 @@ def category_detail(request, slug):
     
     return render(request, "books/category_detail.html", context)
 
+
 def author_detail(request, pk):
-    """Author page showing all books by an author with pagination"""
+    """
+    Display an author's profile and books.
+    
+    Shows information about an author and a paginated list of their books.
+    
+    Args:
+        request: The HTTP request object
+        pk: The UUID primary key of the author
+        
+    Returns:
+        Rendered author detail template with context data
+    """
     author = get_object_or_404(Author, pk=pk)
     
     # Get all books by this author
-    books_list = Book.objects.filter(authors=author, is_available=True).order_by("-created_at")
+    books_list = Book.objects.filter(
+        authors=author, 
+        is_available=True
+    ).order_by("-created_at")
     
     # Add pagination (12 books per page)
     paginator = Paginator(books_list, 12)
@@ -136,8 +212,20 @@ def author_detail(request, pk):
     
     return render(request, "books/author_detail.html", context)
 
+
 def search_ajax(request):
-    """AJAX search for live search functionality"""
+    """
+    Provide AJAX search results for live search functionality.
+    
+    Returns JSON data containing matching books based on a search query.
+    Only returns results if the query is at least 3 characters long.
+    
+    Args:
+        request: The HTTP request object with 'q' GET parameter
+        
+    Returns:
+        JsonResponse containing matched books data
+    """
     query = request.GET.get('q', '')
     
     if len(query) < 3:
@@ -160,23 +248,47 @@ def search_ajax(request):
     
     return JsonResponse({'results': results})
 
+
 def about(request):
-    """About Us page"""
+    """
+    Display the About Us page.
+    
+    Args:
+        request: The HTTP request object
+        
+    Returns:
+        Rendered about page template
+    """
     return render(request, 'pages/about.html')
 
+
 def contact(request):
-    """Contact Us page"""
+    """
+    Display the Contact Us page.
+    
+    Args:
+        request: The HTTP request object
+        
+    Returns:
+        Rendered contact page template
+    """
     return render(request, 'pages/contact.html')
 
-from django.http import JsonResponse
-from django.views.decorators.http import require_POST
-from django.core.mail import send_mail
-from django.conf import settings
-import json
 
 @require_POST
 def submit_contact_form(request):
-    """Handle contact form submissions with database storage and email notification"""
+    """
+    Handle contact form submissions.
+    
+    Processes form data, stores the message in the database, and sends
+    an email notification to the site administrator.
+    
+    Args:
+        request: The HTTP POST request containing form data
+        
+    Returns:
+        JsonResponse indicating success or failure
+    """
     try:
         # Parse form data
         if request.content_type == 'application/json':
@@ -200,7 +312,6 @@ def submit_contact_form(request):
                 })
         
         # Store in database
-        from .models import ContactMessage
         contact_message = ContactMessage.objects.create(
             first_name=data['first_name'],
             last_name=data['last_name'],
@@ -237,21 +348,32 @@ Contact ID: {contact_message.id}
         
         return JsonResponse({
             'success': True,
-            'message': f'Thank you, {data["first_name"]}! Your message has been received. We will get back to you soon.'
+            'message': f'Thank you, {data["first_name"]}! Your message has been '
+                      f'received. We will get back to you soon.'
         })
         
     except Exception as e:
         return JsonResponse({
             'success': False,
-            'message': 'An error occurred while sending your message. Please try again.'
+            'message': 'An error occurred while sending your message. '
+                      'Please try again.'
         })
 
-from django.views.decorators.http import require_POST
-import json
 
 @require_POST
 def newsletter_signup(request):
-    """Handle newsletter signup from home page"""
+    """
+    Handle newsletter signup requests.
+    
+    Processes newsletter subscription requests, validates the email address,
+    creates or reactivates a subscription, and sends a confirmation email.
+    
+    Args:
+        request: The HTTP POST request containing subscription data
+        
+    Returns:
+        JsonResponse indicating success or failure
+    """
     try:
         # Parse form data
         if request.content_type == 'application/json':
@@ -267,9 +389,6 @@ def newsletter_signup(request):
             })
         
         # Validate email format
-        from django.core.validators import validate_email
-        from django.core.exceptions import ValidationError
-        
         try:
             validate_email(email)
         except ValidationError:
@@ -279,7 +398,6 @@ def newsletter_signup(request):
             })
         
         # Create or get newsletter subscription
-        from .models import Newsletter
         newsletter, created = Newsletter.objects.get_or_create(
             email=email,
             defaults={
@@ -290,9 +408,6 @@ def newsletter_signup(request):
         
         # Send confirmation email
         try:
-            from django.core.mail import EmailMultiAlternatives
-            from django.template.loader import render_to_string
-            
             subject = 'Welcome to Tales & Tails Newsletter'
             text_content = f"""
 Thank you for subscribing to Tales & Tails newsletter!
@@ -330,7 +445,8 @@ The Tales & Tails Team
                     recipient_list=[email],
                     fail_silently=True
                 )
-                print(f"⚠️ HTML email failed, sent plain text email to {email}: {str(template_error)}")
+                print(f"⚠️ HTML email failed, sent plain text email to {email}: "
+                     f"{str(template_error)}")
                 
         except Exception as email_error:
             print(f"❌ Failed to send confirmation email: {str(email_error)}")
@@ -338,13 +454,14 @@ The Tales & Tails Team
         if created:
             return JsonResponse({
                 'success': True,
-                'message': f'Thank you! You\'ve been successfully subscribed to our newsletter.'
+                'message': "Thank you! You've been successfully subscribed to "
+                          "our newsletter."
             })
         else:
             if newsletter.is_active:
                 return JsonResponse({
                     'success': True,
-                    'message': 'You\'re already subscribed to our newsletter!'
+                    'message': "You're already subscribed to our newsletter!"
                 })
             else:
                 # Reactivate subscription
@@ -352,7 +469,8 @@ The Tales & Tails Team
                 newsletter.save()
                 return JsonResponse({
                     'success': True,
-                    'message': 'Welcome back! Your newsletter subscription has been reactivated.'
+                    'message': "Welcome back! Your newsletter subscription has "
+                              "been reactivated."
                 })
         
     except Exception as e:
@@ -362,20 +480,39 @@ The Tales & Tails Team
             'message': 'An error occurred. Please try again.'
         })
 
+
 # =====================================
 # CRUD Views - Staff Only
 # =====================================
-from django.contrib.auth.decorators import user_passes_test
-from .forms import BookForm
 
 def is_staff_user(user):
-    """Check if user is staff"""
+    """
+    Check if user is a staff member.
+    
+    Args:
+        user: The user object to check
+        
+    Returns:
+        bool: True if user is staff, False otherwise
+    """
     return user.is_staff
+
 
 @login_required
 @user_passes_test(is_staff_user)
 def book_manage(request):
-    """Staff book management dashboard"""
+    """
+    Display the staff book management dashboard.
+    
+    Provides search functionality and pagination for book management.
+    Only accessible to staff users.
+    
+    Args:
+        request: The HTTP request object
+        
+    Returns:
+        Rendered book management template with context data
+    """
     search = request.GET.get('search', '')
     books = Book.objects.all()
     
@@ -395,10 +532,22 @@ def book_manage(request):
         'search': search
     })
 
+
 @login_required
 @user_passes_test(is_staff_user)
 def book_create(request):
-    """Create new book"""
+    """
+    Create a new book entry.
+    
+    Handles form submission for creating a new book.
+    Only accessible to staff users.
+    
+    Args:
+        request: The HTTP request object
+        
+    Returns:
+        Rendered book form template or redirect to management page
+    """
     if request.method == 'POST':
         form = BookForm(request.POST)
         if form.is_valid():
@@ -414,42 +563,37 @@ def book_create(request):
         'button': 'Create Book'
     })
 
+
 @login_required
 @user_passes_test(is_staff_user)
 def book_edit(request, pk):
-    """Edit existing book"""
-    print("=" * 50)
-    print("🚀 BOOK_EDIT VIEW CALLED!")
-    print(f"📖 PK: {pk}")
-    print(f"📤 Method: {request.method}")
-    print(f"👤 User: {request.user}")
-    print("=" * 50)
+    """
+    Edit an existing book.
     
+    Handles form submission for editing book details.
+    Only accessible to staff users.
+    
+    Args:
+        request: The HTTP request object
+        pk: The UUID primary key of the book
+        
+    Returns:
+        Rendered book form template or redirect to management page
+    """
     book = get_object_or_404(Book, pk=pk)
-    print(f"📚 Book found: {book.title}")
     
     if request.method == 'POST':
-        print("�� POST REQUEST DETECTED!")
-        print(f"📝 POST data: {dict(request.POST)}")
-        
         form = BookForm(request.POST, instance=book)
-        print(f"📋 Form created: {form}")
-        
         if form.is_valid():
-            print("✅ Form is VALID!")
             book = form.save()
-            print(f"💾 Book saved: {book.title}")
-            messages.success(request, f'Book "{book.title}" has been updated successfully!')
-            print("📤 Redirecting to book_manage...")
+            messages.success(
+                request, 
+                f'Book "{book.title}" has been updated successfully!'
+            )
             return redirect('books:book_manage')
-        else:
-            print("❌ Form is INVALID!")
-            print(f"🐛 Form errors: {form.errors}")
     else:
-        print("�� GET request - showing form")
         form = BookForm(instance=book)
     
-    print(f"🎨 Rendering template with book: {book.title}")
     return render(request, 'books/form.html', {
         'form': form,
         'book': book,
@@ -457,10 +601,23 @@ def book_edit(request, pk):
         'button': 'Update Book'
     })
 
+
 @login_required
 @user_passes_test(is_staff_user)
 def book_remove(request, pk):
-    """Delete book with confirmation"""
+    """
+    Delete a book with confirmation.
+    
+    Shows a confirmation page before deleting a book.
+    Only accessible to staff users.
+    
+    Args:
+        request: The HTTP request object
+        pk: The UUID primary key of the book
+        
+    Returns:
+        Rendered confirmation template or redirect to management page
+    """
     book = get_object_or_404(Book, pk=pk)
     
     if request.method == 'POST':
@@ -471,15 +628,26 @@ def book_remove(request, pk):
     
     return render(request, 'books/delete.html', {'book': book})
 
+
 # =====================================
 # REVIEW Views
 # =====================================
-from .forms import ReviewForm
-from .models import Review
 
 @login_required
 def review_create(request, book_id):
-    """Create a new review for a book"""
+    """
+    Create a new review for a book.
+    
+    Handles form submission for creating a book review.
+    Only allows one review per user per book.
+    
+    Args:
+        request: The HTTP request object
+        book_id: The UUID of the book to review
+        
+    Returns:
+        Rendered review form template or redirect to book detail page
+    """
     book = get_object_or_404(Book, id=book_id, is_available=True)
     
     # Check if user already reviewed this book
@@ -510,9 +678,22 @@ def review_create(request, book_id):
     }
     return render(request, 'books/review_form.html', context)
 
+
 @login_required
 def review_edit(request, review_id):
-    """Edit an existing review"""
+    """
+    Edit an existing book review.
+    
+    Handles form submission for editing a review.
+    Users can only edit their own reviews.
+    
+    Args:
+        request: The HTTP request object
+        review_id: The ID of the review to edit
+        
+    Returns:
+        Rendered review form template or redirect to book detail page
+    """
     review = get_object_or_404(Review, id=review_id, user=request.user)
     book = review.book
     
@@ -538,9 +719,22 @@ def review_edit(request, review_id):
     }
     return render(request, 'books/review_form.html', context)
 
+
 @login_required
 def review_delete(request, review_id):
-    """Delete a review"""
+    """
+    Delete a book review.
+    
+    Shows a confirmation page before deleting a review.
+    Users can only delete their own reviews.
+    
+    Args:
+        request: The HTTP request object
+        review_id: The ID of the review to delete
+        
+    Returns:
+        Rendered confirmation template or redirect to book detail page
+    """
     review = get_object_or_404(Review, id=review_id, user=request.user)
     book = review.book
     
@@ -559,10 +753,23 @@ def review_delete(request, review_id):
     }
     return render(request, 'books/review_delete.html', context)
 
+
 @login_required
 def user_reviews(request):
-    """Display all reviews by the current user with pagination"""
-    reviews_list = Review.objects.filter(user=request.user).select_related("book").order_by("-created_at")
+    """
+    Display all reviews written by the current user.
+    
+    Shows a paginated list of reviews written by the authenticated user.
+    
+    Args:
+        request: The HTTP request object
+        
+    Returns:
+        Rendered user reviews template with context data
+    """
+    reviews_list = Review.objects.filter(
+        user=request.user
+    ).select_related("book").order_by("-created_at")
     
     # Add pagination (10 reviews per page)
     paginator = Paginator(reviews_list, 10)
@@ -576,24 +783,36 @@ def user_reviews(request):
     
     return render(request, "books/user_reviews.html", context)
 
-from django.http import HttpResponse
-from django.core.mail import send_mail
-from django.conf import settings
 
 def test_email(request):
-    """Test view to check if emails are working"""
+    """
+    Test if the email system is configured and working properly.
+    
+    Sends a test email and displays configuration information.
+    Only accessible to staff users.
+    
+    Args:
+        request: The HTTP request object
+        
+    Returns:
+        HTTP response with test results and configuration details
+    """
     if not request.user.is_staff:
-        return HttpResponse("You don't have permission to access this page.", status=403)
+        return HttpResponse("You don't have permission to access this page.", 
+                           status=403)
         
     try:
         # Get the recipient email (default to admin)
-        default_recipient = getattr(settings, 'ADMIN_EMAIL', settings.DEFAULT_FROM_EMAIL)
+        default_recipient = getattr(
+            settings, 'ADMIN_EMAIL', settings.DEFAULT_FROM_EMAIL
+        )
         recipient = request.GET.get('email', default_recipient)
         
         # Send a test email
         send_mail(
             subject='Tales & Tails - Email System Test',
-            message='This is a test email from your Django application. If you receive this, your email system is working correctly!',
+            message='This is a test email from your Django application. If you '
+                   'receive this, your email system is working correctly!',
             from_email=settings.DEFAULT_FROM_EMAIL,
             recipient_list=[recipient],
             fail_silently=False,
@@ -639,3 +858,4 @@ def test_email(request):
         """
         
         return HttpResponse(html)
+        

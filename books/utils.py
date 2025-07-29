@@ -1,5 +1,9 @@
 """
-Utility functions for the Books app
+Utility functions for the Books application.
+
+This module provides helper functions for book-related operations such as
+searching, retrieving featured books, syncing with Google Books API,
+and generating book recommendations.
 """
 
 from typing import List, Dict, Optional
@@ -8,17 +12,21 @@ from .services import google_books_api
 from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
+
 def search_books_local(query: str, page: int = 1, per_page: int = 12) -> Dict:
     """
-    Search books in local database
+    Search for books in the local database.
+    
+    Performs a search across multiple book fields including title, author,
+    description, and category. Results are paginated for display.
     
     Args:
-        query: Search query
+        query: Search query string
         page: Page number for pagination
         per_page: Number of books per page
         
     Returns:
-        Dictionary with search results and pagination info
+        Dictionary with search results and pagination information
     """
     books = Book.objects.filter(
         Q(title__icontains=query) |
@@ -43,21 +51,58 @@ def search_books_local(query: str, page: int = 1, per_page: int = 12) -> Dict:
         'page_range': paginator.get_elided_page_range(books_page.number),
     }
 
+
 def get_featured_books(limit: int = 8) -> List[Book]:
-    """Get featured books for homepage"""
+    """
+    Get featured books for homepage display.
+    
+    Retrieves books marked as featured and available for purchase,
+    optimised with related object prefetching.
+    
+    Args:
+        limit: Maximum number of books to return
+        
+    Returns:
+        List of featured Book objects
+    """
     return Book.objects.filter(
         is_featured=True, 
         is_available=True
     ).select_related().prefetch_related('authors')[:limit]
 
+
 def get_recent_books(limit: int = 8) -> List[Book]:
-    """Get recently added books"""
+    """
+    Get recently added books.
+    
+    Retrieves the most recently added books that are available for purchase,
+    ordered by creation date and optimised with related object prefetching.
+    
+    Args:
+        limit: Maximum number of books to return
+        
+    Returns:
+        List of recently added Book objects
+    """
     return Book.objects.filter(
         is_available=True
     ).select_related().prefetch_related('authors').order_by('-created_at')[:limit]
 
+
 def get_books_by_category(category_slug: str, page: int = 1, per_page: int = 12) -> Dict:
-    """Get books by category with pagination"""
+    """
+    Get books by category with pagination.
+    
+    Retrieves books belonging to a specific category and paginates the results.
+    
+    Args:
+        category_slug: URL slug of the category
+        page: Page number for pagination
+        per_page: Number of books per page
+        
+    Returns:
+        Dictionary containing category, books, and pagination information
+    """
     try:
         category = Category.objects.get(slug=category_slug)
         books = Book.objects.filter(
@@ -88,9 +133,14 @@ def get_books_by_category(category_slug: str, page: int = 1, per_page: int = 12)
             'page_range': [],
         }
 
+
 def sync_book_from_google(google_books_id: str) -> Optional[Book]:
     """
-    Sync a single book from Google Books API
+    Synchronise a single book from Google Books API.
+    
+    Retrieves book data from the Google Books API and creates or updates
+    the corresponding book record in the local database, including
+    associated authors and categories.
     
     Args:
         google_books_id: Google Books volume ID
@@ -135,16 +185,20 @@ def sync_book_from_google(google_books_id: str) -> Optional[Book]:
     
     return book
 
+
 def get_book_recommendations(book: Book, limit: int = 4) -> List[Book]:
     """
-    Get book recommendations based on categories and authors
+    Get book recommendations based on categories and authors.
+    
+    Generates personalised book recommendations by finding books that share
+    categories or authors with the specified book, excluding the original book.
     
     Args:
         book: Book instance to base recommendations on
-        limit: Number of recommendations to return
+        limit: Maximum number of recommendations to return
         
     Returns:
-        List of recommended books
+        List of recommended Book objects
     """
     # Get books in same categories or by same authors
     recommendations = Book.objects.filter(
@@ -157,3 +211,4 @@ def get_book_recommendations(book: Book, limit: int = 4) -> List[Book]:
     ).distinct().select_related().prefetch_related('authors')[:limit]
     
     return list(recommendations)
+    

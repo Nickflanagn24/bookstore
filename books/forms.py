@@ -1,8 +1,21 @@
+"""
+Form classes for the books application.
+
+This module provides Django form classes for handling book-related operations
+such as creating and editing books and book reviews.
+"""
 from django import forms
 from .models import Book, Author, Category, Review
 
+
 class BookForm(forms.ModelForm):
-    """Form for Book CRUD operations"""
+    """
+    Form for book creation and editing operations.
+    
+    Provides a form interface for creating and updating Book instances,
+    with appropriate form widgets and validation. Includes bootstrap
+    styling classes for integration with the frontend.
+    """
     
     class Meta:
         model = Book
@@ -33,6 +46,16 @@ class BookForm(forms.ModelForm):
         }
     
     def __init__(self, *args, **kwargs):
+        """
+        Initialise the BookForm with custom field configurations.
+        
+        Sets required fields, input formats, field labels and default values
+        for new book instances.
+        
+        Args:
+            *args: Variable length argument list
+            **kwargs: Arbitrary keyword arguments
+        """
         super().__init__(*args, **kwargs)
         self.fields['title'].required = True
         self.fields['price'].required = True
@@ -52,8 +75,14 @@ class BookForm(forms.ModelForm):
             self.fields['language'].initial = 'English'
             self.fields['stock_quantity'].initial = 1
 
+
 class ReviewForm(forms.ModelForm):
-    """Form for creating and editing reviews"""
+    """
+    Form for creating and editing book reviews.
+    
+    Provides fields for users to submit ratings and comments for books,
+    with appropriate validation and Bootstrap styling.
+    """
     
     class Meta:
         model = Review
@@ -76,6 +105,16 @@ class ReviewForm(forms.ModelForm):
         }
         
     def __init__(self, *args, **kwargs):
+        """
+        Initialise the ReviewForm with custom field configurations.
+        
+        Sets field labels, empty label text, and adds Bootstrap validation
+        classes based on form errors.
+        
+        Args:
+            *args: Variable length argument list
+            **kwargs: Arbitrary keyword arguments
+        """
         super().__init__(*args, **kwargs)
         self.fields['rating'].empty_label = "Select a rating"
         self.fields['title'].label = "Review Title"
@@ -84,3 +123,4 @@ class ReviewForm(forms.ModelForm):
         # Add Bootstrap validation classes
         for field in self.fields.values():
             field.widget.attrs.update({'class': field.widget.attrs.get('class', '') + ' is-invalid' if self.errors else ''})
+            

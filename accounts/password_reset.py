@@ -1,3 +1,9 @@
+"""
+Email utility functions for account management.
+
+This module provides functions for sending account-related emails
+such as password reset notifications to users.
+"""
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
@@ -5,8 +11,24 @@ from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.conf import settings
 
+
 def send_password_reset_email(user):
-    """Send password reset email with token"""
+    """
+    Send password reset email with security token to a user.
+    
+    Generates a unique security token and URL for password reset,
+    then sends an email to the user with both plain text and HTML
+    versions of the reset instructions.
+    
+    Args:
+        user: The user object requesting a password reset
+        
+    Returns:
+        bool: True if the email was sent successfully, False otherwise
+        
+    Raises:
+        No exceptions are raised; errors are caught and logged
+    """
     # Generate token
     token = default_token_generator.make_token(user)
     uid = urlsafe_base64_encode(force_bytes(user.pk))
@@ -61,3 +83,4 @@ This password reset link will expire in 24 hours.
     except Exception as e:
         print(f"Error sending password reset email: {str(e)}")
         return False
+        

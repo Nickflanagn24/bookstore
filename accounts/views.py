@@ -1,3 +1,9 @@
+"""
+View functions for user authentication and profile management.
+
+This module provides Django view functions for handling user registration,
+login, logout, and profile management operations in the accounts application.
+"""
 from books.models import Review
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout
@@ -6,8 +12,21 @@ from django.contrib import messages
 from .forms import CustomUserCreationForm, ProfileUpdateForm
 from .models import CustomUser
 
+
 def register_view(request):
-    """Registration view using function-based approach"""
+    """
+    Handle user registration requests.
+    
+    Processes form submission for creating new user accounts.
+    If the user is already authenticated, redirects to home page.
+    On successful registration, logs in the user automatically.
+    
+    Args:
+        request: The HTTP request object
+        
+    Returns:
+        HttpResponse: Rendered registration template or redirect to home page
+    """
     if request.user.is_authenticated:
         return redirect('home')
         
@@ -27,8 +46,21 @@ def register_view(request):
     
     return render(request, 'accounts/register.html', {'form': form})
 
+
 def login_view(request):
-    """Login view using direct password checking"""
+    """
+    Handle user login requests.
+    
+    Authenticates users against the CustomUser model.
+    Performs direct password validation against the stored credentials.
+    Redirects authenticated users to the home page.
+    
+    Args:
+        request: The HTTP request object
+        
+    Returns:
+        HttpResponse: Rendered login template or redirect to next page
+    """
     if request.user.is_authenticated:
         return redirect('home')
         
@@ -62,17 +94,41 @@ def login_view(request):
     
     return render(request, 'accounts/login_simple.html', {'error_message': error_message})
 
+
 def logout_view(request):
-    """Logout view"""
+    """
+    Handle user logout requests.
+    
+    Logs out the currently authenticated user and displays a farewell message.
+    Always redirects to the home page.
+    
+    Args:
+        request: The HTTP request object
+        
+    Returns:
+        HttpResponse: Redirect to home page
+    """
     if request.user.is_authenticated:
         user_name = request.user.first_name
         logout(request)
         messages.info(request, f"Goodbye, {user_name}! You've been logged out.")
     return redirect('home')
 
+
 @login_required
 def profile_view(request):
-    """User profile view"""
+    """
+    Display user profile information.
+    
+    Shows user details and activity statistics, including review count.
+    Requires user authentication.
+    
+    Args:
+        request: The HTTP request object
+        
+    Returns:
+        HttpResponse: Rendered profile template with user context
+    """
     context = {
         'user': request.user,
     }
@@ -81,9 +137,21 @@ def profile_view(request):
     context["user_reviews_count"] = user_reviews_count
     return render(request, 'accounts/profile.html', context)
 
+
 @login_required
 def profile_edit_view(request):
-    """Edit user profile view"""
+    """
+    Handle user profile editing.
+    
+    Processes form submission for updating user profile information.
+    Requires user authentication.
+    
+    Args:
+        request: The HTTP request object
+        
+    Returns:
+        HttpResponse: Rendered profile edit template or redirect to profile view
+    """
     if request.method == 'POST':
         form = ProfileUpdateForm(request.POST, instance=request.user)
         if form.is_valid():
@@ -95,9 +163,22 @@ def profile_edit_view(request):
     
     return render(request, 'accounts/profile_edit.html', {'form': form})
 
+
 def dashboard_view(request):
-    """User dashboard view"""
+    """
+    Handle dashboard view requests.
+    
+    Redirects authenticated users to their profile page.
+    Redirects unauthenticated users to the login page.
+    
+    Args:
+        request: The HTTP request object
+        
+    Returns:
+        HttpResponse: Redirect to profile or login page
+    """
     if request.user.is_authenticated:
         return redirect('accounts:profile')
     else:
         return redirect('accounts:login')
+        

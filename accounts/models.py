@@ -1,10 +1,21 @@
+"""
+Custom user models extending Django's authentication system.
+
+This module defines a CustomUser model that extends Django's AbstractUser
+with additional fields for dog owner profiles, contact information,
+and communication preferences.
+"""
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 import uuid
 
 class CustomUser(AbstractUser):
     """
-    Custom User model extending Django's AbstractUser
+    Custom User model extending Django's AbstractUser.
+    
+    Provides extended functionality for user accounts, including dog ownership details,
+    profile information, and communication preferences. Uses email address as the
+    primary identifier for authentication instead of username.
     """
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     email = models.EmailField(unique=True)
@@ -62,20 +73,45 @@ class CustomUser(AbstractUser):
     REQUIRED_FIELDS = ['username', 'first_name', 'last_name']
     
     class Meta:
+        """
+        Meta configuration for the CustomUser model.
+        
+        Defines the human-readable names and default ordering for the model.
+        """
         verbose_name = "User"
         verbose_name_plural = "Users"
         ordering = ['-created_at']
     
     def __str__(self):
+        """
+        Return a string representation of the user.
+        
+        Returns:
+            str: A formatted string with the user's full name and email
+        """
         return f"{self.first_name} {self.last_name} ({self.email})"
     
     @property
     def full_name(self):
+        """
+        Get the user's full name.
+        
+        Returns:
+            str: The user's first and last name combined
+        """
         return f"{self.first_name} {self.last_name}".strip()
     
     @property
     def dog_info(self):
-        """Return formatted dog information"""
+        """
+        Return formatted dog information.
+        
+        Provides a human-readable summary of the user's dog details,
+        including breed and age if available.
+        
+        Returns:
+            str: Formatted dog information or 'No dog' if not a dog owner
+        """
         if not self.dog_owner:
             return "No dog"
         
@@ -88,7 +124,15 @@ class CustomUser(AbstractUser):
         return " ".join(info_parts) if info_parts else "Dog owner"
     
     def get_recommended_categories(self):
-        """Get book categories recommended for this user"""
+        """
+        Get book categories recommended for this user.
+        
+        Generates personalised book category recommendations based on the
+        user's dog information and training experience level.
+        
+        Returns:
+            QuerySet: A queryset of Category objects recommended for this user
+        """
         from books.models import Category
         
         recommendations = []
@@ -104,3 +148,4 @@ class CustomUser(AbstractUser):
             recommendations.append('Dog Breeds')
         
         return Category.objects.filter(name__in=recommendations)
+        

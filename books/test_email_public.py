@@ -1,18 +1,45 @@
+"""
+Email testing utilities for the Django application.
+
+This module provides view functions for testing the email configuration
+and sending capabilities of the application.
+"""
 from django.http import HttpResponse
 from django.core.mail import send_mail
 from django.conf import settings
 
+
 def test_email_public(request):
-    """Test view to check if emails are working (public version)"""
+    """
+    Test if the email system is configured and working properly.
+    
+    This view attempts to send a test email and displays the results along with
+    the current email configuration settings. It can be used to verify that
+    the email sending functionality is working correctly in the application.
+    
+    Args:
+        request: The HTTP request object, which may contain a GET parameter
+                'email' specifying the recipient email address
+                
+    Returns:
+        HttpResponse: HTML page showing the test results and configuration
+        
+    Note:
+        This view displays sensitive configuration information and should
+        be secured or disabled in production environments.
+    """
     try:
         # Get the recipient email (use DEFAULT_FROM_EMAIL as fallback)
-        default_recipient = getattr(settings, 'ADMIN_EMAIL', settings.DEFAULT_FROM_EMAIL)
+        default_recipient = getattr(
+            settings, 'ADMIN_EMAIL', settings.DEFAULT_FROM_EMAIL
+        )
         recipient = request.GET.get('email', default_recipient)
         
         # Send a test email
         send_mail(
             subject='Tales & Tails - Email System Test',
-            message='This is a test email from your Django application. If you receive this, your email system is working correctly!',
+            message='This is a test email from your Django application. If you '
+                    'receive this, your email system is working correctly!',
             from_email=settings.DEFAULT_FROM_EMAIL,
             recipient_list=[recipient],
             fail_silently=False,
@@ -58,3 +85,4 @@ def test_email_public(request):
         """
         
         return HttpResponse(html)
+        

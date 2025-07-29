@@ -1,26 +1,47 @@
-import stripe
-from django.conf import settings
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.decorators import login_required
-from django.contrib import messages
-from django.http import JsonResponse, HttpResponse
-from django.views.decorators.csrf import csrf_exempt
-from django.views.decorators.http import require_POST
-from django.utils import timezone
-from .models import Cart, CartItem
-from orders.models import Order, OrderItem, OrderStatusHistory
-from cart.models import Cart
+"""
+Stripe integration and checkout functionality for the cart application.
+
+This module handles payment processing with Stripe, including checkout sessions,
+payment verification, webhooks, and order management for completed payments.
+"""
 import json
 import logging
+from decimal import Decimal
+
+import stripe
+from django.conf import settings
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse, HttpResponse
+from django.shortcuts import render, redirect, get_object_or_404
+from django.utils import timezone
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
+
+from .models import Cart, CartItem
+from orders.models import Order, OrderItem, OrderStatusHistory
+
 
 # Configure Stripe with our secret key
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 logger = logging.getLogger(__name__)
 
+
 @login_required
 def checkout(request):
-    """Display checkout page with cart items and Stripe integration"""
+    """
+    Display checkout page with cart items and Stripe integration.
+    
+    Retrieves the user's active cart and prepares the checkout page with
+    cart items, total price, and Stripe payment configuration.
+    
+    Args:
+        request: The HTTP request object
+        
+    Returns:
+        Rendered checkout page or redirect to cart if empty
+    """
     try:
         # Get user's cart or redirect if empty
         cart = Cart.objects.get(user=request.user)
@@ -42,10 +63,23 @@ def checkout(request):
         messages.info(request, "Your cart is empty!")
         return redirect('cart:cart_detail')
 
+
 @login_required
 @require_POST
 def create_checkout_session(request):
-    """Create a Stripe checkout session for payment processing"""
+    """
+    Create a Stripe checkout session for payment processing.
+    
+    Generates a Stripe checkout session with the items from the user's cart,
+    creates a pending order in the database, and returns the checkout URL
+    for the client to redirect to.
+    
+    Args:
+        request: The HTTP request object
+        
+    Returns:
+        JsonResponse with checkout URL or error message
+    """
     try:
         # Get user's cart and validate it's not empty
         cart = Cart.objects.get(user=request.user)
@@ -76,14 +110,17 @@ def create_checkout_session(request):
         # Build line items for Stripe from cart contents
         line_items = []
         for item in cart.items.all():
+            image_urls = []
+            if item.book.cover_image or item.book.thumbnail:
+                image_urls = [item.book.cover_image or item.book.thumbnail]
+                
             line_items.append({
                 'price_data': {
                     'currency': 'gbp',
                     'product_data': {
                         'name': item.book.title,
                         'description': f"by {item.book.authors_list}",
-                        # Include book cover image if available
-                        'images': [item.book.cover_image or item.book.thumbnail] if (item.book.cover_image or item.book.thumbnail) else [],
+                        'images': image_urls,
                     },
                     'unit_amount': int(item.book.price * 100),  # Stripe requires cents
                 },
@@ -97,7 +134,10 @@ def create_checkout_session(request):
             mode='payment',  # One-time payment
             customer_email=request.user.email,
             # Set success and cancel URLs
-            success_url=request.build_absolute_uri('/cart/checkout/success/') + '?session_id={CHECKOUT_SESSION_ID}',
+            success_url=(
+                request.build_absolute_uri('/cart/checkout/success/') +
+                '?session_id={CHECKOUT_SESSION_ID}'
+            ),
             cancel_url=request.build_absolute_uri('/cart/checkout/cancelled/'),
             # Store user, cart, and ORDER info for later reference
             metadata={
@@ -120,11 +160,26 @@ def create_checkout_session(request):
     except Exception as e:
         # Log errors for debugging
         logger.error(f"Error creating checkout session: {str(e)}")
-        return JsonResponse({'error': 'Unable to create checkout session'}, status=500)
+        return JsonResponse(
+            {'error': 'Unable to create checkout session'},
+            status=500
+        )
+
 
 @login_required
 def checkout_success(request):
-    """Handle successful payment confirmation"""
+    """
+    Handle successful payment confirmation.
+    
+    Verifies payment with Stripe, updates the order status to confirmed,
+    clears the user's cart, and displays a success message.
+    
+    Args:
+        request: The HTTP request object with session_id parameter
+        
+    Returns:
+        Rendered success page or redirect with error message
+    """
     session_id = request.GET.get('session_id')
     
     if session_id:
@@ -161,20 +216,28 @@ def checkout_success(request):
                     except Cart.DoesNotExist:
                         pass  # Cart already cleared or doesn't exist
                     
-                    messages.success(request, f"✅ Payment successful! Your order {order.order_number} has been confirmed.")
+                    success_msg = (
+                        f"✅ Payment successful! Your order {order.order_number} "
+                        f"has been confirmed."
+                    )
+                    messages.success(request, success_msg)
                     
                     # Prepare success page context
                     context = {
                         'order': order,
                         'session': session,
                         'customer_email': session.customer_email,
-                        'amount_total': session.amount_total / 100,  # Convert cents back to dollars
+                        # Convert cents back to pounds
+                        'amount_total': session.amount_total / 100,
                     }
                     return render(request, 'cart/checkout_success.html', context)
                     
                 except Order.DoesNotExist:
                     logger.error(f"Order not found for session: {session_id}")
-                    messages.error(request, "Order not found. Please contact support.")
+                    messages.error(
+                        request,
+                        "Order not found. Please contact support."
+                    )
                     return redirect('cart:cart_detail')
         
         except stripe.error.StripeError as e:
@@ -186,15 +249,39 @@ def checkout_success(request):
     messages.error(request, "Payment verification failed.")
     return redirect('cart:cart_detail')
 
+
 @login_required
 def checkout_cancelled(request):
-    """Handle when user cancels payment"""
+    """
+    Handle when user cancels payment.
+    
+    Displays a message indicating the payment was cancelled and
+    redirects the user back to their cart.
+    
+    Args:
+        request: The HTTP request object
+        
+    Returns:
+        Redirect to cart detail page with informational message
+    """
     messages.info(request, "Payment was cancelled. Your cart is still available.")
     return redirect('cart:cart_detail')
 
+
 @csrf_exempt
 def stripe_webhook(request):
-    """Handle incoming webhooks from Stripe for payment events"""
+    """
+    Handle incoming webhooks from Stripe for payment events.
+    
+    Processes webhook events from Stripe, verifies the signature,
+    and updates orders based on payment status changes.
+    
+    Args:
+        request: The HTTP request object containing webhook data
+        
+    Returns:
+        HttpResponse with appropriate status code
+    """
     payload = request.body
     sig_header = request.META.get('HTTP_STRIPE_SIGNATURE')
     endpoint_secret = getattr(settings, 'STRIPE_ENDPOINT_SECRET', '')
@@ -255,127 +342,21 @@ def stripe_webhook(request):
     
     return HttpResponse(status=200)
 
-import json
-from decimal import Decimal
-from django.views.decorators.csrf import csrf_exempt
-from django.http import JsonResponse
-from django.shortcuts import render, redirect
-from django.contrib import messages
-from orders.models import Order, OrderItem
-from cart.models import Cart
 
+@login_required
 def hardwired_checkout(request):
-    """Hardwired Stripe checkout with custom form"""
-    if not request.user.is_authenticated:
-        messages.error(request, 'Please login to proceed with checkout.')
-        return redirect('accounts:login')
+    """
+    Display hardwired Stripe checkout with custom form.
     
-    cart = Cart(request)
-    if not cart:
-        messages.error(request, 'Your cart is empty.')
-        return redirect('cart:cart_detail')
+    Shows a custom checkout page that uses Stripe Elements for direct
+    integration with the payment form in the page.
     
-    # Calculate totals
-    cart_total = cart.get_total_price()
-    cart_total_cents = int(cart_total * 100)  # Stripe uses cents
-    
-    # Get cart items for display
-    cart_items = []
-    for item in cart:
-        cart_items.append({
-            'book': item['book'],
-            'quantity': item['quantity'],
-            'total_price': item['total_price']
-        })
-    
-    context = {
-        'cart_items': cart_items,
-        'cart_total': cart_total,
-        'cart_total_cents': cart_total_cents,
-        'stripe_public_key': settings.STRIPE_PUBLISHABLE_KEY,
-    }
-    
-    return render(request, 'hardwired_checkout.html', context)
-
-@csrf_exempt
-def process_hardwired_payment(request):
-    """Process hardwired payment with Payment Intents"""
-    if request.method == 'POST':
-        try:
-            data = json.loads(request.body)
-            payment_method_id = data['payment_method_id']
-            amount = data['amount']
-            billing_details = data.get('billing_details', {})
-
-            # Create payment intent
-            intent = stripe.PaymentIntent.create(
-                amount=amount,
-                currency='gbp',
-                payment_method=payment_method_id,
-                confirmation_method='manual',
-                confirm=True,
-                metadata={
-                    'user_id': request.user.id if request.user.is_authenticated else None,
-                    'integration_type': 'hardwired'
-                }
-            )
-
-            if intent.status == 'succeeded':
-                # Create order
-                cart = Cart(request)
-                order = Order.objects.create(
-                    user=request.user if request.user.is_authenticated else None,
-                    email=billing_details.get('email', ''),
-                    total_amount=Decimal(amount) / 100,
-                    stripe_payment_intent_id=intent.id,
-                    payment_status='completed'
-                )
-                
-                # Add order items
-                for item in cart:
-                    OrderItem.objects.create(
-                        order=order,
-                        book=item['book'],
-                        quantity=item['quantity'],
-                        price=item['price']
-                    )
-                
-                # Clear cart
-                cart.clear()
-                
-                # Store order ID in session
-                request.session['order_id'] = order.id
-                
-                return JsonResponse({
-                    'success': True,
-                    'order_id': order.id
-                })
-
-        except stripe.error.CardError as e:
-            return JsonResponse({
-                'success': False,
-                'error': e.user_message or 'Your card was declined.'
-            })
-        except Exception as e:
-            print(f"Payment processing error: {e}")
-            return JsonResponse({
-                'success': False,
-                'error': 'An error occurred processing your payment.'
-            })
-
-    return JsonResponse({'success': False, 'error': 'Invalid request method'})
-
-import json
-from decimal import Decimal
-from django.views.decorators.csrf import csrf_exempt
-from django.http import JsonResponse
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib import messages
-from cart.models import Cart, CartItem
-from orders.models import Order, OrderItem
-
-def hardwired_checkout(request):
-    """Hardwired Stripe checkout with custom form"""
+    Args:
+        request: The HTTP request object
+        
+    Returns:
+        Rendered hardwired checkout page or redirect with error message
+    """
     if not request.user.is_authenticated:
         messages.error(request, 'Please login to proceed with checkout.')
         return redirect('accounts:login')
@@ -413,9 +394,21 @@ def hardwired_checkout(request):
     
     return render(request, 'hardwired_checkout.html', context)
 
+
 @csrf_exempt
 def process_hardwired_payment(request):
-    """Process hardwired payment with Payment Intents"""
+    """
+    Process hardwired payment with Payment Intents.
+    
+    Handles direct payment processing using Stripe Payment Intents API,
+    creates an order when payment succeeds, and clears the cart.
+    
+    Args:
+        request: The HTTP POST request with payment data
+        
+    Returns:
+        JsonResponse indicating success or failure
+    """
     if request.method == 'POST':
         try:
             data = json.loads(request.body)
@@ -440,7 +433,9 @@ def process_hardwired_payment(request):
                 confirmation_method='manual',
                 confirm=True,
                 metadata={
-                    'user_id': request.user.id if request.user.is_authenticated else None,
+                    'user_id': (
+                        request.user.id if request.user.is_authenticated else None
+                    ),
                     'integration_type': 'hardwired'
                 }
             )
@@ -448,7 +443,9 @@ def process_hardwired_payment(request):
             if intent.status == 'succeeded':
                 # Create order
                 order = Order.objects.create(
-                    user=request.user if request.user.is_authenticated else None,
+                    user=(
+                        request.user if request.user.is_authenticated else None
+                    ),
                     email=billing_details.get('email', ''),
                     total_amount=Decimal(amount) / 100,
                     stripe_payment_intent_id=intent.id,
@@ -481,10 +478,11 @@ def process_hardwired_payment(request):
                 'error': e.user_message or 'Your card was declined.'
             })
         except Exception as e:
-            print(f"Payment processing error: {e}")
+            logger.error(f"Payment processing error: {e}")
             return JsonResponse({
                 'success': False,
                 'error': 'An error occurred processing your payment.'
             })
 
     return JsonResponse({'success': False, 'error': 'Invalid request method'})
+    
