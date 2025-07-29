@@ -2764,3 +2764,140 @@ select[multiple] {
         padding: 0 0.4rem;
     }
 }
+
+/* ===================================
+   CART BUTTON CONTRAST FIX
+   =================================== */
+
+/* Update button - change from outline to solid */
+.cart-item .btn-outline-primary {
+    background-color: #0d6efd !important; /* Bootstrap primary blue */
+    color: white !important;
+    border-color: #0d6efd !important;
+}
+
+.cart-item .btn-outline-primary:hover,
+.cart-item .btn-outline-primary:focus {
+    background-color: #0b5ed7 !important; /* Darker blue */
+    border-color: #0a58ca !important;
+    color: white !important;
+}
+
+/* Remove button - change from outline to solid */
+.cart-item .btn-outline-danger,
+.cart-item .remove-btn {
+    background-color: #dc3545 !important; /* Bootstrap danger red */
+    color: white !important;
+    border-color: #dc3545 !important;
+}
+
+.cart-item .btn-outline-danger:hover,
+.cart-item .btn-outline-danger:focus,
+.cart-item .remove-btn:hover,
+.cart-item .remove-btn:focus {
+    background-color: #bb2d3b !important; /* Darker red */
+    border-color: #b02a37 !important;
+    color: white !important;
+}
+
+/* Clear Cart button - change from outline to solid */
+.btn-outline-danger {
+    background-color: #dc3545 !important;
+    color: white !important;
+    border-color: #dc3545 !important;
+}
+
+.btn-outline-danger:hover,
+.btn-outline-danger:focus {
+    background-color: #bb2d3b !important;
+    border-color: #b02a37 !important;
+    color: white !important;
+}
+
+/* Plus/minus quantity buttons */
+.cart-item .minus-btn,
+.cart-item .plus-btn {
+    background-color: #6c757d !important; /* Bootstrap secondary gray */
+    color: white !important;
+    border-color: #6c757d !important;
+}
+
+.cart-item .minus-btn:hover,
+.cart-item .minus-btn:focus,
+.cart-item .plus-btn:hover,
+.cart-item .plus-btn:focus {
+    background-color: #5c636a !important; /* Darker gray */
+    border-color: #565e64 !important;
+    color: white !important;
+}
+
+/* ===================================
+   CART TEXT CONTRAST FIX
+   =================================== */
+
+/* Book title contrast fix */
+.cart-item .book-title,
+.cart-item .book-title a {
+    color: #000000 !important; /* Pure black for maximum contrast */
+    font-weight: 600 !important; /* Make it bold for better visibility */
+}
+
+.cart-item .book-title a:hover,
+.cart-item .book-title a:focus {
+    color: #0d6efd !important; /* Bootstrap primary blue */
+    text-decoration: underline !important;
+}
+
+/* Shipping "FREE" text contrast fix */
+.card-body .text-success {
+    color: #198754 !important; /* Darker green for better contrast */
+    font-weight: 700 !important; /* Bold for emphasis */
+}
+
+/* Price contrast improvement */
+.price {
+    color: #0f5132 !important; /* Very dark green for price */
+    font-weight: 700 !important;
+}
+
+/* General text improvements for cart */
+.cart-item .text-muted {
+    color: #495057 !important; /* Darker gray instead of default muted */
+}
+
+/* Ensure quantity text is readable */
+.cart-item .quantity-input {
+    color: #212529 !important; /* Dark text color */
+    font-weight: 500 !important;
+}
+
+/* Ensure all cart headings have good contrast */
+.card-header h5 {
+    color: #000000 !important;
+    font-weight: 600 !important;
+}
+
+/* Strong text enhancement */
+.card-body strong {
+    color: #000000 !important;
+}
+
+/* Trust indicators better contrast */
+.text-muted {
+    color: #495057 !important; /* Darker than default text-muted */
+}
+
+/* ===================================
+   ADDITIONAL CART CONTRAST FIXES
+   =================================== */
+
+/* Shipping "FREE" text specific fix */
+.card-body .justify-content-between .text-success,
+span.text-success,
+.order-summary .text-success {
+    color: #0f5132 !important; /* Very dark green */
+    font-weight: 700 !important;
+    background-color: #d1e7dd !important; /* Light green background */
+    padding: 2px 6px !important;
+    border-radius: 4px !important;
+}
