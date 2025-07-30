@@ -469,13 +469,23 @@ collection for dog owners, trainers, and veterinarians. Where every dog story be
                         } else {
                             button.innerHTML = originalText;
                             button.disabled = false;
-                            alert('Error adding to cart. Please try again.');
+                            // Use notification instead of alert
+                            if (window.showNewsletterNotification) {
+                                window.showNewsletterNotification('Error adding to cart. Please try again.', 'danger');
+                            } else {
+                                alert('Error adding to cart. Please try again.');
+                            }
                         }
                     })
                     .catch(error => {
                         button.innerHTML = originalText;
                         button.disabled = false;
-                        alert('Error adding to cart. Please try again.');
+                        // Use notification instead of alert
+                        if (window.showNewsletterNotification) {
+                            window.showNewsletterNotification('Error adding to cart. Please try again.', 'danger');
+                        } else {
+                            alert('Error adding to cart. Please try again.');
+                        }
                     });
             });
         });
@@ -504,20 +514,33 @@ collection for dog owners, trainers, and veterinarians. Where every dog story be
                     .then(response => response.json())
                     .then(data => {
                         if (data.success) {
-                            // Show success message
+                            // Show success message with notification
                             const emailInput = this.querySelector('input[type="email"]');
                             emailInput.value = '';
                             emailInput.style.borderColor = 'var(--success)';
 
-                            // Show success alert
-                            alert(data.message);
+                            // Use notification instead of alert
+                            if (window.showNewsletterNotification) {
+                                window.showNewsletterNotification(data.message || 'Thank you for subscribing to our newsletter!', 'success');
+                            } else {
+                                alert(data.message);
+                            }
                         } else {
-                            // Show error message
-                            alert(data.message || 'An error occurred. Please try again.');
+                            // Use notification instead of alert
+                            if (window.showNewsletterNotification) {
+                                window.showNewsletterNotification(data.message || 'An error occurred. Please try again.', 'danger');
+                            } else {
+                                alert(data.message || 'An error occurred. Please try again.');
+                            }
                         }
                     })
                     .catch(error => {
-                        alert('An error occurred. Please try again.');
+                        // Use notification instead of alert
+                        if (window.showNewsletterNotification) {
+                            window.showNewsletterNotification('An error occurred. Please try again.', 'danger');
+                        } else {
+                            alert('An error occurred. Please try again.');
+                        }
                         console.error('Error:', error);
                     })
                     .finally(() => {
