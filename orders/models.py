@@ -89,7 +89,7 @@ class Order(models.Model):
     
     def __str__(self):
         """Return a string representation of the order."""
-        return f"Order {self.order_number} - {self.user.full_name}"
+        return f"Order {self.order_number} - {self.user.username}"
     
     def save(self, *args, **kwargs):
         """
@@ -188,8 +188,8 @@ class OrderItem(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     
     # Item details (snapshot at time of order)
-    book_title = models.CharField(max_length=300)
-    book_authors = models.CharField(max_length=500)
+    book_title = models.CharField(max_length=300, blank=True)
+    book_authors = models.CharField(max_length=500, blank=True)
     book_isbn = models.CharField(max_length=20, blank=True)
     
     # Pricing and quantity
@@ -207,7 +207,8 @@ class OrderItem(models.Model):
     
     def __str__(self):
         """Return a string representation of the order item."""
-        return f"{self.quantity}x {self.book_title} (Order: {self.order.order_number})"
+        title = self.book_title or (self.book.title if self.book else "Unknown Book")
+        return f"{self.quantity}x {title} (Order: {self.order.order_number})"
     
     @property
     def total_price(self):
@@ -233,9 +234,12 @@ class OrderItem(models.Model):
         # Snapshot book details at time of order
         if not self.book_title and self.book:
             self.book_title = self.book.title
-            self.book_authors = self.book.authors_list
-            self.book_isbn = self.book.isbn_13 or self.book.isbn_10 or ''
-            self.unit_price = self.book.price
+            self.book_authors = self.book.authors_list  # Fixed: use authors_list property
+            self.book_isbn = getattr(self.book, 'isbn_13', '') or getattr(self.book, 'isbn_10', '') or ''
+            
+            # Set unit_price if not already set
+            if not self.unit_price:
+                self.unit_price = self.book.price
         super().save(*args, **kwargs)
 
 

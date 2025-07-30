@@ -16,7 +16,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY', default='django-insecure-development-key-change-in-production')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG', default=False, cast=bool)
+DEBUG = config('DEBUG', default=True, cast=bool)
 
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1,testserver', cast=Csv())
 
@@ -123,15 +123,9 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Site ID for django.contrib.sites
-
 # Google Books API Configuration
 GOOGLE_BOOKS_API_KEY = config('GOOGLE_BOOKS_API_KEY', default='')
 GOOGLE_BOOKS_API_URL = 'https://www.googleapis.com/books/v1/volumes'
-
-# Stripe Configuration (for future payment integration)
-STRIPE_PUBLISHABLE_KEY = config('STRIPE_PUBLISHABLE_KEY', default='')
-STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY', default='')
 
 # Security settings (for production)
 if not DEBUG:
@@ -151,6 +145,7 @@ AUTH_USER_MODEL = 'accounts.CustomUser'
 LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+
 # Authentication Backends
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
@@ -174,26 +169,6 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 WHITENOISE_USE_FINDERS = True
 WHITENOISE_AUTOREFRESH = True
 
-# For development testing - uncomment to print emails to console instead
-# 
-
-# When Gmail is fixed, uncomment these and comment console backend:
-# 
-# 
-# 
-# 
-# 
-# 
-
-# Switch to Gmail later when ready:
-# 
-# 
-# 
-# 
-# 
-# 
-
-
 # ===================================
 # Email Configuration (Uses Environment Variables)
 # ===================================
@@ -212,21 +187,54 @@ ADMINS = [('Admin', os.getenv('ADMIN_EMAIL', 'admin@talesandtails.com'))]
 MANAGERS = ADMINS
 
 # =================================
-# STRIPE CONFIGURATION
+# STRIPE CONFIGURATION - DEVELOPMENT MODE
 # =================================
 STRIPE_PUBLISHABLE_KEY = config('STRIPE_PUBLISHABLE_KEY', default='')
 STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY', default='')
 STRIPE_ENDPOINT_SECRET = config('STRIPE_ENDPOINT_SECRET', default='')
 
-# Validate Stripe keys are loaded
+# Development mode indicator for Stripe
+STRIPE_TEST_MODE = DEBUG and (
+    STRIPE_PUBLISHABLE_KEY.startswith('pk_test_') if STRIPE_PUBLISHABLE_KEY else False
+)
+
+# Validate Stripe keys are loaded and show mode
 if not STRIPE_PUBLISHABLE_KEY or not STRIPE_SECRET_KEY:
     print("⚠️  WARNING: Stripe keys not found in environment variables")
     print(f"STRIPE_PUBLISHABLE_KEY: {'✅' if STRIPE_PUBLISHABLE_KEY else '❌'}")
     print(f"STRIPE_SECRET_KEY: {'✅' if STRIPE_SECRET_KEY else '❌'}")
 else:
-    print("✅ Stripe keys loaded successfully")
+    mode = "TEST MODE" if STRIPE_TEST_MODE else "LIVE MODE"
+    print(f"✅ Stripe keys loaded successfully - {mode}")
+    if DEBUG and not STRIPE_TEST_MODE and STRIPE_PUBLISHABLE_KEY:
+        print("⚠️  WARNING: Using live Stripe keys in DEBUG mode!")
+
 # Site URL for generating absolute URLs in emails
 SITE_URL = config('SITE_URL', default='http://127.0.0.1:8000')
 
 # Add breadcrumbs context processor
 TEMPLATES[0]['OPTIONS']['context_processors'].append('books.context_processors.breadcrumbs')
+
+# =================================
+# DEVELOPMENT SETTINGS
+# =================================
+if DEBUG:
+    # Development-specific settings
+    print("🔧 RUNNING IN DEVELOPMENT MODE")
+    
+    # Log SQL queries in development (optional)
+    LOGGING = {
+        'version': 1,
+        'disable_existing_loggers': False,
+        'handlers': {
+            'console': {
+                'class': 'logging.StreamHandler',
+            },
+        },
+        'loggers': {
+            'django.db.backends': {
+                'level': 'INFO',  # Change to 'DEBUG' to see SQL queries
+                'handlers': ['console'],
+            },
+        },
+    }

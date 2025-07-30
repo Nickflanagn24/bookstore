@@ -41,68 +41,6 @@ class Author(models.Model):
         verbose_name = "Author"
         verbose_name_plural = "Authors"
 
-    def update_average_rating(self):
-        """
-        Calculate and update average rating from associated reviews.
-        
-        Computes the average of all ratings and updates both the average
-        rating value and the count of ratings.
-        """
-        reviews = self.reviews.all()
-        if reviews:
-            total_rating = sum(review.rating for review in reviews)
-            self.average_rating = total_rating / len(reviews)
-            self.ratings_count = len(reviews)
-        else:
-            self.average_rating = 0
-            self.ratings_count = 0
-        self.save(update_fields=["average_rating", "ratings_count"])
-    
-    @property
-    def star_display(self):
-        """
-        Return the average rating as visual stars.
-        
-        Returns:
-            str: A string of star emojis representing the rating
-        """
-        if self.average_rating > 0:
-            full_stars = int(self.average_rating)
-            half_star = 1 if (self.average_rating - full_stars) >= 0.5 else 0
-            empty_stars = 5 - full_stars - half_star
-            return ("⭐" * full_stars + 
-                   ("⭐" if half_star else "") + 
-                   "☆" * empty_stars)
-        return "☆☆☆☆☆"
-    
-    def user_can_review(self, user):
-        """
-        Check if a user can leave a review.
-        
-        Args:
-            user: The user to check review permissions for
-            
-        Returns:
-            bool: True if the user can leave a review, False otherwise
-        """
-        if not user.is_authenticated:
-            return False
-        return not self.reviews.filter(user=user).exists()
-    
-    def get_user_review(self, user):
-        """
-        Get a user's existing review if one exists.
-        
-        Args:
-            user: The user whose review to retrieve
-            
-        Returns:
-            Review: The user's review object or None
-        """
-        if user.is_authenticated:
-            return self.reviews.filter(user=user).first()
-        return None
-
     def __str__(self):
         """Return string representation of the author."""
         return self.name
@@ -221,68 +159,6 @@ class Book(models.Model):
             models.Index(fields=['is_available']),
         ]
 
-    def update_average_rating(self):
-        """
-        Calculate and update average rating from book reviews.
-        
-        Computes the average of all ratings and updates both the average
-        rating value and the count of ratings.
-        """
-        reviews = self.reviews.all()
-        if reviews:
-            total_rating = sum(review.rating for review in reviews)
-            self.average_rating = total_rating / len(reviews)
-            self.ratings_count = len(reviews)
-        else:
-            self.average_rating = 0
-            self.ratings_count = 0
-        self.save(update_fields=["average_rating", "ratings_count"])
-    
-    @property
-    def star_display(self):
-        """
-        Return the average rating as visual stars.
-        
-        Returns:
-            str: A string of star emojis representing the rating
-        """
-        if self.average_rating > 0:
-            full_stars = int(self.average_rating)
-            half_star = 1 if (self.average_rating - full_stars) >= 0.5 else 0
-            empty_stars = 5 - full_stars - half_star
-            return ("⭐" * full_stars + 
-                   ("⭐" if half_star else "") + 
-                   "☆" * empty_stars)
-        return "☆☆☆☆☆"
-    
-    def user_can_review(self, user):
-        """
-        Check if a user can leave a review for this book.
-        
-        Args:
-            user: The user to check review permissions for
-            
-        Returns:
-            bool: True if the user can leave a review, False otherwise
-        """
-        if not user.is_authenticated:
-            return False
-        return not self.reviews.filter(user=user).exists()
-    
-    def get_user_review(self, user):
-        """
-        Get a user's existing review for this book if one exists.
-        
-        Args:
-            user: The user whose review to retrieve
-            
-        Returns:
-            Review: The user's review object or None
-        """
-        if user.is_authenticated:
-            return self.reviews.filter(user=user).first()
-        return None
-
     def __str__(self):
         """Return string representation of the book."""
         return self.title
@@ -329,6 +205,71 @@ class Book(models.Model):
             str: Formatted price with pound symbol
         """
         return f"£{self.price:.2f}"
+
+
+
+    def update_average_rating(self):
+        """
+        Calculate and update average rating from book reviews.
+        
+        Computes the average of all ratings and updates both the average
+        rating value and the count of ratings.
+        """
+        reviews = self.reviews.all()
+        if reviews:
+            total_rating = sum(review.rating for review in reviews)
+            self.average_rating = total_rating / len(reviews)
+            self.ratings_count = len(reviews)
+        else:
+            self.average_rating = 0
+            self.ratings_count = 0
+        self.save(update_fields=["average_rating", "ratings_count"])
+
+    @property
+    def star_display(self):
+        """
+        Return the average rating as visual stars.
+        
+        Returns:
+            str: A string of star emojis representing the rating
+        """
+        if self.average_rating > 0:
+            full_stars = int(self.average_rating)
+            half_star = 1 if (self.average_rating - full_stars) >= 0.5 else 0
+            empty_stars = 5 - full_stars - half_star
+            return ("⭐" * full_stars + 
+                   ("⭐" if half_star else "") + 
+                   "☆" * empty_stars)
+        return "☆☆☆☆☆"
+
+    def user_can_review(self, user):
+        """
+        Check if a user can leave a review for this book.
+        
+        Args:
+            user: The user to check review permissions for
+            
+        Returns:
+            bool: True if the user can leave a review, False otherwise
+        """
+        if not user.is_authenticated:
+            return False
+        return not self.reviews.filter(user=user).exists()
+
+    def get_user_review(self, user):
+        """
+        Get a user's existing review for this book if one exists.
+        
+        Args:
+            user: The user whose review to retrieve
+            
+        Returns:
+            Review: The user's review object or None
+        """
+        if user.is_authenticated:
+            return self.reviews.filter(user=user).first()
+        return None
+
 
 
 class ContactMessage(models.Model):

@@ -1,118 +1,173 @@
 """
-View functions for the orders application.
+Views for the orders application.
 
-This module provides Django view functions for order management, including
-viewing order history, displaying order details, and creating orders from cart.
+This module handles order-related views including order listing, order details,
+order creation from cart, and order success confirmation pages.
 """
 import logging
-
-from django.conf import settings
-from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.core.mail import send_mail
+from django.contrib import messages
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse
-from django.shortcuts import render, redirect, get_object_or_404
-from django.template.loader import render_to_string
-from django.utils import timezone
-from django.utils.html import strip_tags
 from django.views.decorators.http import require_POST
+from decimal import Decimal
 
-from books.models import Book
-from cart.models import Cart
 from .models import Order, OrderItem
+from cart.models import Cart
+from books.models import Book
 
-
+# Configure logging
 logger = logging.getLogger(__name__)
 
 
 @login_required
 def order_list(request):
     """
-    Display user's order history.
+    Display a list of orders for the current user.
     
-    Retrieves and displays all orders for the authenticated user
-    with optimised database queries using prefetch_related.
+    Shows all orders belonging to the authenticated user, ordered by
+    creation date (most recent first).
     
     Args:
-        request: The HTTP request object
+        request: The HTTP request object containing user information.
         
     Returns:
-        Rendered order list template with orders context
+        HttpResponse: Rendered template with user's orders.
     """
-    orders = Order.objects.filter(
-        user=request.user
-    ).prefetch_related('items__book')
+    orders = Order.objects.filter(user=request.user).order_by('-created_at')
     
     context = {
         'orders': orders,
+        'page_title': 'My Orders',
     }
+    
     return render(request, 'orders/order_list.html', context)
 
 
 @login_required
 def order_detail(request, order_number):
     """
-    Display detailed order information.
+    Display detailed information about a specific order.
     
-    Shows comprehensive information about a specific order, including
-    all items, status history, and customer details.
+    Shows comprehensive order information including items, pricing,
+    payment status, and delivery information for orders belonging
+    to the authenticated user.
     
     Args:
-        request: The HTTP request object
-        order_number: The unique order number to look up
+        request: The HTTP request object containing user information.
+        order_number: The unique order number to display.
         
     Returns:
-        Rendered order detail template with order context
+        HttpResponse: Rendered template with order details.
+        
+    Raises:
+        Http404: If order doesn't exist or doesn't belong to the user.
     """
     order = get_object_or_404(
-        Order.objects.prefetch_related('items__book', 'status_history'),
-        order_number=order_number,
+        Order, 
+        order_number=order_number, 
         user=request.user
     )
     
+    # Get order items with book details
+    order_items = order.items.select_related('book').all()
+    
     context = {
         'order': order,
+        'order_items': order_items,
+        'page_title': f'Order {order.order_number}',
     }
+    
     return render(request, 'orders/order_detail.html', context)
+
+
+@login_required
+def order_success(request, order_number):
+    """
+    Display order confirmation success page.
+    
+    Shows a confirmation page after successful payment processing,
+    including order summary and next steps information.
+    
+    Args:
+        request: The HTTP request object containing user information.
+        order_number: The unique order number for the successful order.
+        
+    Returns:
+        HttpResponse: Rendered success template with order confirmation.
+        
+    Raises:
+        Http404: If order doesn't exist or doesn't belong to the user.
+    """
+    order = get_object_or_404(
+        Order, 
+        order_number=order_number, 
+        user=request.user
+    )
+    
+    # Get order items with book details
+    order_items = order.items.select_related('book').all()
+    
+    context = {
+        'order': order,
+        'order_items': order_items,
+        'page_title': 'Order Confirmation',
+        'is_success_page': True,
+    }
+    
+    return render(request, 'orders/order_success.html', context)
 
 
 @login_required
 @require_POST
 def create_order_from_cart(request):
     """
-    Create an order from the user's current cart.
+    Create a new order from the user's cart contents.
     
-    Converts the current cart contents into an order, sends a confirmation
-    email to the customer, and clears the cart. Returns JSON response
-    for AJAX handling.
+    This view handles the creation of orders from cart items,
+    typically used for alternative checkout flows or manual
+    order processing.
     
     Args:
-        request: The HTTP request object
+        request: The HTTP request object containing user and cart data.
         
     Returns:
-        JsonResponse with order details or error information
+        JsonResponse: JSON response indicating success/failure with
+                     order details or error messages.
     """
     try:
-        cart = Cart.objects.get(user=request.user)
+        # Get user's cart
+        cart = get_object_or_404(Cart, user=request.user)
+        cart_items = cart.items.all()
         
-        if cart.is_empty:
+        if not cart_items.exists():
             return JsonResponse({
                 'success': False,
-                'message': 'Cart is empty'
-            }, status=400)
+                'error': 'Your cart is empty.'
+            })
         
-        # Create the order
-        order = Order.objects.create(
-            user=request.user,
-            total_amount=cart.total_price,
-            customer_email=request.user.email,
-            customer_first_name=request.user.first_name,
-            customer_last_name=request.user.last_name,
-            status='pending'
+        # Calculate total
+        total = sum(
+            item.book.price * item.quantity for item in cart_items
         )
         
-        # Create order items from cart
-        for cart_item in cart.items.all():
+        # Add shipping
+        shipping = Decimal('5.00')
+        total_with_shipping = total + shipping
+        
+        # Create order
+        order = Order.objects.create(
+            user=request.user,
+            total_amount=total_with_shipping,
+            status='pending',
+            payment_status='pending',
+            customer_email=request.user.email,
+            customer_first_name=request.user.first_name or '',
+            customer_last_name=request.user.last_name or '',
+        )
+        
+        # Create order items
+        for cart_item in cart_items:
             OrderItem.objects.create(
                 order=order,
                 book=cart_item.book,
@@ -120,74 +175,22 @@ def create_order_from_cart(request):
                 unit_price=cart_item.book.price
             )
         
-        # Prepare email
-        context = {
-            "order": order,
-            "site_url": request.build_absolute_uri("/").rstrip("/"),
-        }
-        html_message = render_to_string("emails/order_confirmation.html", context)
-        plain_message = strip_tags(html_message)
+        # Clear cart
+        cart_items.delete()
         
-        # Send email
-        try:
-            send_mail(
-                subject=(
-                    f"Tales & Tails - Order Confirmation #{order.order_number}"
-                ),
-                message=plain_message,
-                from_email=settings.DEFAULT_FROM_EMAIL,
-                recipient_list=[order.customer_email],
-                html_message=html_message,
-                fail_silently=True,
-            )
-            logger.info(
-                f"Order confirmation email sent to {order.customer_email}"
-            )
-        except Exception as e:
-            logger.error(f"Failed to send order confirmation email: {e}")
-            
-        # Clear the cart
-        cart.items.all().delete()
+        logger.info(f"Order {order.order_number} created from cart for user {request.user.id}")
         
         return JsonResponse({
             'success': True,
+            'order_id': str(order.id),
             'order_number': order.order_number,
-            'order_url': order.get_absolute_url()
+            'redirect_url': order.get_absolute_url()
         })
         
-    except Cart.DoesNotExist:
+    except Exception as e:
+        logger.error(f"Error creating order from cart: {str(e)}")
         return JsonResponse({
             'success': False,
-            'message': 'Cart not found'
-        }, status=404)
-    except Exception as e:
-        logger.error(f"Error creating order from cart: {e}")
-        return JsonResponse({
-            'success': False,
-            'message': str(e)
-        }, status=500)
-
-
-def confirm_order_from_stripe(stripe_session_id, payment_intent_id=None):
-    """
-    Confirm order after successful Stripe payment.
-    
-    Utility function to update order status after receiving successful
-    payment confirmation from Stripe. This function is called from
-    cart checkout views.
-    
-    Args:
-        stripe_session_id: The Stripe session ID linked to the order
-        payment_intent_id: Optional Stripe payment intent ID
-        
-    Returns:
-        Order object if successful, None on error
-    """
-    try:
-        # Find the order by stripe session ID or create if needed
-        # This function will be integrated with your existing Stripe checkout
-        pass
-    except Exception as e:
-        logger.error(f"Error confirming order: {e}")
-        return None
+            'error': 'Failed to create order. Please try again.'
+        })
         

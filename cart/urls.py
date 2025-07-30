@@ -20,37 +20,15 @@ urlpatterns = [
     path('clear/', views.clear_cart, name='clear_cart'),
     
     # Checkout URLs
-    path('checkout/', checkout_views.checkout, name='checkout'),
+    path('checkout/', checkout_views.hardwired_checkout, name='checkout'),
     path(
-        'checkout/create-session/',
-        checkout_views.create_checkout_session,
-        name='create_checkout_session'
-    ),
-    path(
-        'checkout/success/',
-        checkout_views.checkout_success,
-        name='checkout_success'
-    ),
-    path(
-        'checkout/cancelled/',
-        checkout_views.checkout_cancelled,
-        name='checkout_cancelled'
+        'process-payment/',
+        checkout_views.process_hardwired_payment,
+        name='process_hardwired_payment'
     ),
     path(
         'stripe/webhook/',
         checkout_views.stripe_webhook,
         name='stripe_webhook'
-    ),
-    
-    # Professional Secure Checkout URLs
-    path(
-        "secure-checkout/",
-        checkout_views.hardwired_checkout,
-        name="secure_checkout"
-    ),
-    path(
-        "process-secure-payment/",
-        checkout_views.process_hardwired_payment,
-        name="process_secure_payment"
     ),
 ]
