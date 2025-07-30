@@ -1,89 +1,269 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}{{ author.name }} - Tales & Tails{% endblock %}
 
+{% block meta_description %}Discover books by {{ author.name }} at Tales & Tails. Professional dog training and care resources from expert authors.{% endblock %}
+
+{% block extra_css %}
+<style>
+.price-button-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.price-button-stack .price {
+    font-weight: bold;
+    color: #2B7A2B;
+    font-size: 1.1rem;
+}
+
+.price-button-stack .btn {
+    width: 100%;
+}
+
+.btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+}
+
+.btn-info {
+    background-color: #17a2b8;
+    border-color: #17a2b8;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+.author-header {
+    background: linear-gradient(135deg, var(--primary-50) 0%, var(--natural-beige) 100%);
+    padding: 40px 0;
+    margin-bottom: 40px;
+    border-radius: 10px;
+}
+
+.author-photo {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid var(--primary-200);
+}
+
+.author-bio {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: var(--navy-700);
+}
+</style>
+{% endblock %}
+
 {% block content %}
-<div class="row">
-    <div class="col-12">
-        <h1>{{ author.name }}</h1>
-        {% if author.biography %}
-        <p>{{ author.biography }}</p>
-        {% endif %}
-        
-        <h3>Books by {{ author.name }}</h3>
-        <div class="row">
-            {% for book in books %}
-            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-                <div class="card">
-                    {% if book.thumbnail %}
-                    <div class="book-cover-container">
-                        <img src="{{ book.thumbnail }}" class="book-cover-high-res" alt="{{ book.title }}">
-                    </div>
+<div class="container">
+    <!-- Author Header Section -->
+    <div class="author-header mb-5">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-3 text-center mb-3 mb-md-0">
+                    {% if author.photo %}
+                        <img src="{{ author.photo }}" alt="{{ author.name }}" class="author-photo">
                     {% else %}
-                    <div class="book-cover-container">
-                        <div class="no-image-placeholder">��</div>
-                    </div>
+                        <div class="author-photo d-flex align-items-center justify-content-center bg-light">
+                            <i class="fas fa-user fa-3x text-muted"></i>
+                        </div>
                     {% endif %}
-                    <div class="card-body">
-                        <h6 class="card-title">{{ book.title|truncatechars:40 }}</h6>
-                        <p class="price">${{ book.price }}</p>
+                </div>
+                <div class="col-md-9">
+                    <h1 class="display-4 fw-bold mb-3" style="color: var(--primary-800);">{{ author.name }}</h1>
+                    {% if author.biography %}
+                        <p class="author-bio">{{ author.biography }}</p>
+                    {% else %}
+                        <p class="author-bio">Discover the amazing collection of books by {{ author.name }}.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Books Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2 class="text-primary-custom text-center mb-4">
+                <i class="fas fa-book me-2"></i>Books by {{ author.name }}
+            </h2>
+            {% if books %}
+                <p class="lead text-center text-muted">{{ books.paginator.count }} book{{ books.paginator.count|pluralize }} available</p>
+            {% endif %}
+        </div>
+    </div>
+    
+    <div class="row">
+        {% for book in books %}
+        <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+            <div class="card book-card">
+                <div class="book-cover-container">
+                    {% if book.cover_image %}
+                        <img src="{{ book.cover_image }}" class="book-cover-high-res" alt="{{ book.title }}" loading="lazy" onerror="this.src='/static/images/no-book-cover.png'">
+                    {% elif book.thumbnail %}
+                        <img src="{{ book.thumbnail }}" class="book-cover-high-res" alt="{{ book.title }}" loading="lazy" onerror="this.src='/static/images/no-book-cover.png'">
+                    {% else %}
+                        <div class="no-image-placeholder">📚</div>
+                    {% endif %}
+                </div>
+                <div class="card-body">
+                    <h6 class="book-title">{{ book.title|truncatechars:50 }}</h6>
+                    <p class="book-author">{{ book.authors_list|truncatechars:30 }}</p>
+                    <div class="price-button-stack">
+                        <span class="price">{{ book.display_price }}</span>
+                        <a href="{{ book.get_absolute_url }}" class="btn btn-primary">
+                            <i class="fas fa-eye me-2"></i>View Details
+                        </a>
+                        {% if book.is_in_stock and user.is_authenticated %}
+                        <form method="post" action="{% url 'cart:add_to_cart' book.id %}" class="d-inline">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-success btn-sm w-100">
+                                <i class="fas fa-cart-plus me-2"></i>Add to Cart
+                            </button>
+                        </form>
+                        {% elif not user.is_authenticated %}
+                        <a href="{% url 'accounts:login' %}" class="btn btn-secondary btn-sm w-100">
+                            <i class="fas fa-sign-in-alt me-2"></i>Login to Buy
+                        </a>
+                        {% else %}
+                        <button class="btn btn-secondary btn-sm w-100" disabled>
+                            <i class="fas fa-times me-2"></i>Out of Stock
+                        </button>
+                        {% endif %}
                     </div>
                 </div>
             </div>
-            {% empty %}
-            <p>No books by this author yet.</p>
-            {% endfor %}
         </div>
-        
-        <!-- Styled Pagination Controls -->
-        {% if books.has_other_pages %}
-        <div class="pagination-container">
-            <nav aria-label="Book pagination" class="d-flex justify-content-center">
-                <ul class="pagination pagination-lg pagination-custom">
-                    {% if books.has_previous %}
-                        <li class="page-item">
-                            <a class="page-link" href="?page=1" title="Go to first page">
-                                <i class="fas fa-angle-double-left me-1"></i><span class="d-none d-sm-inline">First</span>
-                            </a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="?page={{ books.previous_page_number }}" title="Go to previous page">
-                                <i class="fas fa-angle-left me-1"></i><span class="d-none d-sm-inline">Previous</span>
-                            </a>
-                        </li>
-                    {% endif %}
-                    
-                    <li class="page-item active">
-                        <span class="page-link">
-                            <i class="fas fa-book-open me-2"></i>
-                            Page {{ books.number }} of {{ books.paginator.num_pages }}
-                        </span>
-                    </li>
-                    
-                    {% if books.has_next %}
-                        <li class="page-item">
-                            <a class="page-link" href="?page={{ books.next_page_number }}" title="Go to next page">
-                                <span class="d-none d-sm-inline">Next</span><i class="fas fa-angle-right ms-1"></i>
-                            </a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="?page={{ books.paginator.num_pages }}" title="Go to last page">
-                                <span class="d-none d-sm-inline">Last</span><i class="fas fa-angle-double-right ms-1"></i>
-                            </a>
-                        </li>
-                    {% endif %}
-                </ul>
-            </nav>
-            
-            <div class="text-center mt-3">
-                <span class="book-counter">
-                    <i class="fas fa-book"></i>
-                    Showing {{ books.start_index }}-{{ books.end_index }} of {{ books.paginator.count }} books
-                </span>
+        {% empty %}
+        <div class="col-12 text-center">
+            <div class="card">
+                <div class="card-body py-5">
+                    <i class="fas fa-book-open fa-3x text-muted mb-3"></i>
+                    <h3>No books available yet</h3>
+                    <p class="text-muted">{{ author.name }} hasn't published any books in our collection yet. Check back soon!</p>
+                    <a href="{% url 'books:book_list' %}" class="btn btn-primary mt-3">
+                        <i class="fas fa-search me-2"></i>Browse All Books
+                    </a>
+                </div>
             </div>
         </div>
-        {% endif %}
+        {% endfor %}
+    </div>
+
+    <!-- Styled Pagination Controls -->
+    {% if books.has_other_pages %}
+    <div class="pagination-container">
+        <nav aria-label="Book pagination" class="d-flex justify-content-center">
+            <ul class="pagination pagination-lg pagination-custom">
+                {% if books.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page=1" title="Go to first page">
+                            <i class="fas fa-angle-double-left me-1"></i><span class="d-none d-sm-inline">First</span>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ books.previous_page_number }}" title="Go to previous page">
+                            <i class="fas fa-angle-left me-1"></i><span class="d-none d-sm-inline">Previous</span>
+                        </a>
+                    </li>
+                {% endif %}
+                
+                <li class="page-item active">
+                    <span class="page-link">
+                        <i class="fas fa-book-open me-2"></i>
+                        Page {{ books.number }} of {{ books.paginator.num_pages }}
+                    </span>
+                </li>
+                
+                {% if books.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ books.next_page_number }}" title="Go to next page">
+                            <span class="d-none d-sm-inline">Next</span><i class="fas fa-angle-right ms-1"></i>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ books.paginator.num_pages }}" title="Go to last page">
+                            <span class="d-none d-sm-inline">Last</span><i class="fas fa-angle-double-right ms-1"></i>
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+        
+        <div class="text-center mt-3">
+            <span class="book-counter">
+                <i class="fas fa-book"></i>
+                Showing {{ books.start_index }}-{{ books.end_index }} of {{ books.paginator.count }} books by {{ author.name }}
+            </span>
         </div>
     </div>
+    {% endif %}
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // Add to cart functionality with AJAX
+    document.querySelectorAll('form[action*="add_to_cart"]').forEach(form => {
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const button = this.querySelector('button[type="submit"]');
+            const originalText = button.innerHTML;
+
+            button.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Adding...';
+            button.disabled = true;
+
+            fetch(this.action, {
+                method: 'POST',
+                body: new FormData(this),
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        button.innerHTML = '<i class="fas fa-check me-2"></i>Added!';
+                        button.classList.remove('btn-success');
+                        button.classList.add('btn-info');
+
+                        // Update cart count if element exists
+                        const cartBadge = document.querySelector('.badge.bg-danger');
+                        if (cartBadge && data.cart_count) {
+                            cartBadge.textContent = data.cart_count;
+                        }
+
+                        setTimeout(() => {
+                            button.innerHTML = originalText;
+                            button.classList.remove('btn-info');
+                            button.classList.add('btn-success');
+                            button.disabled = false;
+                        }, 2000);
+                    } else {
+                        button.innerHTML = originalText;
+                        button.disabled = false;
+                        alert('Error adding to cart. Please try again.');
+                    }
+                })
+                .catch(error => {
+                    button.innerHTML = originalText;
+                    button.disabled = false;
+                    alert('Error adding to cart. Please try again.');
+                });
+        });
+    });
+});
+</script>
 {% endblock %}

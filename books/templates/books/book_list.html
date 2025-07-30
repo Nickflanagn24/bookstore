@@ -22,6 +22,26 @@
 .price-button-stack .btn {
     width: 100%;
 }
+
+.btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+}
+
+.btn-info {
+    background-color: #17a2b8;
+    border-color: #17a2b8;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
 </style>
 {% endblock %}
 
@@ -58,7 +78,25 @@
                     <p class="book-author">{{ book.authors_list|truncatechars:30 }}</p>
                     <div class="price-button-stack">
                         <span class="price">{{ book.display_price }}</span>
-                        <a href="{{ book.get_absolute_url }}" class="btn btn-primary"><i class="fas fa-eye me-2"></i>View Details</a>
+                        <a href="{{ book.get_absolute_url }}" class="btn btn-primary">
+                            <i class="fas fa-eye me-2"></i>View Details
+                        </a>
+                        {% if book.is_in_stock and user.is_authenticated %}
+                        <form method="post" action="{% url 'cart:add_to_cart' book.id %}" class="d-inline">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-success btn-sm w-100">
+                                <i class="fas fa-cart-plus me-2"></i>Add to Cart
+                            </button>
+                        </form>
+                        {% elif not user.is_authenticated %}
+                        <a href="{% url 'accounts:login' %}" class="btn btn-secondary btn-sm w-100">
+                            <i class="fas fa-sign-in-alt me-2"></i>Login to Buy
+                        </a>
+                        {% else %}
+                        <button class="btn btn-secondary btn-sm w-100" disabled>
+                            <i class="fas fa-times me-2"></i>Out of Stock
+                        </button>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -124,4 +162,59 @@
     </div>
     {% endif %}
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // Add to cart functionality with AJAX
+    document.querySelectorAll('form[action*="add_to_cart"]').forEach(form => {
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const button = this.querySelector('button[type="submit"]');
+            const originalText = button.innerHTML;
+
+            button.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Adding...';
+            button.disabled = true;
+
+            fetch(this.action, {
+                method: 'POST',
+                body: new FormData(this),
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        button.innerHTML = '<i class="fas fa-check me-2"></i>Added!';
+                        button.classList.remove('btn-success');
+                        button.classList.add('btn-info');
+
+                        // Update cart count if element exists
+                        const cartBadge = document.querySelector('.badge.bg-danger');
+                        if (cartBadge && data.cart_count) {
+                            cartBadge.textContent = data.cart_count;
+                        }
+
+                        setTimeout(() => {
+                            button.innerHTML = originalText;
+                            button.classList.remove('btn-info');
+                            button.classList.add('btn-success');
+                            button.disabled = false;
+                        }, 2000);
+                    } else {
+                        button.innerHTML = originalText;
+                        button.disabled = false;
+                        alert('Error adding to cart. Please try again.');
+                    }
+                })
+                .catch(error => {
+                    button.innerHTML = originalText;
+                    button.disabled = false;
+                    alert('Error adding to cart. Please try again.');
+                });
+        });
+    });
+});
+</script>
 {% endblock %}
