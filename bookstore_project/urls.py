@@ -10,11 +10,24 @@ from django.contrib.sitemaps.views import sitemap
 from bookstore_project.sitemaps import sitemaps
 from books.views import home
 
+from django.http import HttpResponse
+import os
+
+def robots_txt(request):
+    robots_path = os.path.join(settings.BASE_DIR, "static", "robots.txt")
+    try:
+        with open(robots_path, "r") as f:
+            content = f.read()
+        return HttpResponse(content, content_type="text/plain")
+    except FileNotFoundError:
+        return HttpResponse("User-agent: *\nAllow: /", content_type="text/plain")
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     
     # Homepage - Tales & Tails home view
     path('', home, name='home'),
+    path("robots.txt", robots_txt, name="robots_txt"),
     
     # App URLs
     path('books/', include('books.urls')),
