@@ -32,7 +32,7 @@ def send_order_confirmation(order):
         return False
     
     # Build the order URL
-    site_url = getattr(settings, 'SITE_URL', 'http://127.0.0.1:8000')
+    site_url = getattr(settings, 'SITE_URL', 'https://127.0.0.1:8000')
     order_url = f"{site_url}{reverse('orders:order_detail', kwargs={'pk': order.id})}"
     
     context = {
@@ -106,7 +106,7 @@ def send_shipping_notification(order):
         return False
     
     # Build the order URL
-    site_url = getattr(settings, 'SITE_URL', 'http://127.0.0.1:8000')
+    site_url = getattr(settings, 'SITE_URL', 'https://127.0.0.1:8000')
     order_url = f"{site_url}{reverse('orders:order_detail', kwargs={'pk': order.id})}"
     
     # Build the tracking URL if tracking number exists

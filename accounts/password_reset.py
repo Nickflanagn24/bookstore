@@ -34,7 +34,7 @@ def send_password_reset_email(user):
     uid = urlsafe_base64_encode(force_bytes(user.pk))
     
     # Build reset URL
-    site_url = getattr(settings, 'SITE_URL', 'http://127.0.0.1:8000')
+    site_url = getattr(settings, 'SITE_URL', 'https://127.0.0.1:8000')
     reset_url = f"{site_url}/accounts/reset/{uid}/{token}/"
     
     context = {
