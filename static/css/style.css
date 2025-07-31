@@ -392,12 +392,14 @@ p {
 }
 
 .btn-primary {
+    border-color: var(--primary-500);
     background: linear-gradient(135deg, var(--primary-600) 0%, var(--primary-700) 100%);
     color: white;
     box-shadow: var(--shadow-md);
 }
 
 .btn-primary:hover {
+    border-color: var(--primary-600);
     background: linear-gradient(135deg, var(--primary-700) 0%, var(--primary-800) 100%);
     transform: translateY(-2px);
     box-shadow: var(--shadow-lg);
@@ -417,12 +419,14 @@ p {
 }
 
 .btn-success {
+    border-color: var(--success);
     background: linear-gradient(135deg, var(--success) 0%, var(--primary-600) 100%);
     color: white;
     box-shadow: var(--shadow-md);
 }
 
 .btn-success:hover {
+    border-color: var(--primary-500);
     background: linear-gradient(135deg, var(--primary-600) 0%, var(--primary-700) 100%);
     transform: translateY(-2px);
     box-shadow: var(--shadow-lg);
@@ -615,6 +619,7 @@ footer em {
 }
 
 .category-chip:hover {
+    border-color: var(--primary-500);
     background: var(--primary-600);
     color: white;
     border-color: var(--primary-600);
@@ -1607,6 +1612,7 @@ textarea.form-control:active {
 /* Button contrast improvements */
 .book-card .btn-primary,
 .card .btn-primary {
+    border-color: var(--primary-500);
     background-color: #1a5f1a !important;  /* Darker green */
     border-color: #1a5f1a !important;
     color: #ffffff !important;
@@ -1614,6 +1620,7 @@ textarea.form-control:active {
 
 .book-card .btn-primary:hover,
 .card .btn-primary:hover {
+    border-color: var(--primary-600);
     background-color: #155315 !important;  /* Even darker on hover */
     border-color: #155315 !important;
     color: #ffffff !important;
@@ -1941,6 +1948,7 @@ body.form-page {
 }
 
 .form-check-input:checked {
+    border-color: var(--primary-500);
     background-color: var(--accent-green);
     border-color: var(--accent-green);
 }
@@ -1960,6 +1968,7 @@ body.form-page {
 
 /* Buttons */
 .btn-success {
+    border-color: var(--success);
     background: linear-gradient(135deg, var(--accent-green) 0%, var(--light-green) 100%);
     border: none;
     border-radius: var(--border-radius);
@@ -1973,6 +1982,7 @@ body.form-page {
 }
 
 .btn-success:hover {
+    border-color: var(--primary-500);
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(107, 183, 123, 0.4);
     background: linear-gradient(135deg, var(--light-green) 0%, var(--primary-green) 100%);
@@ -2153,7 +2163,7 @@ select[multiple] {
 }
 
 /* High Contrast Mode Support */
-@media (prefers-contrast: high) {
+@media (prefers-contrast: more) {
     .form-control, .form-select {
         border-width: 3px;
     }
@@ -2314,6 +2324,7 @@ select[multiple] {
 }
 
 .pagination-custom .page-link:hover:not(.active) {
+    border-color: var(--primary-400);
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(43, 122, 43, 0.25);
     background-color: #2B7A2B;
