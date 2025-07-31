@@ -84,7 +84,7 @@
                 <div class="mobile-search-container">
                     <form id="mobile-search-form" class="search-form">
                         <input id="mobile-search-input" class="search-input" type="search" placeholder="Search books..." aria-label="Search">
-                        <button class="search-button" type="submit">
+                        <button class="search-button" type="submit" aria-label="Search books">
                             <i class="fas fa-search"></i>
                         </button>
                     </form>
@@ -112,7 +112,7 @@
                 <div class="search-container">
                     <form id="search-form" class="search-form">
                         <input id="search-input" class="search-input" type="search" placeholder="Search books..." aria-label="Search">
-                        <button class="search-button" type="submit">
+                        <button class="search-button" type="submit" aria-label="Search books">
                             <i class="fas fa-search"></i>
                         </button>
                     </form>
@@ -189,7 +189,7 @@
             {% for message in messages %}
                 <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
                     {{ message }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close alert"></button>
                 </div>
             {% endfor %}
         {% endif %}
@@ -241,7 +241,7 @@
             notification.innerHTML = `
                 <div class="alert alert-${type} alert-dismissible fade show" role="alert">
                     ${message}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close alert"></button>
                 </div>
             `;
 
