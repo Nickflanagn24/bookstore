@@ -35,10 +35,11 @@ collection for dog owners, trainers, and veterinarians. Where every dog story be
                     <div class="position-relative">
                         <div class="display-1 mb-4">📚🐕</div>
                         <div class="premium-glass-effect p-5 d-inline-block">
-                            <h3 class="mb-3"
+                            <h2 class="mb-3"
                                 style="color: var(--primary-800); font-family: var(--font-display); font-weight: 700;">
                                 Professional Resources
-                            </h3>
+                            </h2>
+
                             <p class="mb-0" style="color: var(--navy-700); font-weight: 500;">
                                 Trusted by many dog enthusiasts worldwide
                             </p>
@@ -57,9 +58,9 @@ collection for dog owners, trainers, and veterinarians. Where every dog story be
         <div class="row text-center">
             <div class="col-md-3">
                 <div class="premium-loading">
-                    <h3 class="fw-bold mb-2"
+                    <h2 class="fw-bold mb-2"
                         style="font-family: var(--font-display); color: white; font-size: 2.5rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">
-                        {{ total_books }}+</h3>
+                        {{ total_books }}+</h2>
                     <p class="mb-0"
                         style="color: white; font-weight: 600; font-size: 1.1rem; text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">
                         Expert Books</p>
@@ -67,9 +68,9 @@ collection for dog owners, trainers, and veterinarians. Where every dog story be
             </div>
             <div class="col-md-3">
                 <div class="premium-loading">
-                    <h3 class="fw-bold mb-2"
+                    <h2 class="fw-bold mb-2"
                         style="font-family: var(--font-display); color: white; font-size: 2.5rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">
-                        {{ total_authors }}+</h3>
+                        {{ total_authors }}+</h2>
                     <p class="mb-0"
                         style="color: white; font-weight: 600; font-size: 1.1rem; text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">
                         Renowned Authors</p>
@@ -77,9 +78,9 @@ collection for dog owners, trainers, and veterinarians. Where every dog story be
             </div>
             <div class="col-md-3">
                 <div class="premium-loading">
-                    <h3 class="fw-bold mb-2"
+                    <h2 class="fw-bold mb-2"
                         style="font-family: var(--font-display); color: white; font-size: 2.5rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">
-                        100%</h3>
+                        100%</h2>
                     <p class="mb-0"
                         style="color: white; font-weight: 600; font-size: 1.1rem; text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">
                         Secure Checkout</p>
@@ -87,9 +88,9 @@ collection for dog owners, trainers, and veterinarians. Where every dog story be
             </div>
             <div class="col-md-3">
                 <div class="premium-loading">
-                    <h3 class="fw-bold mb-2"
+                    <h2 class="fw-bold mb-2"
                         style="font-family: var(--font-display); color: white; font-size: 2.5rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">
-                        24/7</h3>
+                        24/7</h2>
                     <p class="mb-0"
                         style="color: white; font-weight: 600; font-size: 1.1rem; text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">
                         Expert Support</p>
@@ -214,363 +215,22 @@ collection for dog owners, trainers, and veterinarians. Where every dog story be
                         📚
                         {% endif %}
                     </div>
-                    <h3 class="mb-3"
-                        style="font-family: var(--font-display); color: var(--navy-800); font-weight: 600;">{{ category.name }}</h3>
-                    {% if category.description %}
-                    <p class="mb-3" style="color: var(--navy-700); font-weight: 500;">{{ category.description|truncatewords:15 }}</p>
-                    {% else %}
-                    <p class="mb-3" style="color: var(--navy-700); font-weight: 500;">Explore our collection of {{ category.name|lower }} resources.</p>
-                    {% endif %}
-                    <a href="{{ category.get_absolute_url }}" class="btn btn-primary">Explore Category</a>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-    </div>
-</section>
-{% endif %}
-
-<!-- Recent Books Section -->
-{% if recent_books %}
-<section class="py-5">
-    <div class="container">
-        <div class="text-center mb-5">
-            <h2 class="display-5 fw-bold mb-4" style="color: var(--primary-800); font-family: var(--font-display);">
-                Recently Added</h2>
-            <p class="lead" style="color: var(--navy-700); font-weight: 500;">Fresh additions to our premium collection
-            </p>
-            <div class="premium-section-divider"></div>
-        </div>
-        <div class="row g-4">
-            {% for book in recent_books %}
-            <div class="col-lg-3 col-md-6">
-                <div class="book-card premium-loading">
-                    <div class="book-cover-container">
-                        {% if book.cover_image or book.thumbnail %}
-                        <img src="{{ book.cover_image|default:book.thumbnail }}" alt="{{ book.title }}"
-                            class="book-cover-high-res"
-                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                        <div class="no-image-placeholder" style="display: none;">
-                            📖
-                        </div>
-                        {% else %}
-                        <div class="no-image-placeholder">
-                            📖
-                        </div>
-                        {% endif %}
-                        <div class="position-absolute top-0 end-0 m-3">
-                            <span class="badge bg-warning text-dark fw-bold">New</span>
-                        </div>
-                    </div>
-                    <div class="card-body d-flex flex-column">
-                        <h3 class="book-title" style="color: var(--navy-800); font-weight: 600;">{{ book.title }}</h3>
-                        <p class="book-author" style="color: var(--navy-700); font-weight: 500;">
-                            {% for author in book.authors.all %}
-                                {{ author.name }}{% if not forloop.last %}, {% endif %}
-                            {% empty %}
-                                Various Authors
-                            {% endfor %}
-                        </p>
-                        <div class="mt-auto">
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <span class="price" style="color: var(--primary-700); font-weight: 700;">£{{ book.price|floatformat:2 }}</span>
-                                {% if book.is_in_stock %}
-                                <span class="badge bg-success">In Stock</span>
-                                {% else %}
-                                <span class="badge bg-danger">Out of Stock</span>
-                                {% endif %}
-                            </div>
-                            <div class="d-grid gap-2">
-                                <a href="{{ book.get_absolute_url }}" class="btn btn-primary">
-                                    <i class="fas fa-eye me-2"></i>View Details
-                                </a>
-                                {% if book.is_in_stock %}
-                                    {% if user.is_authenticated %}
-                                    <form method="post" action="{% url 'cart:add_to_cart' book.id %}" class="d-inline">
-                                        {% csrf_token %}
-                                        <button type="submit" class="btn btn-success btn-sm w-100">
-                                            <i class="fas fa-cart-plus me-2"></i>Add to Cart
-                                        </button>
-                                    </form>
-                                    {% else %}
-                                    <a href="{% url 'accounts:login' %}" class="btn btn-secondary btn-sm w-100">
-                                        <i class="fas fa-sign-in-alt me-2"></i>Login to Buy
-                                    </a>
-                                    {% endif %}
-                                {% else %}
-                                <button class="btn btn-secondary btn-sm w-100" disabled>
-                                    <i class="fas fa-times me-2"></i>Out of Stock
-                                </button>
-                                {% endif %}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-    </div>
-</section>
-{% endif %}
-
-<!-- Why Choose Us Section -->
-<section class="premium-mission-card p-5">
-    <div class="container" style="position: relative; z-index: 2;">
-        <div class="row align-items-center">
-            <div class="col-md-6">
-                <h2 class="display-5 fw-bold mb-4"
-                    style="font-family: var(--font-display); color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">
-                    Why Choose Tales & Tails?</h2>
-                <div class="row g-4">
-                    <div class="col-12">
-                        <div class="d-flex align-items-start">
-                            <div class="premium-service-icon me-4"
-                                style="width: 60px; height: 60px; font-size: 1.5rem; flex-shrink: 0; background: rgba(255,255,255,0.2);">
-                                ✨
-                            </div>
-                            <div>
-                                <h3 class="mb-2"
-                                    style="color: white; font-family: var(--font-display); font-weight: 600; text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">
-                                    Expert Curation</h3>
-                                <p class="mb-0"
-                                    style="color: rgba(255,255,255,0.9); text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">
-                                    Every book is hand-selected by professional dog trainers and veterinarians.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <div class="d-flex align-items-start">
-                            <div class="premium-service-icon me-4"
-                                style="width: 60px; height: 60px; font-size: 1.5rem; flex-shrink: 0; background: rgba(255,255,255,0.2);">
-                                🚀
-                            </div>
-                            <div>
-                                <h3 class="mb-2"
-                                    style="color: white; font-family: var(--font-display); font-weight: 600; text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">
-                                    Fast Delivery</h3>
-                                <p class="mb-0"
-                                    style="color: rgba(255,255,255,0.9); text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">
-                                    Quick and secure shipping to get you started on your dog's journey immediately.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <div class="d-flex align-items-start">
-                            <div class="premium-service-icon me-4"
-                                style="width: 60px; height: 60px; font-size: 1.5rem; flex-shrink: 0; background: rgba(255,255,255,0.2);">
-                                💬
-                            </div>
-                            <div>
-                                <h3 class="mb-2"
-                                    style="color: white; font-family: var(--font-display); font-weight: 600; text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">
-                                    Expert Support</h3>
-                                <p class="mb-0"
-                                    style="color: rgba(255,255,255,0.9); text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">
-                                    Get personalised recommendations from our team of canine experts.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 text-center">
-                <div class="premium-glass-effect p-5">
-                    <h3 class="mb-4"
-                        style="color: white; font-family: var(--font-display); font-weight: 600; text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">
-                        Join Our Community</h3>
-                    <p class="mb-4" style="color: rgba(255,255,255,0.9); text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">
-                        Connect with thousands of dog lovers who trust Tales & Tails for their canine education needs.
+                    <h3 class="fw-bold mb-3" style="color: var(--primary-800); font-family: var(--font-display);">
+                        {{ category.name }}
+                    </h3>
+                    <p class="mb-4" style="color: var(--navy-700);">
+                        Discover books about {{ category.name|lower }}
                     </p>
-                    {% if not user.is_authenticated %}
-                    <a href="{% url 'accounts:register' %}" class="btn btn-light btn-lg">
-                        <i class="fas fa-user-plus me-2"></i>Join Today
+                    <a href="{% url 'books:category_detail' category.slug %}" 
+                       class="btn btn-outline-primary premium-btn-outline">
+                        Browse {{ category.name }}
                     </a>
-                    {% else %}
-                    <a href="{% url 'accounts:profile' %}" class="btn btn-light btn-lg">
-                        <i class="fas fa-user me-2"></i>My Profile
-                    </a>
-                    {% endif %}
                 </div>
             </div>
+            {% endfor %}
         </div>
     </div>
 </section>
+{% endif %}
 
-<!-- Newsletter Signup Section -->
-<section class="py-5" style="background: linear-gradient(135deg, var(--natural-beige) 0%, var(--primary-50) 100%);">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 mx-auto text-center">
-                <h2 class="display-5 fw-bold mb-4" style="color: var(--primary-800); font-family: var(--font-display);">
-                    Stay Updated</h2>
-                <p class="lead mb-4" style="color: var(--navy-700); font-weight: 500;">
-                    Get the latest book recommendations, training tips, and exclusive offers delivered to your inbox.
-                </p>
-                <form id="newsletterForm" class="row g-3 justify-content-center" method="post"
-                    action="{% url 'books:newsletter_signup' %}">
-                    {% csrf_token %}
-                    <div class="col-md-6">
-                        <input type="email" name="email" class="form-control" placeholder="Enter your email address"
-                            required>
-                    </div>
-                    <div class="col-md-auto">
-                        <button type="submit" class="btn btn-primary btn-lg">
-                            <i class="fas fa-envelope me-2"></i>Subscribe
-                        </button>
-                    </div>
-                </form>
-                <small class="text-muted mt-3 d-block">Join 10,000+ dog lovers who trust our recommendations</small>
-            </div>
-        </div>
-    </div>
-</section>
-{% endblock %}
-
-{% block extra_js %}
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        // Animate elements on scroll
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        });
-
-        // Observe all premium-loading elements
-        document.querySelectorAll('.premium-loading').forEach(el => {
-            el.style.opacity = '0';
-            el.style.transform = 'translateY(30px)';
-            el.style.transition = 'all 0.6s ease-out';
-            observer.observe(el);
-        });
-
-        // Add to cart functionality with AJAX
-        document.querySelectorAll('form[action*="add_to_cart"]').forEach(form => {
-            form.addEventListener('submit', function (e) {
-                e.preventDefault();
-
-                const button = this.querySelector('button[type="submit"]');
-                const originalText = button.innerHTML;
-
-                button.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Adding...';
-                button.disabled = true;
-
-                fetch(this.action, {
-                    method: 'POST',
-                    body: new FormData(this),
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest',
-                    }
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            button.innerHTML = '<i class="fas fa-check me-2"></i>Added!';
-                            button.classList.remove('btn-success');
-                            button.classList.add('btn-info');
-
-                            // Update cart count if element exists
-                            const cartBadge = document.querySelector('.badge.bg-danger');
-                            if (cartBadge && data.cart_count) {
-                                cartBadge.textContent = data.cart_count;
-                            }
-
-                            setTimeout(() => {
-                                button.innerHTML = originalText;
-                                button.classList.remove('btn-info');
-                                button.classList.add('btn-success');
-                                button.disabled = false;
-                            }, 2000);
-                        } else {
-                            button.innerHTML = originalText;
-                            button.disabled = false;
-                            // Use notification instead of alert
-                            if (window.showNewsletterNotification) {
-                                window.showNewsletterNotification('Error adding to cart. Please try again.', 'danger');
-                            } else {
-                                alert('Error adding to cart. Please try again.');
-                            }
-                        }
-                    })
-                    .catch(error => {
-                        button.innerHTML = originalText;
-                        button.disabled = false;
-                        // Use notification instead of alert
-                        if (window.showNewsletterNotification) {
-                            window.showNewsletterNotification('Error adding to cart. Please try again.', 'danger');
-                        } else {
-                            alert('Error adding to cart. Please try again.');
-                        }
-                    });
-            });
-        });
-
-        // Newsletter form submission
-        const newsletterForm = document.getElementById('newsletterForm');
-        if (newsletterForm) {
-            newsletterForm.addEventListener('submit', function (e) {
-                e.preventDefault();
-
-                const formData = new FormData(this);
-                const submitBtn = this.querySelector('button[type="submit"]');
-                const originalText = submitBtn.innerHTML;
-
-                // Show loading state
-                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Subscribing...';
-                submitBtn.disabled = true;
-
-                fetch('{% url "books:newsletter_signup" %}', {
-                    method: 'POST',
-                    body: formData,
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest',
-                    }
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            // Show success message with notification
-                            const emailInput = this.querySelector('input[type="email"]');
-                            emailInput.value = '';
-                            emailInput.style.borderColor = 'var(--success)';
-
-                            // Use notification instead of alert
-                            if (window.showNewsletterNotification) {
-                                window.showNewsletterNotification(data.message || 'Thank you for subscribing to our newsletter!', 'success');
-                            } else {
-                                alert(data.message);
-                            }
-                        } else {
-                            // Use notification instead of alert
-                            if (window.showNewsletterNotification) {
-                                window.showNewsletterNotification(data.message || 'An error occurred. Please try again.', 'danger');
-                            } else {
-                                alert(data.message || 'An error occurred. Please try again.');
-                            }
-                        }
-                    })
-                    .catch(error => {
-                        // Use notification instead of alert
-                        if (window.showNewsletterNotification) {
-                            window.showNewsletterNotification('An error occurred. Please try again.', 'danger');
-                        } else {
-                            alert('An error occurred. Please try again.');
-                        }
-                        console.error('Error:', error);
-                    })
-                    .finally(() => {
-                        // Restore button state
-                        submitBtn.innerHTML = originalText;
-                        submitBtn.disabled = false;
-                    });
-            });
-        }
-
-    });
-</script>
-{% endblock %}
+{% endblock content %}
