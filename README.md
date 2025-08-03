@@ -126,13 +126,8 @@ Tales & Tails is a specialized Django-based e-commerce platform dedicated to dog
 
 ## Features
 
-## 📸 Screenshots
-
-<details>
-<summary><b>📸 View Application Screenshots</b></summary>
-
 ### 🏠 Homepage - Professional First Impression
-![Homepage](docs/images/screenshots/desktop/homepage-desktop.png)
+![Homepage](assets/readme-images/screenshots/homepage.png)
 *Clean, professional design featuring the forest green theme with hero section showcasing "Where Every Dog Story Begins". Includes featured books carousel, statistics counter (137+ books, professional authors), and clear navigation to book categories. Mobile-responsive layout ensures perfect display across all devices with collapsible navigation menu.*
 
 **Key Features:**
@@ -145,7 +140,7 @@ Tales & Tails is a specialized Django-based e-commerce platform dedicated to dog
 - Fully responsive mobile-first design
 
 ### 📚 Book Catalogue - Comprehensive Library
-![Book Catalogue](docs/images/screenshots/desktop/book-catalogue-grid.png)
+![Book Catalogue](assets/readme-images/screenshots/books-page.png)
 *Extensive book listing with 137+ dog-related titles sourced from Google Books API. Features advanced filtering by category (Training, Health, Breeds), price range sorting, and intelligent search functionality. Each book card displays high-quality cover image, title, author, price, star ratings, and quick "Add to Cart" functionality.*
 
 **Key Features:**
@@ -160,7 +155,7 @@ Tales & Tails is a specialized Django-based e-commerce platform dedicated to dog
 - Stock availability indicators
 
 ### 🔍 Advanced Search - Smart Discovery
-![Search Functionality](docs/images/screenshots/features/search-autocomplete.png)
+![Search Functionality](assets/readme-images/screenshots/advanced-search.png)
 *Real-time search with autocomplete suggestions appearing as users type. Search results show relevant books with highlighted query terms, author information, and pricing. Both mobile and desktop versions provide seamless search experience with dropdown results and category filtering.*
 
 **Key Features:**
@@ -174,7 +169,7 @@ Tales & Tails is a specialized Django-based e-commerce platform dedicated to dog
 - No results page with suggested alternatives
 
 ### 📖 Book Detail Page - Rich Product Information
-![Book Details](docs/images/screenshots/desktop/book-detail-page.png)
+![Book Details](assets/readme-images/screenshots/book-details.png)
 *Comprehensive book information including high-quality cover images, detailed descriptions, author biographies, publication details, and customer reviews. Features "Add to Cart" functionality, related book suggestions, schema.org structured data for enhanced SEO, and social sharing options.*
 
 **Key Features:**
@@ -191,7 +186,7 @@ Tales & Tails is a specialized Django-based e-commerce platform dedicated to dog
 - Wishlist functionality
 
 ### 🛒 Shopping Cart - Intuitive E-commerce
-![Shopping Cart](docs/images/screenshots/desktop/shopping-cart-full.png)
+![Shopping Cart](assets/readme-images/screenshots/shopping-cart.png)
 *User-friendly cart interface with quantity controls, item removal options, and real-time total calculations. Features persistent cart storage for logged-in users, responsive design for mobile shopping, promotional code input, and clear checkout call-to-action buttons with security badges.*
 
 **Key Features:**
@@ -208,7 +203,7 @@ Tales & Tails is a specialized Django-based e-commerce platform dedicated to dog
 - Save for later functionality
 
 ### 💳 Secure Checkout - Stripe Integration
-![Checkout Process](docs/images/screenshots/desktop/checkout-stripe.png)
+![Checkout Process](assets/readme-images/screenshots/secure-checkout.png)
 *Professional checkout interface with Stripe payment integration ensuring PCI compliance. Features comprehensive order summary, customer information forms, multiple payment options, guest checkout capability, and SSL-secured transaction processing with webhook implementation.*
 
 **Key Features:**
@@ -225,7 +220,7 @@ Tales & Tails is a specialized Django-based e-commerce platform dedicated to dog
 - Webhook integration for reliable processing
 
 ### 🛠️ Admin Dashboard - Content Management
-![Admin Panel](docs/images/screenshots/desktop/admin-book-management.png)
+![Admin Panel](assets/readme-images/screenshots/secure-checkout.png)
 *Django admin interface customised for bookstore management with comprehensive book inventory control, order processing capabilities, customer management tools, and detailed reporting dashboards. Staff can efficiently manage the entire catalogue, process orders, and maintain customer relationships.*
 
 **Key Features:**
@@ -239,9 +234,10 @@ Tales & Tails is a specialized Django-based e-commerce platform dedicated to dog
 - Export functionality for reports
 - Email template management
 - System configuration and settings
+- can be accessed from the front-end drop down if staff logged in.
 
 ### 👤 User Profile - Personalised Dashboard
-![User Profile](docs/images/screenshots/features/user-profile-dashboard.png)
+![User Profile](assets/readme-images/screenshots/profile.png)
 *Custom user dashboard featuring dog profile information, complete order history, personalised book recommendations, account management options, and newsletter preferences. Users can manage multiple dog profiles and access tailored content based on their dogs' breeds and training needs.*
 
 **Key Features:**
@@ -257,7 +253,7 @@ Tales & Tails is a specialized Django-based e-commerce platform dedicated to dog
 - Download order receipts/invoices
 
 ### 📱 Mobile Experience - Mobile-First Design
-![Mobile Interface](docs/images/screenshots/mobile/mobile-homepage.png)
+![Mobile Interface](assets/readme-images/screenshots/mobile.png)
 *Fully responsive mobile interface with collapsible hamburger navigation, touch-friendly buttons, optimised search functionality, and streamlined shopping experience. Cart and checkout processes are specifically designed for mobile users with large touch targets and simplified forms.*
 
 **Key Features:**
@@ -272,7 +268,7 @@ Tales & Tails is a specialized Django-based e-commerce platform dedicated to dog
 - Mobile-specific user interface elements
 
 ### ⭐ Review System - Community Engagement
-![Review System](docs/images/screenshots/features/book-reviews.png)
+![Review System](assets/readme-images/screenshots/review.png)
 *Integrated customer review system allowing registered users to rate and review purchased books. Features five-star rating system, detailed written reviews, helpful/unhelpful voting, review moderation, and verified purchase badges to build community trust.*
 
 **Key Features:**
@@ -302,22 +298,6 @@ Tales & Tails is a specialized Django-based e-commerce platform dedicated to dog
 - Brand-consistent design and messaging
 - Automated trigger-based sending
 - Unsubscribe and preference management
-
-### 🎯 Category Pages - Organised Discovery
-![Category Pages](docs/images/screenshots/features/category-training-books.png)
-*Well-organised category system featuring Training, Health, Breeds, and Behaviour sections with dedicated landing pages. Each category displays relevant books with advanced filtering options, sorting capabilities, breadcrumb navigation, and category-specific information and tips.*
-
-**Key Features:**
-- Dedicated category landing pages
-- Category-specific book collections
-- Advanced filtering within categories
-- Educational content and training tips
-- Featured authors in each category
-- Bestsellers and new releases sections
-- Category-specific search functionality
-- Breadcrumb navigation for easy browsing
-- Related category suggestions
-- SEO-optimised category descriptions
 
 ### 🚫 Error Pages - User-Friendly Experience
 ![404 Error Page](docs/images/screenshots/features/404-error-page.png)

@@ -42,6 +42,7 @@ LOCAL_APPS = [
     'cart',
     'orders',
     # 'reviews',
+    'newsletter',
 ]
 
 # Sitemap configuration

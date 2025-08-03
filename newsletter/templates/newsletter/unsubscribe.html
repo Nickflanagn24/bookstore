@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}Unsubscribe - Tales & Tails{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h2>Unsubscribe</h2>
+                    <p>Are you sure you want to unsubscribe?</p>
+                    
+                    <form method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger me-3">Yes, Unsubscribe</button>
+                        <a href="{% url 'home' %}" class="btn btn-secondary">Cancel</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -233,4 +233,53 @@ collection for dog owners, trainers, and veterinarians. Where every dog story be
 </section>
 {% endif %}
 
+<!-- Newsletter Subscription Section -->
+<section class="py-5" style="background: linear-gradient(135deg, var(--primary-50) 0%, var(--navy-50) 100%);">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-10">
+                <div class="text-center mb-4">
+                    <h2 class="display-6 fw-bold mb-3" style="color: var(--primary-800); font-family: var(--font-display);">
+                        📧 Stay Updated with Dog Care Tips
+                    </h2>
+                    <p class="lead" style="color: var(--navy-700);">
+                        Get the latest book releases, training tips, and expert advice delivered to your inbox
+                    </p>
+                </div>
+                
+                <div class="premium-glass-effect p-4">
+                    <form method="post" action="{% url 'newsletter:subscribe' %}" class="newsletter-form">
+                        {% csrf_token %}
+                        <div class="row g-3 align-items-end">
+                            <div class="col-md-8">
+                                <label for="newsletter-email" class="form-label fw-bold" style="color: var(--navy-800);">
+                                    Email Address
+                                </label>
+                                <input type="email" 
+                                       class="form-control form-control-lg" 
+                                       id="newsletter-email" 
+                                       name="email" 
+                                       placeholder="Enter your email address"
+                                       required
+                                       style="border: 2px solid var(--primary-200); border-radius: 10px;">
+                            </div>
+                            <div class="col-md-4 d-grid">
+                                <button type="submit" class="btn btn-primary btn-lg px-4">
+                                    <i class="fas fa-envelope me-2"></i>Subscribe
+                                </button>
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <small class="text-muted">
+                                <i class="fas fa-shield-alt me-1"></i>
+                                We respect your privacy. Unsubscribe at any time.
+                            </small>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 {% endblock content %}
