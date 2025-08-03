@@ -284,7 +284,6 @@ Tales & Tails is a specialized Django-based e-commerce platform dedicated to dog
 - Integration with Google Reviews
 
 ### 📧 Email Communications - Professional Outreach
-![Email Templates](docs/images/screenshots/features/order-confirmation-email.png)
 *Comprehensive email system including order confirmations, shipping notifications, newsletter communications, and password reset emails. Professional HTML templates with brand consistency, mobile-responsive design, automated trigger-based messaging, and unsubscribe management.*
 
 **Key Features:**
@@ -300,7 +299,7 @@ Tales & Tails is a specialized Django-based e-commerce platform dedicated to dog
 - Unsubscribe and preference management
 
 ### 🚫 Error Pages - User-Friendly Experience
-![404 Error Page](docs/images/screenshots/features/404-error-page.png)
+![404 Error Page](assets/readme-images/screenshots/404-page.png)
 *Custom-designed 404 error page maintaining brand consistency whilst providing helpful navigation options. Features search functionality, popular book categories, and clear paths back to the main site with dog-themed illustrations and friendly messaging.*
 
 **Key Features:**
@@ -313,4 +312,48 @@ Tales & Tails is a specialized Django-based e-commerce platform dedicated to dog
 - Mobile-responsive error page design
 - SEO-friendly error handling
 
-</details>
+
+### ⭐ Book Management System - Essential  Full CRUD Frontend Operations
+![Book Management System](assets/readme-images/screenshots/manage-books.png)
+*Streamlined frontend book management interface providing core administrative functionality for complete catalog control. Enables administrators to efficiently manage the book inventory through intuitive web-based operations without requiring technical expertise.*
+
+**It can be access when staff members are logged by the dropdown menu in the top right.**
+
+![dropdown Menu](assets/readme-images/screenshots/staff-dropdown.png)
+
+**Full Front End CRUD Operations:**
+
+**📝 CREATE - Add New Books**
+- User-friendly form interface for adding new titles to the catalog
+- Essential book details input (title, author, description, price)
+- Category selection and inventory management
+- ISBN and publication information entry
+- Cover image upload functionality
+
+**👁️ READ - View Book Details**
+- Comprehensive book listing with search and filter capabilities
+- Detailed individual book view with all metadata display
+- Current stock levels and pricing information
+- Sales history and performance metrics
+- Quick preview of book specifications and descriptions
+
+**✏️ UPDATE - Modify Book Information**
+- Edit existing book details through intuitive forms
+- Update pricing, inventory levels, and descriptions
+- Modify categories, tags, and availability status
+- Change cover images and promotional content
+- Bulk editing capabilities for efficient management
+
+**🗑️ DELETE - Remove Books from Catalog**
+- Safe book removal with confirmation dialogs
+- Archive functionality to maintain sales history
+- Dependency checking for books with existing orders
+- Bulk delete operations for efficient catalog cleanup
+- Restoration options for accidentally deleted items
+
+**Management Features:**
+- Real-time inventory tracking and stock alerts
+- Category and pricing management tools
+- Search and filter functionality for large catalogs
+- Export capabilities for reporting and analysis
+- User-friendly interface requiring no technical knowledge
