@@ -1,3 +1,5 @@
+/* jshint esversion: 6, browser: true, devel: true */
+
 document.addEventListener('DOMContentLoaded', function() {
     // Desktop search elements
     const searchForm = document.getElementById('search-form');
