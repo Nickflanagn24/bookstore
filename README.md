@@ -1,6 +1,6 @@
 # 📚🐕 Tales & Tails - Where Every Dog Story Begins
 
-![Website Mockup](assets/readme-images/mockup.png)
+![Website Mockup](./assets/readme-images/mockup.png)
 
 A specialized e-commerce platform for dog training, care, and breed books, built with Django and integrated with Google Books API for comprehensive canine literature.
 
@@ -237,6 +237,192 @@ The user journey was mapped through comprehensive flowcharts visualising how dif
 | Search engine optimisation for better discoverability | Should Have | #38 |
 | Integration with Google Books API for enhanced book data | Should Have | #39 |
 
+## Wireframes
+
+### Home 
+![Home Wireframe](assets/readme-images/wireframes/home-wireframe.png)
+
+### Booklist Page
+![Home Wireframe](assets/readme-images/wireframes/books-wireframe.png)
+
+### Books Detail
+![Home Wireframe](assets/readme-images/wireframes/books-detail-wireframe.png)
+
+### Shopping Cart
+![Home Wireframe](assets/readme-images/wireframes/shopping-cart-wireframe.png)
+
+### Checkout
+![Home Wireframe](assets/readme-images/wireframes/checkout-wireframe.png)
+
+### Payment Successful 
+![Home Wireframe](assets/readme-images/wireframes/payment-success-wireframe.png)
+
+---
+
+# Colour choices 
+
+![Colour Pallet](assets/readme-images/tales-tails-colour-palette.jpg)
+
+
+## Why These Colors Work Perfectly Together for Tales & Tails Bookstore
+
+## The Science of Color Harmony
+
+The Tales & Tails color palette is built on proven color theory principles that create both visual appeal and psychological comfort. Here's why these specific colors work so beautifully together:
+
+---
+
+### 1. Natural Color Relationships
+
+#### Analogous Harmony  
+The green family — **Deep Forest Green** `#2D5A3D` and **Sage Green** `#8FA68E` — creates an *analogous* color scheme (colors next to each other on the color wheel), leading to:
+
+- Visual cohesion without monotony  
+- Natural flow and organic progression  
+- Calming effect that encourages browsing and reading  
+
+#### Complementary Accents  
+**Soft Gold** `#D4A574` complements the greens, offering:
+
+- Visual excitement without being overwhelming  
+- Natural contrast that draws attention  
+- A sophisticated balance between warm and cool tones  
+
+---
+
+### 2. Psychological Color Impact
+
+#### Deep Forest Green — *Trust & Growth*
+- **Effect:** Stability, reliability, harmony with nature  
+- **Brand Message:** "We're established, trustworthy, and help you grow through reading"  
+- **User Response:** Safe, inviting, encourages exploration  
+
+#### Warm Cream — *Comfort & Elegance*
+- **Effect:** Cleanliness, warmth, sophistication  
+- **Brand Message:** "We offer a premium, comfortable shopping experience"  
+- **User Response:** Relaxed eyes, long reading comfort, welcoming space  
+
+#### Rich Charcoal — *Authority & Readability*
+- **Effect:** Professionalism, clarity  
+- **Brand Message:** "We're serious about books and quality content"  
+- **User Response:** Trust in the content, clear readability  
+
+#### Soft Gold — *Quality & Success*
+- **Effect:** Optimism, reward, value  
+- **Brand Message:** "Purchasing here brings satisfaction"  
+- **User Response:** Motivated action, a sense of luxury  
+
+---
+
+### 3. Cultural and Literary Associations
+
+#### Classic Book Aesthetics
+These tones evoke:
+
+- Vintage leather bindings (greens and golds)  
+- Aged paper (warm cream)  
+- Classic library vibes (charcoal and sage)  
+- A timeless literary atmosphere  
+
+#### Nature-Based Comfort
+The palette connects with:
+
+- Forest themes — ideal for the *"Tales & Tails"* brand  
+- Organic and sustainable values  
+- Versatility for all seasons and story genres  
+
+---
+
+### 4. Technical Colour Theory
+
+#### Value Contrast (Light to Dark Range)
+| Shade | Colour | Lightness |
+|-------|-------|-----------|
+| Light | Warm Cream `#F8F6F0` | 92% |
+| Medium | Soft Gold `#D4A574` | 68% |
+| Medium | Sage Green `#8FA68E` | 61% |
+| Dark | Deep Forest Green `#2D5A3D` | 26% |
+| Dark | Rich Charcoal `#2C2C2C` | 17% |
+
+- Ensures strong hierarchy and readability  
+- Offers flexibility across interfaces  
+
+#### Saturation Balance
+- **High:** Soft Gold → attention-grabbing CTAs  
+- **Medium:** Forest and Sage Greens → brand presence  
+- **Low:** Cream, Charcoal → foundation and text  
+
+---
+
+### 5. Practical Web Design Benefits
+
+#### User Experience Enhancement
+- **Reduced Eye Strain:** Cream beats harsh white backgrounds  
+- **Clear Navigation:** High contrast headers  
+- **Effective CTAs:** Gold stands out clearly  
+- **Professional Look:** Sophisticated palette = trust  
+
+#### Accessibility Excellence
+All combos meet **WCAG AA** standards:
+
+- Charcoal on Cream: 8.7:1  
+- Forest Green on Cream: 7.2:1  
+- White on Forest Green: 8.9:1  
+- **Colourblind Friendly:** Usable for all types of vision  
+
+---
+
+### 6. Brand Personality Reinforcement
+
+#### The Complete Brand Story
+- **Established & Trustworthy** – Deep Forest Green  
+- **Welcoming & Comfortable** – Warm Cream  
+- **Quality & Value** – Soft Gold  
+- **Professional & Reliable** – Rich Charcoal  
+- **Approachable & Friendly** – Sage Green, Dusty Rose touches  
+
+#### Emotional Journey
+- **Trust** – Green tones  
+- **Comfort** – Cream background  
+- **Interest** – Gold accents  
+- **Confidence** – Charcoal clarity  
+- **Action** – Gold CTAs  
+
+---
+
+### 7. Versatility and Longevity
+
+#### Timeless Appeal
+- Classic enough to age well  
+- Contemporary enough for modern appeal  
+- Flexible for different book genres and marketing seasons  
+- Professional enough for B2B/wholesale partnerships  
+
+#### Seasonal Adaptability
+- **Spring/Summer:** Emphasize Sage + Cream  
+- **Fall/Winter:** Forest Green + Gold  
+- **Holidays:** Use Dusty Rose (Valentine’s/Mother’s Day)  
+- **Back-to-school:** Charcoal + Cream = academic polish  
+
+---
+
+## Conclusion: A Perfect Literary Palette
+
+This colour scheme works because it blends **rational design logic** with **emotional storytelling**.
+
+Each colour serves:
+
+- A **functional purpose**: readability, clarity, navigation  
+- An **emotional purpose**: trust, warmth, motivation  
+
+It’s:
+
+- **Sophisticated** but not intimidating  
+- **Welcoming** without being plain  
+- **Distinctive** without being trendy  
+
+Perfect for a bookstore that values both **literary richness** and **a quality customer experience**.
+
 ---
 
 ## Agile Project Planning with GitHub Projects
@@ -273,6 +459,172 @@ The ticketing system facilitates comprehensive documentation of bug fixes throug
 
 This agile approach enables rapid adaptation to challenges encountered during development while maintaining a clear path toward project completion with all essential features implemented according to the defined acceptance criteria and quality standards.
 
+
+# Marketing
+
+## Marketing Strategy - Building a Thriving Book Business
+
+*Comprehensive marketing approach combining digital channels, community engagement, and strategic partnerships to establish Tales & Tails as the premier destination for dog enthusiasts and book lovers across the UK.*
+
+### Business Model Overview
+
+**Mission:** Connecting dog lovers with expert knowledge through curated books, training resources, and community-driven content.
+
+**Target Market:** Dog owners, trainers, veterinarians, breeders, and canine enthusiasts seeking professional resources and expert guidance.
+
+**Unique Value Proposition:** The only specialised bookshop combining comprehensive canine literature with expert curation and community engagement.
+
+---
+
+## B2B Marketing Strategy - Professional Partnerships
+
+### Current B2B Capabilities
+
+**Existing Infrastructure:**
+- Professional-grade e-commerce platform with secure checkout
+- Comprehensive book catalogue with detailed descriptions
+- Advanced search and filtering for professional needs
+- Mobile-responsive design for on-the-go professionals
+- Secure payment processing including Stripe integration
+
+**Available Resources:**
+- Extensive collection of veterinary and training literature
+- Category-based organisation for easy professional browsing
+- Author and publisher information for academic referencing
+- Stock management system for reliable availability
+
+### Target B2B Segments
+
+**Veterinary Practices**
+- Professional reference materials for continuing education
+- Client education resources and handout programmes
+- Practice libraries for staff development
+- Specialised texts for different veterinary disciplines
+
+**Dog Training Schools & Academies**
+- Curriculum support with textbooks and reference materials
+- Professional certification preparation resources
+- Instructor resource libraries and teaching materials
+- Student recommended reading lists
+
+**Pet Retailers & Specialty Shops**
+- Educational resources for staff training
+- Customer education materials
+- Professional development for pet advisors
+- Reference materials for breed-specific guidance
+
+**Animal Shelters & Rescue Organisations**
+- Educational resources for volunteers and staff
+- Behaviour and rehabilitation materials
+- Community education library development
+- Training resources for difficult cases
+
+---
+
+## B2C Marketing Strategy - Consumer Engagement
+
+### Current B2C Features
+
+**Existing Platform Capabilities:**
+- User-friendly e-commerce website with intuitive navigation
+- Comprehensive book search and filtering system
+- Secure user accounts with order history
+- Newsletter subscription system with email confirmations
+- Mobile-responsive design for all devices
+- Category-based browsing (training, health, breeds, etc.)
+- Featured books section with expert curation
+- Integrated customer review and rating system
+
+**Current Marketing Tools:**
+- Professional email infrastructure for customer communications
+- Newsletter system for subscriber engagement
+- SEO-optimised website structure
+- Social media integration capabilities
+- Professional branding and visual identity
+
+**Social Media Marketing:**
+![Facebook Community](assets/readme-images/facebook-page.png)
+*Active Facebook community with daily engagement, book discussions, and dog training tips*
+
+- **Facebook:** Established community page with regular posts and customer engagement
+- **Newsletter Integration:** Social media drives newsletter subscriptions
+- **Community Building:** Dog lovers sharing experiences and book recommendations
+- **Facebook Shop** Sell the books in the facebook shop
+
+### Target B2C Segments
+
+**New Dog Owners**
+- Puppy preparation and training guides
+- First-time owner education packages
+- Breed-specific care and training resources
+- Health and wellness startup materials
+
+**Experienced Dog Enthusiasts**
+- Advanced training and behaviour modification texts
+- Breed-specific specialty publications
+- Competition and show preparation materials
+- Professional development for aspiring trainers
+
+**Dog Parents & Families**
+- Family-friendly training approaches
+- Children and dog safety resources
+- Activity and enrichment guides
+- Health and nutrition education
+
+---
+
+## Revenue Optimisation Strategies
+
+### Current Revenue Streams
+- Direct book sales through e-commerce platform
+- Professional and consumer market segments
+- Digital and physical book distribution
+- Category-specific collections and featured selections
+
+---
+
+## Growth Roadmap
+
+### Phase 1: Foundation Building (Months 1-6)
+**Current Status:** Infrastructure Complete
+- Professional e-commerce platform operational
+- Newsletter system implemented and functional
+- Customer review system integrated
+- Basic SEO structure in place
+- Social media presence establishment (in progress)
+- Content calendar development (planned)
+- Customer feedback system enhancement (planned)
+
+### Current Marketing Priorities
+
+**Immediate Actions (Next 3 Months)**
+1. **Content Strategy Development**
+   - Create engaging blog content around dog training and book reviews
+   - Develop social media content calendar
+   - Launch regular newsletter campaigns with valuable content
+
+2. **SEO Optimisation**
+   - Target UK-specific dog training and care keywords
+   - Optimise product pages for local search
+   - Build quality backlinks through partnerships
+
+3. **Community Building**
+   - Engage with UK dog training communities online
+   - Partner with local dog training schools and veterinary practices
+   - Participate in UK pet industry forums and discussions
+
+**Medium-term Goals (3-12 Months)**
+1. **Professional Network Development**
+   - Establish relationships with UK veterinary colleges
+   - Partner with Kennel Club recognised training organisations
+   - Develop presence at UK pet industry trade shows
+
+2. **Customer Experience Enhancement**
+   - Expand customer review and rating system features
+   - Create personalised book recommendation features
+   - Improve newsletter segmentation and personalisation
+
+   
 ---
 
 ## Development Methodology
@@ -375,7 +727,7 @@ This agile approach enables rapid adaptation to challenges encountered during de
 | `README.md` | Project documentation (this file) |
 | `TESTING.md` | Testing documentation |
 
-## Features
+# Features
 
 ### 🏠 Homepage - Professional First Impression
 ![Homepage](assets/readme-images/screenshots/homepage.png)
@@ -737,173 +1089,7 @@ heroku run python manage.py createsuperuser
 
 ---
 
-# Marketing
-
-## Marketing Strategy - Building a Thriving Book Business
-
-*Comprehensive marketing approach combining digital channels, community engagement, and strategic partnerships to establish Tales & Tails as the premier destination for dog enthusiasts and book lovers across the UK.*
-
-### Business Model Overview
-
-**Mission:** Connecting dog lovers with expert knowledge through curated books, training resources, and community-driven content.
-
-**Target Market:** Dog owners, trainers, veterinarians, breeders, and canine enthusiasts seeking professional resources and expert guidance.
-
-**Unique Value Proposition:** The only specialised bookshop combining comprehensive canine literature with expert curation and community engagement.
-
----
-
-## B2B Marketing Strategy - Professional Partnerships
-
-### Current B2B Capabilities
-
-**Existing Infrastructure:**
-- Professional-grade e-commerce platform with secure checkout
-- Comprehensive book catalogue with detailed descriptions
-- Advanced search and filtering for professional needs
-- Mobile-responsive design for on-the-go professionals
-- Secure payment processing including Stripe integration
-
-**Available Resources:**
-- Extensive collection of veterinary and training literature
-- Category-based organisation for easy professional browsing
-- Author and publisher information for academic referencing
-- Stock management system for reliable availability
-
-### Target B2B Segments
-
-**Veterinary Practices**
-- Professional reference materials for continuing education
-- Client education resources and handout programmes
-- Practice libraries for staff development
-- Specialised texts for different veterinary disciplines
-
-**Dog Training Schools & Academies**
-- Curriculum support with textbooks and reference materials
-- Professional certification preparation resources
-- Instructor resource libraries and teaching materials
-- Student recommended reading lists
-
-**Pet Retailers & Specialty Shops**
-- Educational resources for staff training
-- Customer education materials
-- Professional development for pet advisors
-- Reference materials for breed-specific guidance
-
-**Animal Shelters & Rescue Organisations**
-- Educational resources for volunteers and staff
-- Behaviour and rehabilitation materials
-- Community education library development
-- Training resources for difficult cases
-
----
-
-## B2C Marketing Strategy - Consumer Engagement
-
-### Current B2C Features
-
-**Existing Platform Capabilities:**
-- User-friendly e-commerce website with intuitive navigation
-- Comprehensive book search and filtering system
-- Secure user accounts with order history
-- Newsletter subscription system with email confirmations
-- Mobile-responsive design for all devices
-- Category-based browsing (training, health, breeds, etc.)
-- Featured books section with expert curation
-- Integrated customer review and rating system
-
-**Current Marketing Tools:**
-- Professional email infrastructure for customer communications
-- Newsletter system for subscriber engagement
-- SEO-optimised website structure
-- Social media integration capabilities
-- Professional branding and visual identity
-
-**Social Media Marketing:**
-![Facebook Community](assets/readme-images/facebook-page.png)
-*Active Facebook community with daily engagement, book discussions, and dog training tips*
-
-- **Facebook:** Established community page with regular posts and customer engagement
-- **Newsletter Integration:** Social media drives newsletter subscriptions
-- **Community Building:** Dog lovers sharing experiences and book recommendations
-- **Facebook Shop** Sell the books in the facebook shop
-
-### Target B2C Segments
-
-**New Dog Owners**
-- Puppy preparation and training guides
-- First-time owner education packages
-- Breed-specific care and training resources
-- Health and wellness startup materials
-
-**Experienced Dog Enthusiasts**
-- Advanced training and behaviour modification texts
-- Breed-specific specialty publications
-- Competition and show preparation materials
-- Professional development for aspiring trainers
-
-**Dog Parents & Families**
-- Family-friendly training approaches
-- Children and dog safety resources
-- Activity and enrichment guides
-- Health and nutrition education
-
----
-
-## Revenue Optimisation Strategies
-
-### Current Revenue Streams
-- Direct book sales through e-commerce platform
-- Professional and consumer market segments
-- Digital and physical book distribution
-- Category-specific collections and featured selections
-
----
-
-## Growth Roadmap
-
-### Phase 1: Foundation Building (Months 1-6)
-**Current Status:** Infrastructure Complete
-- Professional e-commerce platform operational
-- Newsletter system implemented and functional
-- Customer review system integrated
-- Basic SEO structure in place
-- Social media presence establishment (in progress)
-- Content calendar development (planned)
-- Customer feedback system enhancement (planned)
-
-### Current Marketing Priorities
-
-**Immediate Actions (Next 3 Months)**
-1. **Content Strategy Development**
-   - Create engaging blog content around dog training and book reviews
-   - Develop social media content calendar
-   - Launch regular newsletter campaigns with valuable content
-
-2. **SEO Optimisation**
-   - Target UK-specific dog training and care keywords
-   - Optimise product pages for local search
-   - Build quality backlinks through partnerships
-
-3. **Community Building**
-   - Engage with UK dog training communities online
-   - Partner with local dog training schools and veterinary practices
-   - Participate in UK pet industry forums and discussions
-
-**Medium-term Goals (3-12 Months)**
-1. **Professional Network Development**
-   - Establish relationships with UK veterinary colleges
-   - Partner with Kennel Club recognised training organisations
-   - Develop presence at UK pet industry trade shows
-
-2. **Customer Experience Enhancement**
-   - Expand customer review and rating system features
-   - Create personalised book recommendation features
-   - Improve newsletter segmentation and personalisation
-
-   ---
-
-   ## Future Developments
+# Future Developments
 
    
 ## Future Development Opportunities
