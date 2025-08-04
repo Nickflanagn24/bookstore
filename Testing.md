@@ -18,46 +18,56 @@ For each test, the following aspects were evaluated:
 ### Home Page Results
 The Home page demonstrates exceptional accessibility and SEO implementation with high scores across desktop and mobile. Performance scores remain strong across devices, with optimisation focused on Core Web Vitals. The page successfully balances visual appeal with fast loading times, ensuring visitors get an excellent first impression of Tales & Tails and can quickly access essential information about dog-related books.
 
-#### Desktop
+### Desktop
+
 ![Home page desktop Lighthouse results](./assets/readme-images/page-speed-test/speed-home-desktop.png)
 
-#### Mobile
+### Mobile
+
 ![Home page mobile Lighthouse results](./assets/readme-images/page-speed-test/speed-home-mobile.png)
 
 ### Book Catalogue Page Results
 The Book Catalogue page achieves high marks for user experience with excellent accessibility scores, ensuring all customers can easily browse the extensive collection of dog training and care books. The comprehensive book selection with high-quality cover images maintains good performance despite the image-heavy content. SEO optimisation helps drive traffic from customers searching for specific dog training topics or breed information.
 
-#### Desktop
+### Desktop
+
 ![Book catalogue desktop Lighthouse results](./assets/readme-images/page-speed-test/speed-books-desktop.png)
 
-#### Mobile
+### Mobile
+
 ![Book catalogue mobile Lighthouse results](./assets/readme-images/page-speed-test/speed-books-moblie.png)
 
 ### Contact Page Results
 The Contact page delivers essential information efficiently with perfect accessibility scores and strong performance on desktop. The contact form maintains fast load times whilst providing all necessary functionality. The page ensures customers can easily find information and reach out to the bookstore for enquiries about dog books and training resources.
 
-#### Desktop
+### Desktop
+
 ![Contact page desktop Lighthouse results](./assets/readme-images/page-speed-test/speed-contact-desktop.png)
 
-#### Mobile
+### Mobile
+
 ![Contact page mobile Lighthouse results](./assets/readme-images/page-speed-test/speed-contact-mobile.png)
 
 ### Login Page Results
 The Login page demonstrates excellent implementation with near-perfect scores across all metrics. The streamlined authentication process prioritises both security and accessibility, allowing customers to access their accounts quickly. The high performance scores reflect the page's efficient design and minimal resource usage.
 
-#### Desktop
+### Desktop
+
 ![Login page desktop Lighthouse results](./assets/readme-images/page-speed-test/speed-login-desktop.png)
 
-#### Mobile
-![Login page mobile Lighthouse results](./assets/readme-images/page-speed-test/speed-login-desktop.png)
+### Mobile
+
+![Login page mobile Lighthouse results](./assets/readme-images/page-speed-test/speed-login-mobile.png)
 
 ### Registration Page Results
 The Registration page demonstrates excellent implementation with high scores across all metrics. The streamlined account creation process prioritises both security and accessibility, allowing new customers to join quickly and begin shopping for dog books. The form validation provides clear feedback whilst maintaining strong performance, ensuring a smooth onboarding experience for all users regardless of device. SEo is lower than other pages as it is non indexed for secruity reasons
 
-#### Desktop
+### Desktop
+
 ![Registration page desktop Lighthouse results](./assets/readme-images/page-speed-test/speed-register-desktop.png)
 
-#### Mobile
+### Mobile
+
 ![Registration page mobile Lighthouse results](./assets/readme-images/page-speed-test/speed-register-mobile.png)
 
 ### Optimisation Measures
@@ -65,7 +75,6 @@ The Registration page demonstrates excellent implementation with high scores acr
 Several optimisations were implemented to address issues identified by Lighthouse:
 
 1. **Image Optimisation**:
-   - Converted book cover images to WebP format for improved compression
    - Implemented proper sizing and responsive images for different screen sizes
    - Added width and height attributes to prevent layout shifts
 

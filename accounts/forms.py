@@ -43,7 +43,7 @@ class CustomUserCreationForm(UserCreationForm):
     )
     dog_owner = forms.BooleanField(
         required=False,
-        initial=True,
+        initial=False,
         widget=forms.CheckboxInput(attrs={'class': 'form-check-input'})
     )
     dog_breed = forms.CharField(
@@ -56,7 +56,7 @@ class CustomUserCreationForm(UserCreationForm):
     )
     newsletter_subscription = forms.BooleanField(
         required=False,
-        initial=True,
+        initial=False,
         widget=forms.CheckboxInput(attrs={'class': 'form-check-input'})
     )
 
