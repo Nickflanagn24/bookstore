@@ -8,6 +8,7 @@ import logging
 
 from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
+from decimal import Decimal
 from django.template.loader import render_to_string
 from django.urls import reverse
 
@@ -33,11 +34,18 @@ def send_order_confirmation(order):
     
     # Build the order URL
     site_url = getattr(settings, 'SITE_URL', 'https://127.0.0.1:8000')
-    order_url = f"{site_url}{reverse('orders:order_detail', kwargs={'pk': order.id})}"
+    order_url = f"{site_url}{reverse('orders:order_detail', kwargs={'order_number': order.order_number})}"
+    
+    # Calculate subtotal from order items
+    subtotal = sum(item.unit_price * item.quantity for item in order.items.all())
+    shipping = Decimal('0.00')  # Free shipping
     
     context = {
         'order': order,
-        'order_url': order_url,
+        'subtotal': subtotal,
+        'shipping': shipping,
+        'order_url': f"{site_url}{reverse('orders:order_detail', kwargs={'order_number': order.order_number})}",
+        'site_url': site_url,
         'contact_email': settings.DEFAULT_FROM_EMAIL,
     }
     
@@ -107,7 +115,7 @@ def send_shipping_notification(order):
     
     # Build the order URL
     site_url = getattr(settings, 'SITE_URL', 'https://127.0.0.1:8000')
-    order_url = f"{site_url}{reverse('orders:order_detail', kwargs={'pk': order.id})}"
+    order_url = f"{site_url}{reverse('orders:order_detail', kwargs={'order_number': order.order_number})}"
     
     # Build the tracking URL if tracking number exists
     tracking_url = None
@@ -118,10 +126,16 @@ def send_shipping_notification(order):
             f"{order.tracking_number}"
         )
     
+    # Calculate subtotal from order items
+    subtotal = sum(item.unit_price * item.quantity for item in order.items.all())
+    shipping = Decimal('0.00')  # Free shipping
+    
     context = {
         'order': order,
-        'order_url': order_url,
-        'tracking_url': tracking_url,
+        'subtotal': subtotal,
+        'shipping': shipping,
+        'order_url': f"{site_url}{reverse('orders:order_detail', kwargs={'order_number': order.order_number})}",
+        'site_url': site_url,
         'contact_email': settings.DEFAULT_FROM_EMAIL,
     }
     

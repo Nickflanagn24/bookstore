@@ -1,3 +1,4 @@
+from orders.emails import send_order_confirmation
 """
 Checkout views for the Django bookstore application.
 
@@ -60,7 +61,7 @@ def hardwired_checkout(request):
         subtotal = sum(
             item.book.price * item.quantity for item in cart_items
         )
-        shipping = Decimal('5.00')  # Fixed shipping cost
+        shipping = Decimal('0.00')  # Free shipping  # Fixed shipping cost
         total = subtotal + shipping
         
         # Convert to pence for Stripe (multiply by 100)
@@ -125,7 +126,7 @@ def process_hardwired_payment(request):
         subtotal = sum(
             item.book.price * item.quantity for item in cart_items
         )
-        shipping = Decimal('5.00')
+        shipping = Decimal('0.00')  # Free shipping
         total = subtotal + shipping
         stripe_total = int(total * 100)  # Convert to pence
         
@@ -221,6 +222,16 @@ def process_hardwired_payment(request):
                     f"Order created successfully: {order.id} "
                     f"for user {request.user.id}"
                 )
+                
+                # Send order confirmation email
+                try:
+                    email_sent = send_order_confirmation(order)
+                    if email_sent:
+                        logger.info(f"Order confirmation email sent for order {order.order_number}")
+                    else:
+                        logger.warning(f"Failed to send confirmation email for order {order.order_number}")
+                except Exception as e:
+                    logger.error(f"Error sending email for order {order.order_number}: {e}")
                 
                 return JsonResponse({
                     'success': True,

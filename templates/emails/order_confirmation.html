@@ -54,6 +54,17 @@
         th {
             background-color: #f2f2f2;
         }
+        .total-row {
+            background-color: #f8f9fa;
+            font-weight: bold;
+        }
+        .price-cell {
+            text-align: right;
+        }
+        .free-shipping {
+            color: #28a745;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -63,56 +74,61 @@
     </div>
     
     <div class="content">
-        <p>Dear {{ order.user.first_name|default:"Valued Customer" }},</p>
+        <p>Dear {{ order.customer_first_name|default:"Valued Customer" }},</p>
         
         <p>Thank you for your order from Tales & Tails. We're processing your order and will notify you when it ships.</p>
         
         <div class="order-details">
             <h2>Order Details</h2>
-            <p><strong>Order Number:</strong> {{ order.id }}</p>
+            <p><strong>Order Number:</strong> {{ order.order_number }}</p>
             <p><strong>Order Date:</strong> {{ order.created_at|date:"F j, Y" }}</p>
-            <p><strong>Payment Method:</strong> {{ order.payment_method|default:"Credit Card" }}</p>
+            <p><strong>Payment Status:</strong> {{ order.payment_status|title }}</p>
             
             <h3>Items Ordered</h3>
             <table>
                 <tr>
                     <th>Book</th>
                     <th>Quantity</th>
-                    <th>Price</th>
+                    <th>Unit Price</th>
+                    <th>Total</th>
                 </tr>
                 {% for item in order.items.all %}
                 <tr>
                     <td>{{ item.book.title }}</td>
-                    <td>{{ item.quantity }}</td>
-                    <td>£{{ item.price }}</td>
+                    <td class="price-cell">{{ item.quantity }}</td>
+                    <td class="price-cell">£{{ item.unit_price|floatformat:2 }}</td>
+                    <td class="price-cell">£{{ item.unit_price|floatformat:2 }}</td>
                 </tr>
                 {% endfor %}
+            </table>
+            
+            <h3>Order Summary</h3>
+            <table>
                 <tr>
-                    <td colspan="2"><strong>Subtotal:</strong></td>
-                    <td>£{{ order.subtotal }}</td>
+                    <td><strong>Subtotal:</strong></td>
+                    <td class="price-cell">£{{ subtotal|floatformat:2 }}</td>
                 </tr>
                 <tr>
-                    <td colspan="2"><strong>Shipping:</strong></td>
-                    <td>£{{ order.shipping_cost|default:"0.00" }}</td>
+                    <td><strong>Shipping:</strong></td>
+                    <td class="price-cell free-shipping">FREE</td>
                 </tr>
-                <tr>
-                    <td colspan="2"><strong>Total:</strong></td>
-                    <td><strong>£{{ order.total }}</strong></td>
+                <tr class="total-row">
+                    <td><strong>Total:</strong></td>
+                    <td class="price-cell"><strong>£{{ order.total_amount|floatformat:2 }}</strong></td>
                 </tr>
             </table>
             
-            <h3>Shipping Address</h3>
-            <p>
-                {{ order.shipping_address.name }}<br>
-                {{ order.shipping_address.address_line1 }}<br>
-                {% if order.shipping_address.address_line2 %}{{ order.shipping_address.address_line2 }}<br>{% endif %}
-                {{ order.shipping_address.city }}, {{ order.shipping_address.postal_code }}<br>
-                {{ order.shipping_address.country }}
-            </p>
+            <h3>Delivery Information</h3>
+            <p>Your order will be delivered to:</p>
+            <div style="background-color: #f8f9fa; padding: 10px; border-left: 4px solid #2c6e49;">
+                {{ order.customer_first_name }} {{ order.customer_last_name }}<br>
+                {{ order.customer_email }}<br>
+                <small><em>Free standard delivery: 3-5 business days</em></small>
+            </div>
         </div>
         
         <p>
-            <a href="{{ order_url }}" class="button">View Order</a>
+            <a href="{{ order_url }}" class="button">View Order Details</a>
         </p>
         
         <p>If you have any questions about your order, please <a href="mailto:{{ contact_email }}">contact our customer service team</a>.</p>
@@ -122,7 +138,7 @@
     
     <div class="footer">
         <p>&copy; {% now "Y" %} Tales & Tails. All rights reserved.</p>
-        <p>This email was sent to {{ order.user.email }}</p>
+        <p>This email was sent to {{ order.customer_email }}</p>
     </div>
 </body>
 </html>
