@@ -1,5 +1,14 @@
+"""
+URL configuration for newsletter app.
+
+Defines URL patterns for newsletter subscription, confirmation,
+and unsubscription functionality.
+"""
+
 from django.urls import path
+
 from . import views
+
 
 app_name = 'newsletter'
 

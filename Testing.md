@@ -1,3 +1,5 @@
+# Testing of Tail & Tales Bookstore
+
 ## Lighthouse Testing
 
 ### Introduction
@@ -29,34 +31,7 @@ The Book Catalogue page achieves high marks for user experience with excellent a
 ![Book catalogue desktop Lighthouse results](./assets/readme-images/page-speed-test/speed-books-desktop.png)
 
 #### Mobile
-![Book catalogue mobile Lighthouse results](./assets/readme-images/page-speed-test/speed-books-mobile.png)
-
-### Book Detail Page Results
-The Book Detail page successfully balances detailed product information with strong accessibility, ensuring comprehensive book descriptions, author information, and customer reviews are accessible to all users. The structured data implementation enhances search engine visibility for individual books. Performance remains optimised despite rich content including multiple images and review sections.
-
-#### Desktop
-![Book detail desktop Lighthouse results](./docs/images/lighthouse_test/lighthouse_book_detail_desktop.jpg)
-
-#### Mobile
-![Book detail mobile Lighthouse results](./docs/images/lighthouse_test/lighthouse_book_detail_mobile.jpg)
-
-### Shopping Cart Page Results
-The Shopping Cart page delivers essential e-commerce functionality efficiently with strong accessibility scores and optimised performance. The interactive cart management maintains fast response times whilst providing comprehensive order management features. Security best practices ensure customer data protection throughout the checkout process.
-
-#### Desktop
-![Shopping cart desktop Lighthouse results](./docs/images/lighthouse_test/lighthouse_cart_desktop.jpg)
-
-#### Mobile
-![Shopping cart mobile Lighthouse results](./docs/images/lighthouse_test/lighthouse_cart_mobile.jpg)
-
-### Checkout Page Results
-The Checkout page demonstrates excellent implementation with high scores across all metrics, prioritising both security and accessibility. The streamlined payment process allows customers to complete purchases efficiently whilst maintaining PCI compliance. Performance optimisation ensures fast loading even with payment processing integrations.
-
-#### Desktop
-![Checkout page desktop Lighthouse results](./docs/images/lighthouse_test/lighthouse_checkout_desktop.jpg)
-
-#### Mobile
-![Checkout page mobile Lighthouse results](./docs/images/lighthouse_test/lighthouse_checkout_mobile.jpg)
+![Book catalogue mobile Lighthouse results](./assets/readme-images/page-speed-test/speed-books-moblie.png)
 
 ### Contact Page Results
 The Contact page delivers essential information efficiently with perfect accessibility scores and strong performance on desktop. The contact form maintains fast load times whilst providing all necessary functionality. The page ensures customers can easily find information and reach out to the bookstore for enquiries about dog books and training resources.
@@ -77,7 +52,7 @@ The Login page demonstrates excellent implementation with near-perfect scores ac
 ![Login page mobile Lighthouse results](./assets/readme-images/page-speed-test/speed-login-desktop.png)
 
 ### Registration Page Results
-The Registration page demonstrates excellent implementation with high scores across all metrics. The streamlined account creation process prioritises both security and accessibility, allowing new customers to join quickly and begin shopping for dog books. The form validation provides clear feedback whilst maintaining strong performance, ensuring a smooth onboarding experience for all users regardless of device.
+The Registration page demonstrates excellent implementation with high scores across all metrics. The streamlined account creation process prioritises both security and accessibility, allowing new customers to join quickly and begin shopping for dog books. The form validation provides clear feedback whilst maintaining strong performance, ensuring a smooth onboarding experience for all users regardless of device. SEo is lower than other pages as it is non indexed for secruity reasons
 
 #### Desktop
 ![Registration page desktop Lighthouse results](./assets/readme-images/page-speed-test/speed-register-desktop.png)
@@ -174,7 +149,7 @@ The shopping cart page validates correctly with proper form structure and access
 ### Checkout Page - PASSED ✅
 The checkout page passes validation with secure form implementation.
 
-![Checkout validation passed](./assets/readme-images/html-test/checkout-html-check.png)
+![Checkout validation passed](./assets/readme-images/html-test/checkout-html-checkout.png)
 
 **Key improvements made:**
 - Implemented proper form field validation attributes
@@ -188,7 +163,7 @@ The checkout page passes validation with secure form implementation.
 ![Login page validation passed](./assets/readme-images/html-test/login-html-check.png)
 
 #### Registration Page
-![Registration page validation passed](./assets/readme-images/html-test/-check.png)
+![Registration page validation passed](./assets/readme-images/html-test/register-html-check.png)
 
 #### Profile Page
 ![Profile page validation passed](./assets/readme-images/html-test/register-html-check.png)
@@ -296,7 +271,7 @@ The primary issues found were:
 1. **ES6 Syntax Warnings (22 instances)**
    - `const` and `let` declarations not recognised
    - Arrow function syntax (`=>`) flagged as invalid
-   - Template literal syntax (backticks with `${}`) not supported
+   - Template literal syntax (backticks with `£{}`) not supported
    - Modern JavaScript features treated as errors
 
 2. **Global Variable Warnings (2 instances)**
@@ -406,7 +381,7 @@ All pages were tested for responsiveness and functionality across devices. The f
 |:-------:|:-------------|
 | ✓ | Add new books to the catalogue with all required fields |
 | ✓ | Edit existing book details (title, price, description, stock) |
-| ✓ | Upload and manage book cover images |
+| ✓ | Upload and manage book cover images (images must be hosted somewhere else) |
 | ✓ | Assign books to categories and authors |
 | ✓ | Set book availability and featured status |
 
@@ -418,7 +393,6 @@ All pages were tested for responsiveness and functionality across devices. The f
 | ✓ | Process order fulfilment and shipping |
 | ✓ | Generate order confirmation emails |
 | ✓ | Manage customer reviews and ratings |
-| ✓ | Handle refunds and order cancellations |
 
 ### Customer Management
 
@@ -426,7 +400,7 @@ All pages were tested for responsiveness and functionality across devices. The f
 |:-------:|:-------------|
 | ✓ | View customer accounts and purchase history |
 | ✓ | Search for specific customers by name or email |
-| ✓ | Monitor customer review activity |
+| ✓ | manage Customer permissions
 | ✓ | Handle customer service enquiries |
 | ✓ | Manage newsletter subscriptions |
 
@@ -448,11 +422,8 @@ All pages were tested for responsiveness and functionality across devices. The f
 
 | Checked | Feature Test |
 |:-------:|:-------------|
-| ✓ | Add books to shopping cart without account |
-| ✓ | View cart contents and update quantities |
-| ✓ | Proceed through checkout process |
-| ✓ | Create account during checkout process |
-| ✓ | Receive order confirmation after purchase |
+| ✓ | made to login to add to cart
+
 
 ### Book Discovery
 
@@ -483,13 +454,9 @@ All pages were tested for responsiveness and functionality across devices. The f
 
 | Checked | Feature Test |
 |:-------:|:-------------|
-| ✓ | Browse personalised book recommendations |
 | ✓ | Add books to cart with instant feedback |
-| ✓ | Apply discount codes during checkout |
-| ✓ | Choose from multiple payment options |
 | ✓ | Track order status and shipping information |
 | ✓ | View complete order history |
-| ✓ | Reorder previous purchases easily |
 
 ### Reviews & Engagement
 
@@ -500,16 +467,6 @@ All pages were tested for responsiveness and functionality across devices. The f
 | ✓ | Edit or delete my own reviews |
 | ✓ | View all my submitted reviews |
 | ✓ | Subscribe to newsletter for updates |
-
-### Wishlist & Favourites
-
-| Checked | Feature Test |
-|:-------:|:-------------|
-| ✓ | Add books to wishlist for later purchase |
-| ✓ | Remove books from wishlist |
-| ✓ | View complete wishlist with availability status |
-| ✓ | Move books from wishlist to cart |
-| ✓ | Share wishlist with others |
 
 ---
 

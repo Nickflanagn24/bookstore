@@ -69,8 +69,8 @@
                                         <span style="color: var(--navy-700);">Qty: {{ item.quantity }}</span>
                                     </div>
                                     <div class="col-md-2 text-end">
-                                        <strong style="color: var(--primary-700);">${{ item.total_price }}</strong>
-                                        <br><small class="text-muted">${{ item.unit_price }} each</small>
+                                        <strong style="color: var(--primary-700);">£{{ item.total_price }}</strong>
+                                        <br><small class="text-muted">£{{ item.unit_price }} each</small>
                                     </div>
                                 </div>
                             </div>
@@ -88,7 +88,7 @@
                         <div class="card-body">
                             <div class="d-flex justify-content-between mb-2">
                                 <span>Items ({{ order.total_items }}):</span>
-                                <span>${{ order.total_amount }}</span>
+                                <span>£{{ order.total_amount }}</span>
                             </div>
                             <div class="d-flex justify-content-between mb-2">
                                 <span>Shipping:</span>
@@ -97,7 +97,7 @@
                             <hr>
                             <div class="d-flex justify-content-between">
                                 <strong>Total:</strong>
-                                <strong style="color: var(--primary-700);">${{ order.total_amount }}</strong>
+                                <strong style="color: var(--primary-700);">£{{ order.total_amount }}</strong>
                             </div>
                         </div>
                     </div>

@@ -13,7 +13,7 @@ A specialized e-commerce platform for dog training, care, and breed books, built
 
 *Professional e-commerce platform specializing in dog training, care, and breed books*
 
-[🌐 Live Demo](https://tales-and-tails-bookstore-2b31d0bd7c27.herokuapp.com/) • [🐛 Issues](https://github.com/Nickflanagn24/bookstore/issues) • [🧪 Testing](Testing.md)
+[🌐 Live Site](https://tales-and-tails-bookstore-2b31d0bd7c27.herokuapp.com/) • [🐛 Issues](https://github.com/Nickflanagn24/bookstore/issues) • [🧪 Testing](Testing.md)
 
 </div>
 
@@ -960,6 +960,12 @@ This agile approach enables rapid adaptation to challenges encountered during de
 - Search and filter functionality for large catalogs
 - Export capabilities for reporting and analysis
 - User-friendly interface requiring no technical knowledge
+
+---
+# Testing
+
+The Tales & Tails bookstore has been thoroughly tested to ensure reliability, security, and optimal user experience. Our comprehensive testing strategy covers functionality, user interface, responsiveness, browser compatibility, and code quality. All features have been validated through manual testing, including the complete e-commerce flow from browsing to checkout, user authentication, newsletter subscriptions, and administrative functions. Detailed test cases, results, and validation procedures are documented in the [Testing Documentation](Testing.md).
+
 
 ---
 
