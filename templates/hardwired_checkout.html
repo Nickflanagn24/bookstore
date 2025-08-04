@@ -1,483 +1,341 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Checkout - Bookstore</title>
-    <script src="https://js.stripe.com/v3/"></script>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f5f5f5;
-        }
-        
-        .checkout-container {
-            background: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        
-        .checkout-header {
-            text-align: center;
-            margin-bottom: 30px;
-            color: #333;
-        }
-        
-        .order-summary {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 5px;
-            margin-bottom: 30px;
-        }
-        
-        .order-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 0;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .order-item:last-child {
-            border-bottom: none;
-        }
-        
-        .item-details {
-            flex: 1;
-        }
-        
-        .item-title {
-            font-weight: bold;
-            color: #333;
-        }
-        
-        .item-author {
-            color: #666;
-            font-size: 0.9em;
-        }
-        
-        .item-quantity {
-            color: #888;
-            margin-left: 10px;
-        }
-        
-        .item-price {
-            font-weight: bold;
-            color: #007bff;
-        }
-        
-        .order-totals {
-            border-top: 2px solid #dee2e6;
-            padding-top: 15px;
-            margin-top: 15px;
-        }
-        
-        .total-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-        }
-        
-        .total-row.final {
-            font-weight: bold;
-            font-size: 1.2em;
-            color: #007bff;
-            border-top: 1px solid #dee2e6;
-            padding-top: 10px;
-        }
-        
-        .payment-section {
-            margin-top: 30px;
-        }
-        
-        .section-title {
-            font-size: 1.3em;
-            font-weight: bold;
-            margin-bottom: 20px;
-            color: #333;
-            border-bottom: 2px solid #007bff;
-            padding-bottom: 10px;
-        }
-        
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
-        .form-label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-            color: #555;
-        }
-        
-        .form-input {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 16px;
-            box-sizing: border-box;
-        }
-        
-        .form-input:focus {
-            outline: none;
-            border-color: #007bff;
-            box-shadow: 0 0 5px rgba(0,123,255,0.3);
-        }
-        
-        #card-element {
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            background: white;
-        }
-        
-        #card-element.StripeElement--focus {
-            border-color: #007bff;
-            box-shadow: 0 0 5px rgba(0,123,255,0.3);
-        }
-        
-        #card-errors {
-            color: #e74c3c;
-            margin-top: 10px;
-            font-size: 14px;
-        }
-        
-        .checkout-button {
-            width: 100%;
-            background: #007bff;
-            color: white;
-            padding: 15px;
-            border: none;
-            border-radius: 5px;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 20px;
-            transition: background-color 0.3s;
-        }
-        
-        .checkout-button:hover:not(:disabled) {
-            background: #0056b3;
-        }
-        
-        .checkout-button:disabled {
-            background: #6c757d;
-            cursor: not-allowed;
-        }
-        
-        .loading-spinner {
-            display: none;
-            width: 20px;
-            height: 20px;
-            border: 2px solid #ffffff;
-            border-top: 2px solid transparent;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-right: 10px;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        .error-message {
-            background: #f8d7da;
-            color: #721c24;
-            padding: 12px;
-            border-radius: 4px;
-            margin: 15px 0;
-            border: 1px solid #f5c6cb;
-            display: none;
-        }
-        
-        .success-message {
-            background: #d4edda;
-            color: #155724;
-            padding: 12px;
-            border-radius: 4px;
-            margin: 15px 0;
-            border: 1px solid #c3e6cb;
-            display: none;
-        }
-        
-        .back-link {
-            display: inline-block;
-            margin-bottom: 20px;
-            color: #007bff;
-            text-decoration: none;
-        }
-        
-        .back-link:hover {
-            text-decoration: underline;
-        }
-        
-        .security-notice {
-            background: #e3f2fd;
-            border-left: 4px solid #2196f3;
-            padding: 15px;
-            margin: 20px 0;
-            font-size: 14px;
-            color: #0d47a1;
-        }
-    </style>
-</head>
-<body>
-    <div class="checkout-container">
-        <a href="{% url 'cart:cart_detail' %}" class="back-link">← Back to Cart</a>
-        
-        <div class="checkout-header">
-            <h1>Secure Checkout</h1>
-            <p>Complete your order securely with Stripe</p>
-        </div>
+{% extends 'base.html' %}
+{% load static %}
 
-        <!-- Order Summary -->
-        <div class="order-summary">
-            <h2 class="section-title">Order Summary</h2>
-            
-            {% for item in cart_items %}
-            <div class="order-item">
-                <div class="item-details">
-                    <div class="item-title">{{ item.book.title }}</div>
-                    <div class="item-author">by {{ item.book.author }}</div>
-                </div>
-                <div class="item-quantity">Qty: {{ item.quantity }}</div>
-                <div class="item-price">£{{ item.book.price|floatformat:2 }}</div>
-            </div>
-            {% endfor %}
-            
-            <div class="order-totals">
-                <div class="total-row">
-                    <span>Subtotal:</span>
-                    <span>£{{ subtotal|floatformat:2 }}</span>
-                </div>
-                <div class="total-row">
-                    <span>Shipping:</span>
-                    <span>£{{ shipping|floatformat:2 }}</span>
-                </div>
-                <div class="total-row final">
-                    <span>Total:</span>
-                    <span>£{{ total|floatformat:2 }}</span>
-                </div>
-            </div>
-        </div>
+{% block title %}Secure Checkout - Tales & Tails{% endblock %}
 
-        <!-- Payment Section -->
-        <div class="payment-section">
-            <h2 class="section-title">Payment Information</h2>
-            
-            <div class="security-notice">
-                <strong>🔒 Secure Payment:</strong> Your payment information is encrypted and processed securely by Stripe. 
-                We never store your card details on our servers.
-            </div>
+{% block extra_css %}
+<style>
+    .checkout-container { max-width: 1200px; margin: 0 auto; }
+    .order-summary { background: #f8f9fa; border-radius: 12px; padding: 1.5rem; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+    .checkout-btn { background: linear-gradient(45deg, #28a745, #20c997); border: none; padding: 15px 30px; font-size: 1.1rem; font-weight: bold; border-radius: 8px; transition: all 0.3s ease; }
+    .checkout-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(40, 167, 69, 0.3); }
+    .checkout-btn:disabled { background: #6c757d; cursor: not-allowed; transform: none; }
+    
+    .security-badges { display: flex; justify-content: center; gap: 15px; margin-top: 1rem; flex-wrap: wrap; }
+    .security-badge { 
+        background: #f0f9ff; 
+        padding: 8px 15px; 
+        border-radius: 6px; 
+        font-size: 0.9rem; 
+        color: #004085; 
+        border: 1px solid #b8daff;
+        font-weight: 600; 
+    }
+    
+    .text-muted { color: #495057 !important; }
+    .price { color: #0d5f27 !important; font-weight: 600; }
+    .text-success { color: #0d5f27 !important; font-weight: 600; }
+    
+    button:focus, a:focus {
+        outline: 3px solid #007bff;
+        outline-offset: 2px;
+    }
 
-            <form id="payment-form">
-                {% csrf_token %}
-                
-                <div class="form-group">
-                    <label for="email" class="form-label">Email Address</label>
-                    <input 
-                        type="email" 
-                        id="email" 
-                        name="email" 
-                        class="form-input" 
-                        value="{{ user.email }}" 
-                        required
-                        readonly
-                    >
-                </div>
+    /* Stripe payment form styles */
+    #card-element {
+        padding: 12px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        background: white;
+        margin-bottom: 15px;
+    }
+    
+    #card-element.StripeElement--focus {
+        border-color: #007bff;
+        box-shadow: 0 0 5px rgba(0,123,255,0.3);
+    }
+    
+    #card-errors {
+        color: #e74c3c;
+        margin-top: 10px;
+        font-size: 14px;
+    }
+    
+    .form-group {
+        margin-bottom: 20px;
+    }
+    
+    .form-label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: bold;
+        color: #555;
+    }
+    
+    .form-input {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 16px;
+        box-sizing: border-box;
+    }
+    
+    .form-input:focus {
+        outline: none;
+        border-color: #007bff;
+        box-shadow: 0 0 5px rgba(0,123,255,0.3);
+    }
+</style>
+{% endblock %}
 
-                <div class="form-group">
-                    <label for="name" class="form-label">Full Name</label>
-                    <input 
-                        type="text" 
-                        id="name" 
-                        name="name" 
-                        class="form-input" 
-                        value="{{ user.get_full_name }}" 
-                        required
-                    >
-                </div>
+{% block breadcrumbs %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'cart:cart_detail' %}">Cart</a></li>
+        <li class="breadcrumb-item active">Checkout</li>
+    </ol>
+</nav>
+{% endblock %}
 
-                <div class="form-group">
-                    <label for="card-element" class="form-label">Card Information</label>
-                    <div id="card-element">
-                        <!-- Stripe Elements will create form elements here -->
-                    </div>
-                    <div id="card-errors" role="alert"></div>
-                </div>
-
-                <div class="error-message" id="error-message"></div>
-                <div class="success-message" id="success-message"></div>
-
-                <button type="submit" id="submit-button" class="checkout-button">
-                    <span class="loading-spinner" id="loading-spinner"></span>
-                    <span id="button-text">Complete Order - £{{ total|floatformat:2 }}</span>
-                </button>
-            </form>
+{% block content %}
+<div class="checkout-container">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h1 class="text-primary">Secure Checkout</h1>
+            <p class="lead">Complete your order securely with Stripe</p>
         </div>
     </div>
 
-    <!-- Hidden data for JavaScript -->
-    <script id="checkout-data" type="application/json">
-        {
-            "stripe_publishable_key": "{{ stripe_publishable_key|escapejs }}",
-            "stripe_total": {{ stripe_total }},
-            "total_display": "{{ total|floatformat:2 }}",
-            "process_payment_url": "{% url 'cart:process_hardwired_payment' %}"
-        }
-    </script>
+    <div class="row">
+        <div class="col-lg-7">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Order Summary</h5>
+                </div>
+                <div class="card-body">
+                    {% for item in cart_items %}
+                    <div class="row align-items-center border-bottom pb-3 mb-3">
+                        <div class="col-2">
+                            <div class="book-cover-container" style="height: 80px;">
+                                {% if item.book.cover_image %}
+                                    <img src="{{ item.book.cover_image }}" class="img-fluid rounded" alt="{{ item.book.title }}" style="max-height: 80px; object-fit: contain;">
+                                {% else %}
+                                    <div class="bg-light rounded d-flex align-items-center justify-content-center" style="height: 80px; width: 60px;">
+                                        <i class="fas fa-book text-muted"></i>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-7">
+                            <h6 class="mb-1">{{ item.book.title }}</h6>
+                            {% if item.book.publisher %}
+                                <p class="text-muted mb-1">{{ item.book.publisher }}</p>
+                            {% endif %}
+                            <small class="text-muted">Quantity: {{ item.quantity }}</small>
+                        </div>
+                        <div class="col-3 text-end">
+                            <span class="price">£{{ item.book.price|floatformat:2 }}</span>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    
+                    <div class="border-top pt-3">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Subtotal:</span>
+                            <span>£{{ subtotal|floatformat:2 }}</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Shipping:</span>
+                            <span class="text-success">FREE</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <strong>Total:</strong>
+                            <strong class="price">£{{ total|floatformat:2 }}</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    <script>
-        // Get data from JSON script tag
-        const checkoutData = JSON.parse(document.getElementById('checkout-data').textContent);
-        
-        // Initialize Stripe
-        const stripe = Stripe(checkoutData.stripe_publishable_key);
-        const elements = stripe.elements();
+        <div class="col-lg-5">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Payment Information</h5>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-info">
+                        <strong>🔒 Secure Payment:</strong> Your payment information is encrypted and processed securely by Stripe.
+                    </div>
 
-        // Create card element
-        const cardElement = elements.create('card', {
-            style: {
-                base: {
-                    fontSize: '16px',
-                    color: '#424770',
-                    '::placeholder': {
-                        color: '#aab7c4',
-                    },
-                },
-                invalid: {
-                    color: '#9e2146',
+                    <form id="payment-form">
+                        {% csrf_token %}
+                        
+                        <div class="form-group">
+                            <label for="email" class="form-label">Email Address</label>
+                            <input type="email" id="email" name="email" class="form-input form-control" 
+                                   value="{{ user.email }}" required readonly>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="name" class="form-label">Full Name</label>
+                            <input type="text" id="name" name="name" class="form-input form-control" 
+                                   value="{{ user.get_full_name }}" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="card-element" class="form-label">Card Information</label>
+                            <div id="card-element"></div>
+                            <div id="card-errors" role="alert"></div>
+                        </div>
+
+                        <div class="alert alert-danger" id="error-message" style="display: none;"></div>
+                        <div class="alert alert-success" id="success-message" style="display: none;"></div>
+
+                        <button type="submit" id="submit-button" class="btn btn-success w-100 checkout-btn">
+                            <span id="button-text">Complete Order - £{{ total|floatformat:2 }}</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="mt-3">
+                <a href="{% url 'cart:cart_detail' %}" class="btn btn-outline-secondary">
+                    ← Back to Cart
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+    // Initialize Stripe
+    const stripe = Stripe('{{ stripe_publishable_key|escapejs }}');
+    const elements = stripe.elements();
+
+    // Create card element
+    const cardElement = elements.create('card', {
+        style: {
+            base: {
+                fontSize: '16px',
+                color: '#424770',
+                '::placeholder': {
+                    color: '#aab7c4',
                 },
             },
-        });
+            invalid: {
+                color: '#9e2146',
+            },
+        },
+    });
 
-        cardElement.mount('#card-element');
+    cardElement.mount('#card-element');
 
-        // Handle real-time validation errors from the card Element
-        cardElement.addEventListener('change', function(event) {
-            const displayError = document.getElementById('card-errors');
-            if (event.error) {
-                displayError.textContent = event.error.message;
-            } else {
-                displayError.textContent = '';
+    // Handle real-time validation errors from the card Element
+    cardElement.addEventListener('change', function(event) {
+        const displayError = document.getElementById('card-errors');
+        if (event.error) {
+            displayError.textContent = event.error.message;
+        } else {
+            displayError.textContent = '';
+        }
+    });
+
+    // Handle form submission
+    const form = document.getElementById('payment-form');
+    const submitButton = document.getElementById('submit-button');
+    const buttonText = document.getElementById('button-text');
+    const errorMessage = document.getElementById('error-message');
+    const successMessage = document.getElementById('success-message');
+
+    form.addEventListener('submit', async function(event) {
+        event.preventDefault();
+
+        // Disable submit button and show loading
+        submitButton.disabled = true;
+        buttonText.textContent = 'Processing...';
+        
+        // Hide previous messages
+        errorMessage.style.display = 'none';
+        successMessage.style.display = 'none';
+
+        try {
+            // Create payment method
+            const {error, paymentMethod} = await stripe.createPaymentMethod({
+                type: 'card',
+                card: cardElement,
+                billing_details: {
+                    name: document.getElementById('name').value,
+                    email: document.getElementById('email').value,
+                },
+            });
+
+            if (error) {
+                showError(error.message);
+                resetButton();
+                return;
             }
-        });
 
-        // Handle form submission
-        const form = document.getElementById('payment-form');
-        const submitButton = document.getElementById('submit-button');
-        const loadingSpinner = document.getElementById('loading-spinner');
-        const buttonText = document.getElementById('button-text');
-        const errorMessage = document.getElementById('error-message');
-        const successMessage = document.getElementById('success-message');
+            // Get CSRF token
+            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
-        form.addEventListener('submit', async function(event) {
-            event.preventDefault();
+            // Send payment method to server
+            const response = await fetch('{% url "cart:process_hardwired_payment" %}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken,
+                },
+                body: JSON.stringify({
+                    payment_method_id: paymentMethod.id,
+                }),
+            });
 
-            // Disable submit button and show loading
-            submitButton.disabled = true;
-            loadingSpinner.style.display = 'inline-block';
-            buttonText.textContent = 'Processing...';
-            
-            // Hide previous messages
-            errorMessage.style.display = 'none';
-            successMessage.style.display = 'none';
+            const result = await response.json();
 
-            try {
-                // Create payment method
-                const {error, paymentMethod} = await stripe.createPaymentMethod({
-                    type: 'card',
-                    card: cardElement,
-                    billing_details: {
-                        name: document.getElementById('name').value,
-                        email: document.getElementById('email').value,
-                    },
-                });
-
-                if (error) {
-                    showError(error.message);
+            if (result.success) {
+                // Payment succeeded
+                successMessage.textContent = 'Payment successful! Redirecting...';
+                successMessage.style.display = 'block';
+                
+                // Redirect to success page
+                setTimeout(() => {
+                    window.location.href = result.redirect_url || '/orders/success/';
+                }, 1000);
+                
+            } else if (result.requires_action) {
+                // Handle 3D Secure authentication
+                const {error: confirmError} = await stripe.confirmCardPayment(
+                    result.payment_intent.client_secret
+                );
+                
+                if (confirmError) {
+                    showError(confirmError.message);
                     resetButton();
-                    return;
-                }
-
-                // Get CSRF token
-                const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-
-                // Send payment method to server
-                const response = await fetch(checkoutData.process_payment_url, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRFToken': csrfToken,
-                    },
-                    body: JSON.stringify({
-                        payment_method_id: paymentMethod.id,
-                    }),
-                });
-
-                const result = await response.json();
-
-                if (result.success) {
-                    // Payment succeeded
+                } else {
+                    // Payment succeeded after authentication
                     successMessage.textContent = 'Payment successful! Redirecting...';
                     successMessage.style.display = 'block';
                     
-                    // Redirect to success page
                     setTimeout(() => {
-                        window.location.href = result.redirect_url || '/orders/success/';
+                        window.location.href = '/orders/success/';
                     }, 1000);
-                    
-                } else if (result.requires_action) {
-                    // Handle 3D Secure authentication
-                    const {error: confirmError} = await stripe.confirmCardPayment(
-                        result.payment_intent.client_secret
-                    );
-                    
-                    if (confirmError) {
-                        showError(confirmError.message);
-                        resetButton();
-                    } else {
-                        // Payment succeeded after authentication
-                        successMessage.textContent = 'Payment successful! Redirecting...';
-                        successMessage.style.display = 'block';
-                        
-                        setTimeout(() => {
-                            window.location.href = '/orders/success/';
-                        }, 1000);
-                    }
-                } else {
-                    // Payment failed
-                    showError(result.error || 'Payment failed. Please try again.');
-                    resetButton();
                 }
-
-            } catch (err) {
-                console.error('Payment error:', err);
-                showError('An unexpected error occurred. Please try again.');
+            } else {
+                // Payment failed
+                showError(result.error || 'Payment failed. Please try again.');
                 resetButton();
             }
-        });
 
-        function showError(message) {
-            errorMessage.textContent = message;
-            errorMessage.style.display = 'block';
+        } catch (err) {
+            console.error('Payment error:', err);
+            showError('An unexpected error occurred. Please try again.');
+            resetButton();
         }
+    });
 
-        function resetButton() {
-            submitButton.disabled = false;
-            loadingSpinner.style.display = 'none';
-            buttonText.textContent = 'Complete Order - £' + checkoutData.total_display;
-        }
+    function showError(message) {
+        errorMessage.textContent = message;
+        errorMessage.style.display = 'block';
+    }
 
-        // Add some debugging
-        console.log('Stripe initialized with key:', checkoutData.stripe_publishable_key);
-        console.log('Total amount:', checkoutData.stripe_total, 'pence');
-    </script>
-</body>
-</html>
+    function resetButton() {
+        submitButton.disabled = false;
+        buttonText.textContent = 'Complete Order - £{{ total|floatformat:2 }}';
+    }
+</script>
+{% endblock %}
