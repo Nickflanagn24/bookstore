@@ -1,282 +1,133 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Order Confirmation - Bookstore</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f5f5f5;
-        }
-        
-        .success-container {
-            background: white;
-            padding: 40px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-        
-        .success-icon {
-            font-size: 4em;
-            color: #28a745;
-            margin-bottom: 20px;
-        }
-        
-        .success-title {
-            color: #28a745;
-            font-size: 2em;
-            margin-bottom: 10px;
-        }
-        
-        .success-message {
-            color: #666;
-            font-size: 1.1em;
-            margin-bottom: 30px;
-        }
-        
-        .order-summary {
-            background: #f8f9fa;
-            padding: 30px;
-            border-radius: 5px;
-            margin: 30px 0;
-            text-align: left;
-        }
-        
-        .order-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid #dee2e6;
-        }
-        
-        .order-number {
-            font-size: 1.3em;
-            font-weight: bold;
-            color: #007bff;
-        }
-        
-        .order-status {
-            background: #28a745;
-            color: white;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 0.9em;
-            text-transform: capitalize;
-        }
-        
-        .order-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 0;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .order-item:last-child {
-            border-bottom: none;
-        }
-        
-        .item-details {
-            flex: 1;
-        }
-        
-        .item-title {
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 5px;
-        }
-        
-        .item-author {
-            color: #666;
-            font-size: 0.9em;
-        }
-        
-        .item-quantity {
-            color: #888;
-            margin: 0 20px;
-            font-weight: bold;
-        }
-        
-        .item-price {
-            font-weight: bold;
-            color: #007bff;
-            min-width: 80px;
-            text-align: right;
-        }
-        
-        .order-totals {
-            border-top: 2px solid #dee2e6;
-            padding-top: 20px;
-            margin-top: 20px;
-        }
-        
-        .total-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-        }
-        
-        .total-row.final {
-            font-weight: bold;
-            font-size: 1.3em;
-            color: #007bff;
-            border-top: 1px solid #dee2e6;
-            padding-top: 15px;
-            margin-top: 15px;
-        }
-        
-        .customer-info {
-            background: #e3f2fd;
-            padding: 20px;
-            border-radius: 5px;
-            margin: 20px 0;
-        }
-        
-        .info-title {
-            font-weight: bold;
-            color: #0d47a1;
-            margin-bottom: 10px;
-        }
-        
-        .action-buttons {
-            margin-top: 40px;
-        }
-        
-        .btn {
-            display: inline-block;
-            padding: 12px 30px;
-            margin: 0 10px;
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: bold;
-            text-align: center;
-            transition: background-color 0.3s;
-        }
-        
-        .btn-primary {
-            background: #007bff;
-            color: white;
-        }
-        
-        .btn-primary:hover {
-            background: #0056b3;
-        }
-        
-        .btn-secondary {
-            background: #6c757d;
-            color: white;
-        }
-        
-        .btn-secondary:hover {
-            background: #545b62;
-        }
-        
-        .next-steps {
-            background: #fff3cd;
-            border: 1px solid #ffeaa7;
-            padding: 20px;
-            border-radius: 5px;
-            margin: 30px 0;
-            text-align: left;
-        }
-        
-        .next-steps h3 {
-            color: #856404;
-            margin-top: 0;
-        }
-        
-        .next-steps ul {
-            color: #856404;
-            margin: 0;
-            padding-left: 20px;
-        }
-        
-        .order-date {
-            color: #666;
-            font-size: 0.9em;
-        }
-    </style>
-</head>
-<body>
-    <div class="success-container">
-        <div class="success-icon">✅</div>
-        <h1 class="success-title">Payment Successful!</h1>
-        <p class="success-message">
-            Thank you for your order. Your payment has been processed successfully 
-            and your order is now confirmed.
-        </p>
+{% extends 'base.html' %}
+{% load static %}
 
-        <div class="order-summary">
-            <div class="order-header">
-                <div>
-                    <div class="order-number">Order #{{ order.order_number }}</div>
-                    <div class="order-date">{{ order.created_at|date:"F d, Y at g:i A" }}</div>
+{% block title %}Order Confirmation - Tales & Tails{% endblock %}
+
+{% block content %}
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="success-container bg-white p-5 rounded shadow">
+                <!-- Success Header -->
+                <div class="text-center mb-4">
+                    <div class="success-icon mb-3">
+                        <i class="fas fa-check-circle text-success" style="font-size: 4rem;"></i>
+                    </div>
+                    <h1 class="text-success mb-3">Payment Successful!</h1>
+                    <p class="lead text-muted">
+                        Thank you for your order. Your payment has been processed successfully 
+                        and your order is now confirmed.
+                    </p>
                 </div>
-                <div class="order-status">{{ order.status }}</div>
+
+                <!-- Order Summary Card -->
+                <div class="order-summary bg-light p-4 rounded mb-4">
+                    <div class="order-header d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
+                        <div>
+                            <div class="order-number h4 text-primary mb-1">Order #{{ order.order_number }}</div>
+                            <div class="order-date text-muted">{{ order.created_at|date:"F d, Y at g:i A" }}</div>
+                        </div>
+                        <div>
+                            <span class="badge bg-success fs-6 px-3 py-2">{{ order.status|title }}</span>
+                        </div>
+                    </div>
+
+                    <!-- Customer Info -->
+                    <div class="customer-info bg-primary bg-opacity-10 p-3 rounded mb-4">
+                        <div class="info-title fw-bold text-primary mb-2">Order Details</div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <strong>Customer:</strong> {{ order.customer_full_name }}<br>
+                                <strong>Email:</strong> {{ order.customer_email }}
+                            </div>
+                            <div class="col-md-6">
+                                <strong>Payment Status:</strong> <span class="text-success">{{ order.payment_status|title }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Order Items -->
+                    <h5 class="mb-3">Items Ordered:</h5>
+                    {% for item in order_items %}
+                    <div class="order-item d-flex justify-content-between align-items-center py-3 border-bottom">
+                        <div class="item-details flex-grow-1">
+                            <div class="item-title fw-bold mb-1">{{ item.book_title }}</div>
+                            <div class="item-author text-muted">by {{ item.book_authors }}</div>
+                        </div>
+                        <div class="item-quantity text-muted mx-3">
+                            <span class="badge bg-light text-dark">Qty: {{ item.quantity }}</span>
+                        </div>
+                        <div class="item-price fw-bold text-primary">£{{ item.total_price|floatformat:2 }}</div>
+                    </div>
+                    {% endfor %}
+
+                    <!-- Order Totals -->
+                    <div class="order-totals border-top pt-3 mt-3">
+                        {% with subtotal=order.total_price shipping=5.00 %}
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Subtotal:</span>
+                            <span>£{{ subtotal|floatformat:2 }}</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Shipping:</span>
+                            <span>£{{ shipping|floatformat:2 }}</span>
+                        </div>
+                        <div class="d-flex justify-content-between border-top pt-3 mt-3">
+                            <span class="fw-bold h5">Total Paid:</span>
+                            <span class="fw-bold h5 text-primary">£{{ order.total_amount|floatformat:2 }}</span>
+                        </div>
+                        {% endwith %}
+                    </div>
+                </div>
+
+                <!-- Next Steps -->
+                <div class="next-steps bg-warning bg-opacity-10 border border-warning p-4 rounded mb-4">
+                    <h5 class="text-warning-emphasis mb-3">
+                        <i class="fas fa-info-circle me-2"></i>What happens next?
+                    </h5>
+                    <ul class="text-warning-emphasis mb-0">
+                        <li>You'll receive an order confirmation email shortly</li>
+                        <li>Your order will be processed within 1-2 business days</li>
+                        <li>You'll receive tracking information once your order ships</li>
+                        <li>Delivery typically takes 3-5 business days</li>
+                    </ul>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="action-buttons text-center">
+                    <a href="{% url 'orders:order_detail' order.order_number %}" class="btn btn-primary btn-lg me-3">
+                        <i class="fas fa-eye me-2"></i>View Order Details
+                    </a>
+                    <a href="{% url 'books:book_list' %}" class="btn btn-outline-secondary btn-lg">
+                        <i class="fas fa-book me-2"></i>Continue Shopping
+                    </a>
+                </div>
             </div>
-
-            <div class="customer-info">
-                <div class="info-title">Order Details</div>
-                <strong>Customer:</strong> {{ order.customer_full_name }}<br>
-                <strong>Email:</strong> {{ order.customer_email }}<br>
-                <strong>Payment Status:</strong> <span style="color: #28a745;">{{ order.payment_status|title }}</span>
-            </div>
-
-            <h3>Items Ordered:</h3>
-            {% for item in order_items %}
-            <div class="order-item">
-                <div class="item-details">
-                    <div class="item-title">{{ item.book_title }}</div>
-                    <div class="item-author">by {{ item.book_authors }}</div>
-                </div>
-                <div class="item-quantity">Qty: {{ item.quantity }}</div>
-                <div class="item-price">£{{ item.total_price|floatformat:2 }}</div>
-            </div>
-            {% endfor %}
-
-            <div class="order-totals">
-                {% with subtotal=order.total_price shipping=5.00 %}
-                <div class="total-row">
-                    <span>Subtotal:</span>
-                    <span>£{{ subtotal|floatformat:2 }}</span>
-                </div>
-                <div class="total-row">
-                    <span>Shipping:</span>
-                    <span>£{{ shipping|floatformat:2 }}</span>
-                </div>
-                <div class="total-row final">
-                    <span>Total Paid:</span>
-                    <span>£{{ order.total_amount|floatformat:2 }}</span>
-                </div>
-                {% endwith %}
-            </div>
-        </div>
-
-        <div class="next-steps">
-            <h3>What happens next?</h3>
-            <ul>
-                <li>You'll receive an order confirmation email shortly</li>
-                <li>Your order will be processed within 1-2 business days</li>
-                <li>You'll receive tracking information once your order ships</li>
-                <li>Delivery typically takes 3-5 business days</li>
-            </ul>
-        </div>
-
-        <div class="action-buttons">
-            <a href="{% url 'orders:order_detail' order.order_number %}" class="btn btn-primary">
-                View Order Details
-            </a>
-            <a href="{% url 'books:book_list' %}" class="btn btn-secondary">
-                Continue Shopping
-            </a>
         </div>
     </div>
-</body>
-</html>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .success-container {
+        background: white !important;
+    }
+    
+    .order-item:last-child {
+        border-bottom: none !important;
+    }
+    
+    .badge {
+        font-size: 0.9em;
+    }
+    
+    .text-warning-emphasis {
+        color: #664d03 !important;
+    }
+    
+    .bg-warning {
+        --bs-bg-opacity: 0.1;
+    }
+</style>
+{% endblock %}

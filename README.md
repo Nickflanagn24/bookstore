@@ -1,5 +1,7 @@
 # 📚🐕 Tales & Tails - Where Every Dog Story Begins
 
+![Website Mockup](assets/readme-images/mockup.png)
+
 A specialized e-commerce platform for dog training, care, and breed books, built with Django and integrated with Google Books API for comprehensive canine literature.
 
 <div align="center">
@@ -19,16 +21,21 @@ A specialized e-commerce platform for dog training, care, and breed books, built
 
 ## 🎯 Table of Contents
 
-- [Overview](#overview)
-- [Key Features](#key-features)
-- [Quick Start](#quick-start)
-- [Technology Stack](#technology-stack)
-- [Project Structure](#project-structure)
-- [Core Features](#core-features)
-- [API Documentation](#api-documentation)
-- [Deployment](#deployment)
-- [Contributing](#contributing)
-- [License](#license)
+- [Overview](#-overview)
+- [Project Planning & Development Methodology](#project-planning--development-methodology)
+- [Planning Phase](#planning-phase)
+- [Structure & User Flow](#structure--user-flow)
+- [User Stories](#user-stories)
+- [System Requirements](#system-requirements)
+- [Agile Project Planning with GitHub Projects](#agile-project-planning-with-github-projects)
+- [Development Methodology](#development-methodology)
+- [Key Features](#-key-features)
+- [Technology Stack](#-technology-stack)
+- [Project Structure](#-project-structure)
+- [Features](#features)
+- [Deployment](#-deployment---heroku-production-setup)
+- [Marketing](#marketing)
+- [Future Development Opportunities](#future-development-opportunities)
 
 ---
 
@@ -43,9 +50,253 @@ Tales & Tails is a specialized Django-based e-commerce platform dedicated to dog
 - **Professional Grade** Django application
 - **Mobile-First** responsive design
 - **Secure Payments** via Stripe integration
-- **SEO Optimized** with structured data
+- **SEO Optimised** with structured data
 
 ---
+
+## Project Planning & Development Methodology
+
+
+
+## Planning Phase
+
+### Strategy
+
+**Site Aims**
+
+Managing book discovery and purchasing for dog enthusiasts requires a specialised approach that combines comprehensive literature with expert curation. Traditional bookshops often lack the depth of canine-specific knowledge needed by dog owners, trainers, and veterinarians.
+
+This web application aims to:
+
+- **Comprehensive Catalogue:** Provide extensive collection of dog-related books across all disciplines
+- **Expert Curation:** Feature books recommended by professional trainers and veterinarians  
+- **User-Friendly Experience:** Enable intuitive browsing, searching, and purchasing processes
+- **Professional Resources:** Support veterinary practices, training schools, and educational institutions
+- **Community Building:** Connect dog enthusiasts through reviews, recommendations, and educational content
+
+**Opportunities**
+
+During the planning phase, various features were brainstormed using a feasibility chart to prioritise the most important and viable functionalities for the dog book e-commerce platform.
+
+| Opportunity | Importance | Viability/Feasibility |
+|-------------|------------|----------------------|
+| User registration & authentication | 5 | 5 |
+| Book catalogue with search & filtering | 5 | 5 |
+| Shopping cart & checkout system | 5 | 5 |
+| Payment processing (Stripe integration) | 5 | 5 |
+| Admin book management system | 5 | 5 |
+| Order management & tracking | 5 | 4 |
+| Customer review system | 4 | 4 |
+| Newsletter subscription system | 4 | 5 |
+| Mobile responsive design | 5 | 5 |
+| Email notifications | 4 | 4 |
+| Inventory management | 3 | 4 |
+| Google Books API integration | 3 | 3 |
+| Advanced analytics dashboard | 2 | 2 |
+| Loyalty programme | 2 | 2 |
+| Multi-language support | 1 | 2 |
+
+### Scope
+
+To ensure the project remains feasible within the given timeframe, features were categorised into three priority levels using the MoSCoW method:
+
+**Must-Have (MVP) Features**
+These are essential to launch the Minimum Viable Product (MVP) and meet core e-commerce requirements:
+
+- User Registration & Authentication (Customers & Administrators)
+- Comprehensive Book Catalogue with Categories
+- Advanced Search & Filter Functionality
+- Shopping Cart & Secure Checkout Process
+- Stripe Payment Integration
+- Order Management System
+- Admin Dashboard for Book & Order Management
+- Mobile-Responsive Design
+
+**Should-Have Features**
+Features that improve usability and enhance the customer experience:
+
+- Customer Review & Rating System
+- Newsletter Subscription with Email Confirmations
+- Order Confirmation & Shipping Notifications
+- User Profile with Order History
+- Book Recommendation System
+- Inventory Level Tracking
+
+**Could-Have (Future Enhancements)**
+Features for future releases that would add significant value:
+
+- Google Books API Integration for Auto-Population
+- Advanced Analytics Dashboard
+- Loyalty Programme with Points System
+- Subscription Box Service
+- Multi-language Support
+- Social Media Integration
+
+---
+
+## Structure & User Flow
+
+The user journey was mapped through comprehensive flowcharts visualising how different user types interact with the system.
+
+**User Flow Overview**
+1. **Landing Page** → Browse featured books and categories
+2. **Registration/Login** → Create account or authenticate existing users
+3. **Book Discovery** → Search, filter, and browse comprehensive catalogue
+4. **Product Details** → View detailed book information and reviews
+5. **Shopping Cart** → Add books and proceed to checkout
+6. **Secure Payment** → Process payment through Stripe integration
+7. **Order Confirmation** → Receive confirmation and tracking information
+8. **Admin Management** → Manage books, orders, and customer accounts
+
+---
+
+## User Stories
+
+### Admin User Stories
+
+**Must Have**
+| Feature | Priority | Ticket # |
+|---------|----------|----------|
+| Log in to admin dashboard to manage bookstore operations | Must Have | #1 |
+| Add, edit, and delete books from the catalogue | Must Have | #2 |
+| Manage book categories and pricing | Must Have | #3 |
+| View and process customer orders | Must Have | #4 |
+| Update inventory levels and stock status | Must Have | #5 |
+| Manage customer accounts and support queries | Must Have | #6 |
+
+**Should Have**
+| Feature | Priority | Ticket # |
+|---------|----------|----------|
+| View sales analytics and performance metrics | Should Have | #7 |
+| Manage customer reviews and ratings | Should Have | #8 |
+| Configure newsletter campaigns and subscriber management | Should Have | #9 |
+| Set up promotional offers and discount codes | Should Have | #10 |
+| Generate sales reports for business insights | Should Have | #11 |
+
+**Could Have**
+| Feature | Priority | Ticket # |
+|---------|----------|----------|
+| Integrate with Google Books API for auto-population | Could Have | #12 |
+| Set up automated inventory reordering | Could Have | #13 |
+| Configure loyalty programme rules and rewards | Could Have | #14 |
+
+### Registered Customer Stories
+
+**Must Have**
+| Feature | Priority | Ticket # |
+|---------|----------|----------|
+| Register for an account and manage my profile securely | Must Have | #15 |
+| Browse books by category, author, and subject matter | Must Have | #16 |
+| Search for specific books using multiple criteria | Must Have | #17 |
+| Add books to shopping cart and proceed to checkout | Must Have | #18 |
+| Make secure payments using credit/debit cards | Must Have | #19 |
+| View my order history and track current orders | Must Have | #20 |
+
+**Should Have**
+| Feature | Priority | Ticket # |
+|---------|----------|----------|
+| Write reviews and ratings for purchased books | Should Have | #21 |
+| Receive email confirmations for orders and shipping updates | Should Have | #22 |
+| Subscribe to newsletter for book recommendations and offers | Should Have | #23 |
+| Save books to a wishlist for future purchase | Should Have | #24 |
+| Receive personalised book recommendations | Should Have | #25 |
+
+**Could Have**
+| Feature | Priority | Ticket # |
+|---------|----------|----------|
+| Earn loyalty points for purchases and referrals | Could Have | #26 |
+| Share book recommendations on social media | Could Have | #27 |
+| Subscribe to monthly book box service | Could Have | #28 |
+
+### Unregistered User Stories
+
+**Must Have**
+| Feature | Priority | Ticket # |
+|---------|----------|----------|
+| Browse the book catalogue without requiring registration | Must Have | #29 |
+| View detailed book information and customer reviews | Must Have | #30 |
+| Register for an account to access purchasing features | Must Have | #31 |
+
+---
+
+## System Requirements
+
+**Must Have**
+| Feature | Priority | Ticket # |
+|---------|----------|----------|
+| Secure user authentication and data protection | Must Have | #32 |
+| Real-time inventory management to prevent overselling | Must Have | #33 |
+| Mobile-responsive design for all device types | Must Have | #34 |
+| Fast page load times and optimised performance | Must Have | #35 |
+| WCAG accessibility compliance for inclusive design | Must Have | #36 |
+
+**Should Have**
+| Feature | Priority | Ticket # |
+|---------|----------|----------|
+| Automated email notifications for orders and updates | Should Have | #37 |
+| Search engine optimisation for better discoverability | Should Have | #38 |
+| Integration with Google Books API for enhanced book data | Should Have | #39 |
+
+---
+
+## Agile Project Planning with GitHub Projects
+
+For the Tales & Tails bookstore e-commerce platform, I implemented an agile development approach using [GitHub Projects](https://github.com/users/Nickflanagn24/projects/6) as the central planning and tracking tool.
+
+![GitHub Projects Board](assets/readme-images/planning/github-projects.png)
+
+**Project Board Structure:**
+- **Backlog:** Repository of all identified features, enhancements, and bug fixes
+- **Sprint Planning:** Current sprint tasks with clear acceptance criteria and time estimates
+- **In Progress:** Active development tasks with assigned developers and progress tracking
+- **Code Review:** Completed features awaiting peer review and quality assurance
+- **Testing:** Features undergoing comprehensive testing and user acceptance validation
+- **Done:** Completed and deployed features ready for production environment
+
+**Agile Implementation:**
+Each feature is captured as an individual ticket containing comprehensive details including:
+- **Type Classification:** User Story, Bug Fix, or Technical Enhancement
+- **Priority Level:** Using MoSCoW method (Must Have, Should Have, Could Have, Won't Have)
+- **Epic Association:** Grouping related functionality for better organisation
+- **Acceptance Criteria:** Clear definition of completion requirements
+- **Time Estimation:** Story points and expected development duration
+
+This structured approach allows for effective prioritisation, focusing first on implementing critical components like the shopping cart system and user authentication before progressing to secondary features. As development advances, tickets move across the board maintaining real-time visual representation of project status, helping identify bottlenecks and adjust priorities as needed.
+
+The ticketing system facilitates comprehensive documentation of bug fixes through dedicated tickets describing the issue, resolution approach, and verification process. By maintaining this structured view of all planned features and their current status, development remains focused on delivering core functionality while tracking potential enhancements for future iterations.
+
+**Sprint Planning Process:**
+- **Sprint Duration:** 2-week iterations with clearly defined deliverables
+- **Daily Standups:** Progress updates and impediment identification
+- **Sprint Reviews:** Feature demonstrations and stakeholder feedback
+- **Retrospectives:** Process improvement and team collaboration enhancement
+
+This agile approach enables rapid adaptation to challenges encountered during development while maintaining a clear path toward project completion with all essential features implemented according to the defined acceptance criteria and quality standards.
+
+---
+
+## Development Methodology
+
+**Technical Approach:**
+- **Framework:** Django 4.2.7 with Python 3.12
+- **Database:** PostgreSQL for production, SQLite for development
+- **Frontend:** Bootstrap 5 with custom CSS and JavaScript
+- **Payment Processing:** Stripe integration for secure transactions
+- **Deployment:** Heroku with automated CI/CD pipeline
+- **Version Control:** Git with feature branch workflow
+
+**Quality Assurance:**
+- **Code Reviews:** Mandatory peer review for all code changes
+- **Testing Strategy:** Comprehensive unit and integration testing
+- **Performance Monitoring:** Real-time application performance tracking
+- **Security Standards:** Following Django security best practices
+- **Accessibility Compliance:** WCAG 2.1 AA standard adherence
+
+**Documentation Standards:**
+- **Code Documentation:** Comprehensive inline comments and docstrings
+- **API Documentation:** Detailed endpoint specifications
+- **User Guides:** Feature-specific tutorials and instructions
+- **Admin Manuals:** Backend management and maintenance procedures
 
 ## ✨ Key Features
 
@@ -575,6 +826,7 @@ heroku run python manage.py createsuperuser
 - **Facebook:** Established community page with regular posts and customer engagement
 - **Newsletter Integration:** Social media drives newsletter subscriptions
 - **Community Building:** Dog lovers sharing experiences and book recommendations
+- **Facebook Shop** Sell the books in the facebook shop
 
 ### Target B2C Segments
 
@@ -656,7 +908,6 @@ heroku run python manage.py createsuperuser
    
 ## Future Development Opportunities
 
-![Future Growth](assets/readme-images/marketing/future-development.png)
 *Strategic roadmap for expanding Tales & Tails into a comprehensive dog literature and education platform with advanced features and market reach.*
 
 ### Digital Platform Enhancements
