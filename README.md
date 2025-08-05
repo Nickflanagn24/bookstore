@@ -33,6 +33,7 @@ A specialized e-commerce platform for dog training, care, and breed books, built
 - [Technology Stack](#-technology-stack)
 - [Project Structure](#-project-structure)
 - [Features](#features)
+- [Testing](#testing)
 - [Deployment](#-deployment---heroku-production-setup)
 - [Marketing](#marketing)
 - [Future Development Opportunities](#future-development-opportunities)
